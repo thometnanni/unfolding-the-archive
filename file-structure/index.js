@@ -63,7 +63,7 @@ function handleDirectories(directory) {
 }
 
 function handleFiles(file) {
-  file.extension = file.name.match(/.([^.]+)$/)[1]
+  file.extension = file.name.match(/.([^.]+)$/)[1].toLowerCase()
   file.fileSize = fileSize(file)
   file.dateFromName = dateFromName(file)
 
