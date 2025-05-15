@@ -6,6 +6,7 @@ import { removeNull } from './helper/clean.js'
 import { fileSize } from './helper/stat.js'
 
 const archive_path = normalize('../data')
+const output_path = normalize('../output')
 
 function read_directory(path = '') {
   const entries = readdirSync(join(archive_path, path), {
@@ -42,7 +43,11 @@ const archive = read_directory()
   }))
   .map(removeNull)
 
-writeFileSync('archive.json', JSON.stringify(archive, null, 2), 'utf8')
+writeFileSync(
+  join(output_path, 'file-structure.json'),
+  JSON.stringify(archive, null, 2),
+  'utf8'
+)
 console.log(
   `exported structured data for ${archive.length} files and directories`
 )

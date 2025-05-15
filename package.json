@@ -1,11 +1,10 @@
 {
-  "name": "structured-data",
+  "name": "nieuwe-instituut-born-digital",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "eslint.config.js",
   "scripts": {
-    "make": "node index.js"
+    "make": "cd file-structure && node index.js"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "description": "",
