@@ -1,9 +1,9 @@
 import { readdirSync, writeFileSync } from 'node:fs'
 import { join, normalize } from 'node:path'
-import { ignore_files } from './config.js'
+import { ignore_files, file_types } from './config.js'
 import { dateFromName } from './helper/dates.js'
 import { removeNull } from './helper/clean.js'
-import { fileSize } from './helper/stat.js'
+import { fileSize, birthtime } from './helper/stat.js'
 
 const archive_path = normalize('../data')
 const output_path = normalize('../output')
@@ -15,6 +15,7 @@ function read_directory(path = '') {
     .filter(({ name }) => !ignore_files.includes(name))
     .map((entry) => ({
       name: entry.name,
+      parent: entry.parentPath,
       path: join(entry.parentPath, entry.name),
       [getTypeKey(entry)]: true
     }))
@@ -52,6 +53,19 @@ console.log(
   `exported structured data for ${archive.length} files and directories`
 )
 
+// const counts = Object.entries(
+//   archive
+//     .map(({ isDirectory, extension }) =>
+//       isDirectory ? 'directory' : extension
+//     )
+//     .reduce((prev, current) => {
+//       prev[current] = prev[current] ? prev[current] + 1 : 1
+//       return prev
+//     }, {})
+// ).sort(([, a], [, b]) => (a < b ? 1 : a > b ? -1 : 0))
+
+// console.log(counts)
+
 function getTypeKey(entry) {
   if (entry.isDirectory()) return 'isDirectory'
   if (entry.isFile()) return 'isFile'
@@ -65,7 +79,9 @@ function handleDirectories(directory) {
 function handleFiles(file) {
   file.extension = file.name.match(/.([^.]+)$/)[1].toLowerCase()
   file.fileSize = fileSize(file)
+  file.time = birthtime(file)
   file.dateFromName = dateFromName(file)
+  file.type = file_types[file.extension]
 
   return file
 }
