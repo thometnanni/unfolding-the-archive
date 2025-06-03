@@ -80,7 +80,7 @@ function handleDirectories(directory) {
 function handleFiles(file) {
   file.extension = file.name.match(/.([^.]+)$/)[1].toLowerCase()
   file.fileSize = fileSize(file)
-  file.time = birthtime(file)
+  file.birthtime = birthtime(file)
   file.dateFromName = dateFromName(file)
   file.type = file_types[file.extension]
 
