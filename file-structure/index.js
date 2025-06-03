@@ -40,7 +40,8 @@ const archive = read_directory()
   })
   .map((entry) => ({
     ...entry,
-    path: normalize(entry.path.replace(archive_path, '.'))
+    path: normalize(entry.path.replace(archive_path, '.')),
+    parent: normalize(entry.parent.replace(archive_path, '.'))
   }))
   .map(removeNull)
 
