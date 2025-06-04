@@ -2,4 +2,17 @@ body {
   margin: 0;
   font-family: sans-serif;
   overscroll-behavior: none;
+  font-family: 'Ronzino', Helvetica, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: Ronzino;
+  src: url('/fonts/Ronzino-Regular.woff2');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Ronzino;
+  src: url('/fonts/Ronzino-Oblique.woff2');
+  font-style: italic;
 }

@@ -1,4 +1,3 @@
-<!-- src/lib/components/Controls.svelte -->
 <script>
   import { createEventDispatcher } from "svelte";
   export let viewMode;

@@ -5,7 +5,7 @@
   let data = [];
 
   onMount(async () => {
-    const res = await fetch("test_2.json");
+    const res = await fetch("layer-names-1.json");
     if (res.ok) data = await res.json();
   });
 </script>

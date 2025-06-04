@@ -40,14 +40,13 @@ function exportLayerNames(file) {
   const layers = listToArray(fileHandler.database.layers, [
     'name',
     'color',
-    'flags'
+    'visible'
   ]).map((l) => ({
     ...l,
-    visible: !l.flags || (l.flags & 1) === 0,
     entityCount: 0
   }))
 
-  // console.log(layers)
+  console.log(fileHandler.database.layers)
 
   const layerMap = Object.fromEntries(layers.map((l) => [l.name, l]))
 

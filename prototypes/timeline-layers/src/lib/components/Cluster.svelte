@@ -1,99 +1,99 @@
 <script>
-  import { onMount } from "svelte";
-  import { scaleTime, scaleLinear } from "d3-scale";
-  import { stack, stackOrderNone, area, curveStep } from "d3-shape";
-  import { timeFormat, timeParse } from "d3-time-format";
-  import { extent, max } from "d3-array";
-  import { aciToHex } from "$lib/index.js";
+  import { onMount } from 'svelte'
+  import { scaleTime, scaleLinear } from 'd3-scale'
+  import { stack, stackOrderNone, area, curveStep } from 'd3-shape'
+  import { timeFormat, timeParse } from 'd3-time-format'
+  import { extent, max } from 'd3-array'
+  import { aciToHex } from '$lib/index.js'
 
-  export let data = [];
+  export let data
 
-  const margin = { top: 5, right: 30, bottom: 60, left: 30 };
-  const labelInterval = 1;
+  const margin = { top: 5, right: 30, bottom: 60, left: 30 }
+  const labelInterval = 1
 
-  let width = 0;
-  let height = 0;
+  let width = 0
+  let height = 0
 
-  let stackedData = [];
-  let layerKeys = [];
-  let series = [];
+  let stackedData = []
+  let layerKeys = []
+  let series = []
 
   function updateSize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    updateChart();
+    width = window.innerWidth
+    height = window.innerHeight
+    updateChart()
   }
 
   onMount(() => {
-    updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  });
+    updateSize()
+    window.addEventListener('resize', updateSize)
+    return () => window.removeEventListener('resize', updateSize)
+  })
 
   $: if (data.length) {
-    preprocessData();
-    updateChart();
+    preprocessData()
+    updateChart()
   }
 
   function preprocessData() {
-    const timeFormatter = timeFormat("%Y-%m");
-    const parseDate = timeParse("%Y-%m");
+    const timeFormatter = timeFormat('%Y-%m')
+    const parseDate = timeParse('%Y-%m')
 
-    const layerMap = new Map();
+    const layerMap = new Map()
 
     data.forEach((proj) => {
-      const date = new Date(proj.creationDate);
-      const key = timeFormatter(date);
+      const date = new Date(proj.creationDate)
+      const key = timeFormatter(date)
 
       if (!layerMap.has(key)) {
-        layerMap.set(key, {});
+        layerMap.set(key, {})
       }
 
-      const layerCounts = layerMap.get(key);
+      const layerCounts = layerMap.get(key)
 
       proj.layers.forEach((layer) => {
-        const idx = layer.colorIndex || 0;
-        layerCounts[idx] = (layerCounts[idx] || 0) + 1;
-      });
-    });
+        const idx = layer.colorIndex || 0
+        layerCounts[idx] = (layerCounts[idx] || 0) + 1
+      })
+    })
 
     const allKeys = Array.from(
       new Set(Array.from(layerMap.values()).flatMap((obj) => Object.keys(obj)))
-    ).sort((a, b) => +a - +b);
+    ).sort((a, b) => +a - +b)
 
-    const timeSortedKeys = Array.from(layerMap.keys()).sort();
+    const timeSortedKeys = Array.from(layerMap.keys()).sort()
     stackedData = timeSortedKeys.map((key) => {
-      const date = parseDate(key);
-      const base = { date };
-      allKeys.forEach((k) => (base[k] = layerMap.get(key)[k] || 0));
-      return base;
-    });
+      const date = parseDate(key)
+      const base = { date }
+      allKeys.forEach((k) => (base[k] = layerMap.get(key)[k] || 0))
+      return base
+    })
 
-    layerKeys = allKeys;
+    layerKeys = allKeys
   }
 
   function updateChart() {
-    if (!stackedData.length || !width || !height) return;
+    if (!stackedData.length || !width || !height) return
 
-    const stackGen = stack().keys(layerKeys).order(stackOrderNone);
+    const stackGen = stack().keys(layerKeys).order(stackOrderNone)
 
-    series = stackGen(stackedData);
+    series = stackGen(stackedData)
   }
 
   $: xScale = scaleTime()
     .domain(extent(stackedData, (d) => d.date))
-    .range([margin.left, width - margin.right]);
+    .range([margin.left, width - margin.right])
 
   $: yScale = scaleLinear()
     .domain([0, max(series, (layer) => max(layer, (d) => d[1]))])
     .nice()
-    .range([height - margin.bottom, margin.top]);
+    .range([height - margin.bottom, margin.top])
 
   $: areaGen = area()
     .x((d) => xScale(d.data.date))
     .y0((d) => yScale(d[0]))
     .y1((d) => yScale(d[1]))
-    .curve(curveStep);
+    .curve(curveStep)
 </script>
 
 <svg {width} {height}>
@@ -126,7 +126,7 @@
         text-anchor="middle"
         font-size="12"
       >
-        {timeFormat("%b %Y")(d.date)}
+        {timeFormat('%b %Y')(d.date)}
       </text>
     {/if}
   {/each}
@@ -135,7 +135,7 @@
 <style>
   svg {
     display: block;
-    font-family: sans-serif;
+    font-family: 'Ronzino', Helvetica, Arial, sans-serif;
   }
 
   text {

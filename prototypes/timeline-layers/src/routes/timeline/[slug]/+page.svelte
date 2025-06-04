@@ -1,34 +1,44 @@
 <script>
-  import { onMount } from "svelte";
-  import Controls from "$lib/components/Controls.svelte";
-  import Timeline from "$lib/components/Timeline.svelte";
+  import { onMount } from 'svelte'
+  import Controls from '$lib/components/Controls.svelte'
+  import Timeline from '$lib/components/Timeline.svelte'
 
-  let data = [];
-  let viewMode = "extended";
-  let searchTerm = "";
-  let baseFontSize = 12;
+  let data = []
+  let viewMode = 'extended'
+  let searchTerm = ''
+  let baseFontSize = 12
 
   $: title =
     data.length > 0
-      ? data[0].path.split("/")[0].replace(/(^\w)/, (m) => m.toUpperCase())
-      : "";
+      ? data[0].path.split('/')[0].replace(/(^\w)/, (m) => m.toUpperCase())
+      : ''
 
   onMount(async () => {
-    const path = window.location.pathname;
-    const filename = path.split("/").pop();
-    const jsonPath = `/${filename}.json`;
+    const path = window.location.pathname
+    const filename = path.split('/').pop()
+    const jsonPath = `/${filename}.json`
     try {
-      const res = await fetch(jsonPath);
+      const res = await fetch(jsonPath)
       if (res.ok) {
-        data = await res.json();
+        const raw = await res.json()
+
+
+        // remove duplicates based on 'path'
+        const seen = new Set()
+        data = raw.filter((item) => {
+          if (seen.has(item.path)) return false
+          seen.add(item.path)
+          return true
+        })
+        // console.log(`Loaded data from ${jsonPath}`, data)
       }
     } catch (err) {
-      console.error(`Error fetching ${jsonPath}:`, err);
+      console.error(`Error fetching ${jsonPath}:`, err)
     }
-  });
+  })
 
   function handleSave(event) {
-    window.print();
+    window.print()
   }
 </script>
 

@@ -1,121 +1,127 @@
 <script>
-  import { onMount } from "svelte";
-  import { scaleTime } from "d3-scale";
-  import { extent, ticks } from "d3-array";
-  import { timeFormat } from "d3-time-format";
-  import { aciToHex } from "$lib/index.js";
+  import { onMount } from 'svelte'
+  import { scaleTime } from 'd3-scale'
+  import { extent, ticks } from 'd3-array'
+  import { timeFormat } from 'd3-time-format'
+  import { aciToHex } from '$lib/index.js'
 
-  export let data = [];
-  export let viewMode;
-  export let searchTerm = "";
-  export let baseFontSize = 12;
+  export let data = []
+  export let viewMode
+  export let searchTerm = ''
+  export let baseFontSize = 12
 
-  $: fontSize = baseFontSize;
+  $: fontSize = baseFontSize
   $: margin = {
     top: fontSize * 2,
     right: fontSize * 2,
     bottom: fontSize * 4,
-    left: fontSize * 2,
-  };
+    left: fontSize * 2
+  }
 
-  $: rowH = fontSize * 1.5;
-  $: tickSpacing = fontSize * 0.25;
-  $: layerSpacing = fontSize * 1;
-  $: charPx = fontSize * 0.6;
-  $: labelPadding = fontSize * 0.5;
-  $: strokeWidth = fontSize * 0.1;
+  $: rowH = fontSize * 1.5
+  $: tickSpacing = fontSize * 0.25
+  $: layerSpacing = fontSize * 1
+  $: charPx = fontSize * 0.6
+  $: labelPadding = fontSize * 0.5
+  $: strokeWidth = fontSize * 0.1
 
-  let plotW = 0;
-  let plotH = 0;
-  let xScale;
-  let xTicks = [];
-  let rowsCompact = [];
-  let rowsExtended = [];
+  let plotW = 0
+  let plotH = 0
+  let xScale
+  let xTicks = []
+  let rowsCompact = []
+  let rowsExtended = []
 
-  let wrapper;
-  let container;
-  let axis;
-  let spacer;
+  let wrapper
+  let container
+  let axis
+  let spacer
 
-  let scrollableHeight = 0;
-  let wrapperTop = 0;
+  let scrollableHeight = 0
+  let wrapperTop = 0
 
   function updateMeasurements() {
-    if (!wrapper || !container) return;
-    wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
-    scrollableHeight = container.scrollWidth - container.clientWidth;
-    spacer.style.height = scrollableHeight + "px";
+    if (!wrapper || !container) return
+    wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY
+    scrollableHeight = container.scrollWidth - container.clientWidth
+    spacer.style.height = scrollableHeight + 'px'
   }
 
   function onWindowScroll() {
-    const y = window.scrollY - wrapperTop;
-    const maxY = scrollableHeight;
-    const clamped = Math.min(Math.max(y, 0), maxY);
-    const progress = maxY > 0 ? clamped / maxY : 0;
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    const scrollX = progress * maxScroll;
-    container.scrollLeft = scrollX;
-    axis.scrollLeft = scrollX;
+    const y = window.scrollY - wrapperTop
+    const maxY = scrollableHeight
+    const clamped = Math.min(Math.max(y, 0), maxY)
+    const progress = maxY > 0 ? clamped / maxY : 0
+    const maxScroll = container.scrollWidth - container.clientWidth
+    const scrollX = progress * maxScroll
+    container.scrollLeft = scrollX
+    axis.scrollLeft = scrollX
   }
 
   onMount(() => {
-    updateMeasurements();
-    window.addEventListener("resize", updateMeasurements);
-    window.addEventListener("scroll", onWindowScroll);
+    updateMeasurements()
+    window.addEventListener('resize', updateMeasurements)
+    window.addEventListener('scroll', onWindowScroll)
     return () => {
-      window.removeEventListener("resize", updateMeasurements);
-      window.removeEventListener("scroll", onWindowScroll);
-    };
-  });
+      window.removeEventListener('resize', updateMeasurements)
+      window.removeEventListener('scroll', onWindowScroll)
+    }
+  })
 
   $: if (data.length && container) {
     const sorted = [...data].sort((a, b) => {
-      const ta = a.time ? new Date(a.time).getTime() : Infinity;
-      const tb = b.time ? new Date(b.time).getTime() : Infinity;
-      return ta - tb;
-    });
+      const ta = a.time ? new Date(a.time).getTime() : Infinity
+      const tb = b.time ? new Date(b.time).getTime() : Infinity
+      return ta - tb
+    })
 
-    const dates = sorted.map((d) =>
-      d.time ? new Date(d.time) : null
-    );
-    const validDates = dates.filter((d) => d instanceof Date && !isNaN(d));
+    const dates = sorted.map((d) => (d.time ? new Date(d.time) : null))
+    const validDates = dates.filter((d) => d instanceof Date && !isNaN(d))
     const lastDate = validDates.length
       ? new Date(Math.max(...validDates.map((d) => d.getTime())))
-      : new Date();
-    let miss = 0;
+      : new Date()
+    let miss = 0
     const filled = dates.map((d) =>
       d instanceof Date && !isNaN(d)
         ? d
         : new Date(lastDate.getTime() + ++miss * 1000)
-    );
+    )
 
-    const [minD, maxD] = extent(filled);
-    const pad = (maxD - minD) * 0.1;
+    const [minD, maxD] = extent(filled)
+    const pad = (maxD - minD) * 0.1
     const domain = [
       new Date(minD.getTime() - pad),
-      new Date(maxD.getTime() + pad),
-    ];
+      new Date(maxD.getTime() + pad)
+    ]
 
-    const names = sorted.map((d) => d.path.split("/").pop());
-    const extraPx = Math.max(...names.map((n) => n.length)) * charPx;
+    const names = sorted.map((d) => d.path.split('/').pop())
+    const extraPx = Math.max(...names.map((n) => n.length)) * charPx
     const vw = Math.max(
       window.innerWidth - margin.left - margin.right,
       fontSize * 10
-    );
-    plotW = vw + extraPx;
+    )
+    plotW = vw + extraPx
 
     xScale = scaleTime()
       .domain(domain)
-      .range([margin.left, margin.left + plotW]);
-    xTicks = ticks(domain[0], domain[1], 20);
+      .range([margin.left, margin.left + plotW])
+    xTicks = ticks(domain[0], domain[1], 20)
 
-    plotH = margin.top + rowH * sorted.length + margin.bottom;
+    if (viewMode === 'compact') {
+      plotH = margin.top + rowH * sorted.length + margin.bottom
+    } else {
+      let totalY = margin.top
+      sorted.forEach((d) => {
+        totalY += (d.layers.length + 1) * layerSpacing + layerSpacing
+      })
+      plotH = totalY + margin.bottom
+    }
 
     rowsCompact = sorted.map((d, i) => {
-      const x = xScale(filled[i]);
-      const y = margin.top + i * rowH;
+      const x = xScale(filled[i])
+      const y = margin.top + i * rowH
       return {
-        name: d.path.split("/").pop(),
+        name: d.path.split('/').pop(),
         ticks: d.layers.map((ly, j) => ({
           x: x + j * tickSpacing,
           y1: y + tickSpacing,
@@ -125,20 +131,20 @@
           visible: ly.visible,
           highlight:
             searchTerm &&
-            ly.name.toLowerCase().includes(searchTerm.toLowerCase()),
+            ly.name.toLowerCase().includes(searchTerm.toLowerCase())
         })),
         labelX: x - labelPadding,
-        labelY: y + rowH / 2,
-      };
-    });
+        labelY: y + rowH / 2
+      }
+    })
 
-    rowsExtended = [];
-    let accY = margin.top;
+    rowsExtended = []
+    let accY = margin.top
     sorted.forEach((d, i) => {
-      const x = xScale(filled[i]);
-      const layerYs = d.layers.map((_, j) => accY + (j + 2) * layerSpacing);
+      const x = xScale(filled[i])
+      const layerYs = d.layers.map((_, j) => accY + (j + 2) * layerSpacing)
       rowsExtended.push({
-        name: d.path.split("/").pop(),
+        name: d.path.split('/').pop(),
         labelX: x - labelPadding,
         labelY: layerYs[0] || accY + layerSpacing,
         layers: d.layers.map((ly, j) => ({
@@ -150,13 +156,13 @@
           visible: ly.visible,
           highlight:
             searchTerm &&
-            ly.name.toLowerCase().includes(searchTerm.toLowerCase()),
-        })),
-      });
-      accY += (d.layers.length + 1) * layerSpacing + layerSpacing;
-    });
+            ly.name.toLowerCase().includes(searchTerm.toLowerCase())
+        }))
+      })
+      accY += (d.layers.length + 1) * layerSpacing + layerSpacing
+    })
 
-    updateMeasurements();
+    updateMeasurements()
   }
 </script>
 
@@ -181,15 +187,21 @@
           text-anchor="middle"
           style="font-size: {fontSize * 1.2}px"
         >
-          {timeFormat("%m/%d/%Y")(t)}
+          {timeFormat('%m/%d/%Y')(t)}
         </text>
       {/each}
     </svg>
   </div>
 
-  <div bind:this={container} class="rows-container">
+  <!-- <div bind:this={container} class="rows-container">
+    <svg width={margin.left + plotW + margin.right} height={plotH}> -->
+
+  <div
+    bind:this={container}
+    class="rows-container {searchTerm ? 'searching' : ''}"
+  >
     <svg width={margin.left + plotW + margin.right} height={plotH}>
-      {#if viewMode === "compact"}
+      {#if viewMode === 'compact'}
         {#each rowsCompact as row}
           {#each row.ticks as tick}
             <line
@@ -242,7 +254,7 @@
                 style="font-size: {fontSize *
                   0.5}px; fill: #666; dominant-baseline: no-change;"
               >
-                {" "}({layer.count})
+                {' '}({layer.count})
               </tspan>
             </text>
           {/each}
@@ -290,12 +302,12 @@
   }
 
   .axis-label {
-    font-family: sans-serif;
+    font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: #666;
   }
 
   .proj-label {
-    font-family: sans-serif;
+    font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: gainsboro;
     dominant-baseline: middle;
   }
@@ -305,12 +317,19 @@
   }
 
   .layer-text.hidden {
-    opacity: 0.3;
+    /* opacity: 0.3; */
     text-decoration-color: #666;
   }
 
-  .highlight {
-    font-weight: bold;
-    fill: red;
+  .rows-container.searching svg :not(.highlight) {
+    opacity: 0.4;
+  }
+
+  .rows-container svg {
+    opacity: 1;
+  }
+
+  .rows-container.searching .highlight {
+    opacity: 1;
   }
 </style>
