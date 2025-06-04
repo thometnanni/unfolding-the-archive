@@ -1,11 +1,12 @@
 <script lang="ts">
   import Basic from './lib/Basic.svelte'
   import BasicSmallDots from './lib/BasicSmallDots.svelte'
+  import Calendar from './lib/Calendar.svelte'
 
-  const visualisations = { Basic, BasicSmallDots } as const
+  const visualisations = { Basic, BasicSmallDots, Calendar } as const
   type VisualisationName = keyof typeof visualisations
   const visualisationNames = Object.keys(visualisations) as VisualisationName[]
-  let selected: VisualisationName = visualisationNames[0]
+  let selected: VisualisationName = 'Calendar'
 </script>
 
 <main>
