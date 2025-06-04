@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte'
   import { scaleTime } from 'd3-scale'
-  import { extent, ticks } from 'd3-array'
+  import { extent } from 'd3-array'
   import { timeFormat } from 'd3-time-format'
   import { aciToHex } from '$lib/index.js'
+  import Connections from '$lib/components/Connections.svelte'
 
   export let data = []
   export let viewMode
@@ -14,7 +15,7 @@
   $: margin = {
     top: fontSize * 2,
     right: fontSize * 2,
-    bottom: fontSize * 4,
+    bottom: fontSize * 6,
     left: fontSize * 2
   }
 
@@ -45,6 +46,7 @@
     wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY
     scrollableHeight = container.scrollWidth - container.clientWidth
     spacer.style.height = scrollableHeight + 'px'
+    container.style.height = plotH + 'px'
   }
 
   function onWindowScroll() {
@@ -105,7 +107,51 @@
     xScale = scaleTime()
       .domain(domain)
       .range([margin.left, margin.left + plotW])
-    xTicks = ticks(domain[0], domain[1], 20)
+
+    const projectDates = filled.slice().sort((a, b) => a.getTime() - b.getTime())
+    const gaps = []
+    for (let i = 1; i < projectDates.length; i++) {
+      gaps.push(projectDates[i].getTime() - projectDates[i - 1].getTime())
+    }
+    const sortedGaps = [...gaps].sort((a, b) => a - b)
+    const mid = Math.floor(sortedGaps.length / 2)
+    const medianGap =
+      sortedGaps.length === 0
+        ? 0
+        : sortedGaps.length % 2
+        ? sortedGaps[mid]
+        : (sortedGaps[mid - 1] + sortedGaps[mid]) / 2
+    const threshold = medianGap * 4
+
+    const candidateTicks = [projectDates[0]]
+    for (let i = 1; i < projectDates.length; i++) {
+      const delta = projectDates[i].getTime() - projectDates[i - 1].getTime()
+      if (delta >= threshold) {
+        candidateTicks.push(projectDates[i])
+      }
+    }
+    if (projectDates.length > 1) {
+      const last = projectDates[projectDates.length - 1]
+      candidateTicks.push(last)
+    }
+
+    const minPixelGap = fontSize * 8
+    const filteredTicks = []
+    candidateTicks.forEach((d) => {
+      if (
+        filteredTicks.length === 0 ||
+        Math.abs(xScale(d) - xScale(filteredTicks[filteredTicks.length - 1])) >
+          minPixelGap
+      ) {
+        filteredTicks.push(d)
+      }
+    })
+
+    xTicks = Array.from(
+      new Set(filteredTicks.map((d) => d.getTime()))
+    )
+      .map((ms) => new Date(ms))
+      .sort((a, b) => a.getTime() - b.getTime())
 
     if (viewMode === 'compact') {
       plotH = margin.top + rowH * sorted.length + margin.bottom
@@ -193,13 +239,13 @@
     </svg>
   </div>
 
-  <!-- <div bind:this={container} class="rows-container">
-    <svg width={margin.left + plotW + margin.right} height={plotH}> -->
-
   <div
     bind:this={container}
     class="rows-container {searchTerm ? 'searching' : ''}"
+    style="height: {plotH}px"
   >
+    <Connections {rowsExtended} {xScale} {searchTerm} strokeWidth={strokeWidth/2} />
+
     <svg width={margin.left + plotW + margin.right} height={plotH}>
       {#if viewMode === 'compact'}
         {#each rowsCompact as row}
@@ -251,8 +297,7 @@
             >
               {layer.text}
               <tspan
-                style="font-size: {fontSize *
-                  0.5}px; fill: #666; dominant-baseline: no-change;"
+                style="font-size: {fontSize * 0.5}px; fill: #666; dominant-baseline: no-change;"
               >
                 {' '}({layer.count})
               </tspan>
@@ -317,7 +362,6 @@
   }
 
   .layer-text.hidden {
-    /* opacity: 0.3; */
     text-decoration-color: #666;
   }
 
