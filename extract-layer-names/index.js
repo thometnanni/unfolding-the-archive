@@ -9,7 +9,7 @@ const archive_path = normalize('../data')
 const files = fileStructure
   .filter(
     ({ isFile, extension }) =>
-      isFile && (extension === 'dwg' || extension === 'dwg')
+      isFile && (extension === 'dwg' || extension === 'dxf')
   )
   // .filter((_, i) => i >= 0 && i <= 50)
   .map((file) => ({
@@ -27,11 +27,12 @@ function exportLayerNames(file) {
   const fileHandler = new libdxfrw.DRW_FileHandler()
   fileHandler.database = database
 
-  if (file.extension == 'dxf') {
+ 
+  if (file.extension === 'dxf') {
     const dxf = new libdxfrw.DRW_DxfRW(fileContent)
     dxf.read(fileHandler, false)
     dxf.delete()
-  } else if (file.extension == 'dwg') {
+  } else if (file.extension === 'dwg') {
     const dwg = new libdxfrw.DRW_DwgR(fileContent)
     dwg.read(fileHandler, false)
     dwg.delete()
@@ -40,22 +41,32 @@ function exportLayerNames(file) {
   const layers = listToArray(fileHandler.database.layers, [
     'name',
     'color',
+    'locked',
     'visible'
   ]).map((l) => ({
-    ...l,
-    entityCount: 0
+    name: l.name,
+    color: l.color,
+    locked: l.locked,
+    visible: l.off,
+    entityCount: 0,
+    typeCounts: {}
   }))
-
-  console.log(fileHandler.database.layers)
 
   const layerMap = Object.fromEntries(layers.map((l) => [l.name, l]))
 
   const entities = listToArray(fileHandler.database.mBlock.entities)
   entities.forEach((entity) => {
     const layerName = entity.layer
-    if (layerMap[layerName]) {
-      layerMap[layerName].entityCount++
-    }
+    const layerObj = layerMap[layerName]
+    if (!layerObj) return
+
+    layerObj.entityCount++
+
+    const type =
+      entity.type ||
+      entity.__proto__.constructor.name ||
+      'UNKNOWN'
+    layerObj.typeCounts[type] = (layerObj.typeCounts[type] || 0) + 1
   })
 
   database.delete()
@@ -70,7 +81,9 @@ function listToArray(list, keys = null) {
     let item = list.get(i)
     if (keys != null) {
       item = Object.fromEntries(
-        keys.map((key) => [key, item[key]]).filter(([, value]) => value != null)
+        keys
+          .map((key) => [key, item[key]])
+          .filter(([, value]) => value != null)
       )
     }
     array.push(item)

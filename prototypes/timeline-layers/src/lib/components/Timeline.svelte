@@ -36,7 +36,7 @@
   let wrapper
   let container
   let axis
-  let spacer
+  // let spacer
 
   let scrollableHeight = 0
   let wrapperTop = 0
@@ -45,7 +45,7 @@
     if (!wrapper || !container) return
     wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY
     scrollableHeight = container.scrollWidth - container.clientWidth
-    spacer.style.height = scrollableHeight + 'px'
+    // spacer.style.height = scrollableHeight + 'px'
     container.style.height = plotH + 'px'
   }
 
@@ -72,12 +72,12 @@
 
   $: if (data.length && container) {
     const sorted = [...data].sort((a, b) => {
-      const ta = a.time ? new Date(a.time).getTime() : Infinity
-      const tb = b.time ? new Date(b.time).getTime() : Infinity
+      const ta = a.birthtime ? new Date(a.birthtime).getTime() : Infinity
+      const tb = b.birthtime ? new Date(b.birthtime).getTime() : Infinity
       return ta - tb
     })
 
-    const dates = sorted.map((d) => (d.time ? new Date(d.time) : null))
+    const dates = sorted.map((d) => (d.birthtime ? new Date(d.birthtime) : null))
     const validDates = dates.filter((d) => d instanceof Date && !isNaN(d))
     const lastDate = validDates.length
       ? new Date(Math.max(...validDates.map((d) => d.getTime())))
@@ -108,7 +108,9 @@
       .domain(domain)
       .range([margin.left, margin.left + plotW])
 
-    const projectDates = filled.slice().sort((a, b) => a.getTime() - b.getTime())
+    const projectDates = filled
+      .slice()
+      .sort((a, b) => a.getTime() - b.getTime())
     const gaps = []
     for (let i = 1; i < projectDates.length; i++) {
       gaps.push(projectDates[i].getTime() - projectDates[i - 1].getTime())
@@ -119,8 +121,8 @@
       sortedGaps.length === 0
         ? 0
         : sortedGaps.length % 2
-        ? sortedGaps[mid]
-        : (sortedGaps[mid - 1] + sortedGaps[mid]) / 2
+          ? sortedGaps[mid]
+          : (sortedGaps[mid - 1] + sortedGaps[mid]) / 2
     const threshold = medianGap * 4
 
     const candidateTicks = [projectDates[0]]
@@ -147,9 +149,7 @@
       }
     })
 
-    xTicks = Array.from(
-      new Set(filteredTicks.map((d) => d.getTime()))
-    )
+    xTicks = Array.from(new Set(filteredTicks.map((d) => d.getTime())))
       .map((ms) => new Date(ms))
       .sort((a, b) => a.getTime() - b.getTime())
 
@@ -164,21 +164,27 @@
     }
 
     rowsCompact = sorted.map((d, i) => {
-      const x = xScale(filled[i])
+      const rawX = xScale(filled[i])
+      const x = Math.round(rawX)
       const y = margin.top + i * rowH
       return {
         name: d.path.split('/').pop(),
-        ticks: d.layers.map((ly, j) => ({
-          x: x + j * tickSpacing,
-          y1: y + tickSpacing,
-          y2: y + rowH - tickSpacing,
-          count: ly.entityCount || 0,
-          colorIndex: ly.color,
-          visible: ly.visible,
-          highlight:
-            searchTerm &&
-            ly.name.toLowerCase().includes(searchTerm.toLowerCase())
-        })),
+        ticks: d.layers.map((ly, j) => {
+          const rawTickX = rawX + j * tickSpacing
+          const tickX = Math.round(rawTickX)
+          return {
+            x: tickX,
+            y1: y + tickSpacing,
+            y2: y + rowH - tickSpacing,
+            text: ly.name,
+            count: ly.entityCount || 0,
+            colorIndex: ly.color,
+            visible: ly.visible,
+            highlight:
+              searchTerm &&
+              ly.name.toLowerCase().includes(searchTerm.toLowerCase())
+          }
+        }),
         labelX: x - labelPadding,
         labelY: y + rowH / 2
       }
@@ -187,7 +193,8 @@
     rowsExtended = []
     let accY = margin.top
     sorted.forEach((d, i) => {
-      const x = xScale(filled[i])
+      const rawX = xScale(filled[i])
+      const x = Math.round(rawX)
       const layerYs = d.layers.map((_, j) => accY + (j + 2) * layerSpacing)
       rowsExtended.push({
         name: d.path.split('/').pop(),
@@ -195,7 +202,7 @@
         labelY: layerYs[0] || accY + layerSpacing,
         layers: d.layers.map((ly, j) => ({
           text: ly.name,
-          x,
+          x: Math.round(rawX),
           y: layerYs[j],
           count: ly.entityCount || 0,
           colorIndex: ly.color,
@@ -244,7 +251,14 @@
     class="rows-container {searchTerm ? 'searching' : ''}"
     style="height: {plotH}px"
   >
-    <Connections {rowsExtended} {xScale} {searchTerm} strokeWidth={strokeWidth/2} />
+    <Connections
+      rows={viewMode === 'compact' ? rowsCompact : rowsExtended}
+      {searchTerm}
+      strokeWidth={strokeWidth / 2}
+      width={margin.left + plotW + margin.right}
+      height={plotH}
+      {viewMode}
+    />
 
     <svg width={margin.left + plotW + margin.right} height={plotH}>
       {#if viewMode === 'compact'}
@@ -297,7 +311,8 @@
             >
               {layer.text}
               <tspan
-                style="font-size: {fontSize * 0.5}px; fill: #666; dominant-baseline: no-change;"
+                style="font-size: {fontSize *
+                  0.5}px; fill: #666; dominant-baseline: no-change;"
               >
                 {' '}({layer.count})
               </tspan>
@@ -308,7 +323,7 @@
     </svg>
   </div>
 
-  <div bind:this={spacer} class="spacer"></div>
+  <!-- <div bind:this={spacer} class="spacer"></div> -->
 </div>
 
 <style>
@@ -331,10 +346,11 @@
     z-index: -1;
     overflow: hidden;
   }
-
+  /* 
   .spacer {
     width: 1px;
-  }
+    position: fixed;
+  } */
 
   svg {
     display: block;
@@ -366,7 +382,7 @@
   }
 
   .rows-container.searching svg :not(.highlight) {
-    opacity: 0.4;
+    opacity: 0.7;
   }
 
   .rows-container svg {

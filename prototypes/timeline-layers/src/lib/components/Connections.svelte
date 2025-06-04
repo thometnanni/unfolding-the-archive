@@ -1,27 +1,40 @@
 <script>
-  export let rowsExtended = []
-  export let xScale
+  export let rows = []
   export let searchTerm = ''
   export let strokeColor = '#000'
-  export let strokeWidth = .5
+  export let strokeWidth = 0.5
+  export let width = 0
+  export let height = 0
 
   const horizontalOffset = 200
 
   $: connections = (() => {
     if (!searchTerm) return []
+    const lower = searchTerm.toLowerCase()
     const map = new Map()
+    if (!rows || rows.length === 0) return []
 
-    rowsExtended.forEach((row) => {
-      row.layers.forEach((layer) => {
+    rows.forEach((row) => {
+      const items = row.layers ?? row.ticks ?? []
+      items.forEach((item) => {
+        const text = item.text
         if (
-          layer.count === 0 ||
-          !layer.text.toLowerCase().includes(searchTerm.toLowerCase())
+          !text ||
+          item.count === 0 ||
+          !text.toLowerCase().includes(lower)
         ) {
           return
         }
-        const key = `${layer.text}||${layer.count}`
+        const x = item.x
+        const y = 'y' in item ? item.y : (item.y1 + item.y2) / 2
+        const typeCounts = item.typeCounts || {}
+        const typeKey = JSON.stringify(
+          Object.entries(typeCounts)
+            .sort(([a], [b]) => a.localeCompare(b))
+        )
+        const key = `${text}||${item.count}||${typeKey}`
         if (!map.has(key)) map.set(key, [])
-        map.get(key).push({ x: layer.x, y: layer.y })
+        map.get(key).push({ x, y })
       })
     })
 
@@ -44,10 +57,10 @@
   })()
 </script>
 
-<svg class="connections-layer" width="100%" height="100%">
+<svg class="connections-layer" {width} {height}>
   {#each connections as d}
     <path
-      d={d}
+      {d}
       fill="none"
       stroke={strokeColor}
       stroke-width={strokeWidth}
