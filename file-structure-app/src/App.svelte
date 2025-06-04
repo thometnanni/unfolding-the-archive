@@ -86,7 +86,7 @@
         <circle
           cx={scaleX(file.day)}
           cy={scaleY(file.hours)}
-          r="1"
+          r="2.5"
           opacity="0.05"
           fill={getColorFromFileType(file.type!)}
         />
