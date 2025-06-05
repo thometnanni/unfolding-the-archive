@@ -77,7 +77,9 @@
       return ta - tb
     })
 
-    const dates = sorted.map((d) => (d.birthtime ? new Date(d.birthtime) : null))
+    const dates = sorted.map((d) =>
+      d.birthtime ? new Date(d.birthtime) : null
+    )
     const validDates = dates.filter((d) => d instanceof Date && !isNaN(d))
     const lastDate = validDates.length
       ? new Date(Math.max(...validDates.map((d) => d.getTime())))
@@ -357,39 +359,40 @@
   }
 
   .grid.v {
-    stroke: #dcdcdc;
+    stroke: var(--grey-1);
     stroke-dasharray: 5 2;
     z-index: 0;
   }
 
   .axis-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
-    fill: #666;
+    fill: var(--grey-2);
   }
 
   .proj-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
-    fill: gainsboro;
+    fill: var(--grey-1);
     dominant-baseline: middle;
   }
 
-  .tick.hidden {
+  /* .tick.hidden {
     opacity: 0.3;
-  }
+  } */
 
   .layer-text.hidden {
-    text-decoration-color: #666;
+    text-decoration-color: var(--grey-2);
   }
 
   .rows-container.searching svg :not(.highlight) {
-    opacity: 0.7;
+    opacity: 0.3;
   }
 
   .rows-container svg {
     opacity: 1;
   }
 
-  .rows-container.searching .highlight {
-    opacity: 1;
+  .rows-container.searching .highlight,
+  .rows-container.searching .proj-label {
+    opacity: 1 !important;
   }
 </style>

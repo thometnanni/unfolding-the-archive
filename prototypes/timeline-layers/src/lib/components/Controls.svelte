@@ -56,7 +56,7 @@
       Extended
     </button>
 
-    <button on:click={savePoster}>Save Poster as PDF</button>
+    <button on:click={savePoster}>Save as PDF</button>
 
     <label>
       Font Size
@@ -92,7 +92,7 @@
     display: flex;
     gap: 8px;
     padding: 8px;
-    background: #f0f0f0;
+    background: var(--grey-3);
     position: sticky;
     top: 0;
   }
@@ -154,15 +154,15 @@
   }
 
   .suggestions li:nth-child(odd) {
-    background: #fff;
+    background: var(--grey-1);
   }
 
   .suggestions li:nth-child(even) {
-    background: #f9f9f9;
+    background: var(--grey-3);
   }
 
   .suggestions li:hover {
-    background: #e0e0e0;
+    background: var(--grey-2);
   }
 
   .suggestions span {

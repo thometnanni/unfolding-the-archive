@@ -1,3 +1,9 @@
+html {
+  --grey-1: #dcdcdc;
+  --grey-2: #666;
+  --grey-3: #f0f0f0;
+}
+
 body {
   margin: 0;
   font-family: sans-serif;
