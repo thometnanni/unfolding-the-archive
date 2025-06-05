@@ -1,71 +1,69 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  export let viewMode;
-  export let searchTerm = "";
-  export let data = [];
-  export let baseFontSize = 12;
+  import { createEventDispatcher } from 'svelte'
+  export let viewMode
+  export let searchTerm = ''
+  export let data = []
+  export let baseFontSize = 12
+  export let paperSize = 'A4'
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   $: layerCounts = data
     .flatMap((d) => d.layers.map((ly) => ly.name))
     .reduce((acc, name) => {
-      acc[name] = (acc[name] || 0) + 1;
-      return acc;
-    }, {});
+      acc[name] = (acc[name] || 0) + 1
+      return acc
+    }, {})
 
   $: layersList = Object.keys(layerCounts)
     .map((name) => ({ name, count: layerCounts[name] }))
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => b.count - a.count)
 
   $: suggestions = layersList.filter((layer) =>
     layer.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   function selectLayer(layer) {
-    dispatch("select", layer);
-    searchTerm = layer.name;
-  }
-
-  function clearSearch() {
-    searchTerm = "";
-    dispatch("select", null);
+    dispatch('select', layer)
+    searchTerm = layer.name
   }
 
   function savePoster() {
-    dispatch("save", { format: "A0" });
-  }
-
-  function changeMode(mode) {
-    dispatch("mode", mode);
+    dispatch('save', { paperSize })
   }
 </script>
 
 <div class="controls">
   <div>
     <button
-      class:active={viewMode === "compact"}
-      on:click={() => (viewMode = "compact")}
+      class:active={viewMode === 'compact'}
+      on:click={() => (viewMode = 'compact')}
     >
       Compact
     </button>
     <button
-      class:active={viewMode === "extended"}
-      on:click={() => (viewMode = "extended")}
+      class:active={viewMode === 'extended'}
+      on:click={() => (viewMode = 'extended')}
     >
       Extended
     </button>
+
+    <!-- <label>
+      Paper
+      <select bind:value={paperSize}>
+        <option value="A2">A2</option>
+        <option value="A3">A3</option>
+        <option value="A4">A4</option>
+        <option value="A5">A5</option>
+        <option value="A0">A0</option>
+      </select>
+    </label> -->
 
     <button on:click={savePoster}>Save as PDF</button>
 
     <label>
       Font Size
-      <input
-        type="number"
-        min="6"
-        max="48"
-        bind:value={baseFontSize}
-      />
+      <input type="number" min="6" max="48" bind:value={baseFontSize} />
     </label>
   </div>
 
@@ -74,7 +72,7 @@
       type="text"
       placeholder="Search layers…"
       bind:value={searchTerm}
-      on:input={() => dispatch("search", searchTerm)}
+      on:input={() => dispatch('search', searchTerm)}
     />
     <ul class="suggestions">
       {#each suggestions as layer}
@@ -88,7 +86,7 @@
 
 <style>
   .controls {
-    height: 150px;
+    height: 80px;
     display: flex;
     gap: 8px;
     padding: 8px;
@@ -110,14 +108,9 @@
     font-size: 0.9rem;
   }
 
-  .controls input[type="number"] {
+  .controls input[type='number'] {
     width: 60px;
     margin-left: 4px;
-  }
-
-  select {
-    margin: 4px;
-    padding: 4px;
   }
 
   .search-box {

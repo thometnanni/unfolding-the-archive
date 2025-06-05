@@ -2,11 +2,23 @@
   import { onMount } from 'svelte'
   import Controls from '$lib/components/Controls.svelte'
   import Timeline from '$lib/components/Timeline.svelte'
+  import { aciToHex } from '$lib/index.js'
 
   let data = []
   let viewMode = 'extended'
   let searchTerm = ''
   let baseFontSize = 12
+  let paperSize = 'A4'
+
+  $: usedAcis = Array.from(
+    new Set(
+      data.flatMap((item) =>
+        item.layers?.map((layer) => layer.color).filter((c) => c != null)
+      )
+    )
+  ).sort((a, b) => a - b)
+
+  $: aciLegend = usedAcis.map((aci) => ({ aci, name: `ACI ${aci}` }))
 
   $: title =
     data.length > 0
@@ -22,7 +34,6 @@
       if (res.ok) {
         const raw = await res.json()
 
-
         // remove duplicates based on 'path'
         const seen = new Set()
         data = raw.filter((item) => {
@@ -30,7 +41,6 @@
           seen.add(item.path)
           return true
         })
-        // console.log(`Loaded data from ${jsonPath}`, data)
       }
     } catch (err) {
       console.error(`Error fetching ${jsonPath}:`, err)
@@ -40,6 +50,22 @@
   function handleSave(event) {
     window.print()
   }
+
+  function handleModeChange(event) {
+    viewMode = event.detail
+  }
+
+  function handleSearch(event) {
+    searchTerm = event.detail
+  }
+
+  function handlePaperChange(event) {
+    paperSize = event.detail.paperSize
+  }
+
+  function handleFontSizeChange(event) {
+    baseFontSize = event.detail
+  }
 </script>
 
 {#if data.length > 0}
@@ -47,21 +73,31 @@
     bind:baseFontSize
     bind:viewMode
     bind:searchTerm
+    bind:paperSize
     {data}
     on:save={handleSave}
+    on:mode={handleModeChange}
+    on:search={handleSearch}
   />
 
-  <article class="poster">
+  <article class="poster {paperSize}">
     <div class="timeline-wrapper">
       <Timeline {data} {viewMode} {searchTerm} {baseFontSize} />
     </div>
 
     <div class="info">
       <h1 class="timeline-title">{title}</h1>
-      <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam velit
-        reprehenderit facilis vitae nisi temporibus nemo eius culpa, facere
-        quasi! Dolores placeat quam quo ea mollitia, cum praesentium sunt eius.
+      <p>The colours refer to the AutoCAD Color Index</p>
+      <div class="legend">
+        <div class="legend-grid">
+          {#each aciLegend as { aci, name }}
+            <div>
+              <span class="color-box" style="background-color: {aciToHex(aci)};"
+              ></span>
+              <span>{name}</span>
+            </div>
+          {/each}
+        </div>
       </div>
     </div>
   </article>
@@ -73,6 +109,7 @@
   .poster {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
   }
 
   .timeline-wrapper {
@@ -81,29 +118,53 @@
   }
 
   .info {
-    /* background-color: #f0f0f0; */
+    background: white;
+    z-index: 10;
     padding: 10px;
     margin-top: 10px;
-    /* min-height: 400px; */
   }
 
   .info > * {
-    max-width: 450px;
+    max-width: 800px;
+  }
+
+  .legend-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+    gap: 10px;
+    max-width: 100%;
+    overflow: auto;
+    padding: 10px 0;
+  }
+
+  .legend div > div {
+    display: flex;
+    align-items: top;
+    font-size: .8rem;
+  }
+
+  .color-box {
+    width: .8rem;
+    height: .8rem;
+    border: 1px solid #444;
+    margin-right: 8px;
+    flex-shrink: 0;
   }
 
   .timeline-title {
     font-size: 1.5em;
     font-weight: normal;
-    margin: 0 0 10px 0;
+    margin: 0 0 5px 0;
+  }
+
+  .info p {
+    margin: 0;
+    padding: 0;
   }
 
   p {
     margin: 10px;
-  }
-
-  @page {
-    size: A4 landscape;
-    margin: 0;
   }
 
   @media print {
@@ -112,6 +173,26 @@
       margin: 0;
       padding: 0;
       overflow: visible;
+    }
+
+    .poster.A4 {
+      width: 297mm;
+    }
+
+    .poster.A3 {
+      width: 420mm;
+    }
+
+    .poster.A2 {
+      width: 594mm;
+    }
+
+    .poster.A1 {
+      width: 841mm;
+    }
+
+    .poster.A0 {
+      width: 1189mm;
     }
 
     :global(.controls) {
@@ -153,5 +234,42 @@
     :global(.layer-text) {
       page-break-inside: avoid;
     }
+
+    .A4 {
+      page: A4;
+    }
+    .A3 {
+      page: A3;
+    }
+    .A2 {
+      page: A2;
+    }
+    .A1 {
+      page: A1;
+    }
+    .A0 {
+      page: A0;
+    }
+  }
+
+  @page A4 {
+    size: A4 landscape;
+    margin: 0;
+  }
+  @page A3 {
+    size: A3 landscape;
+    margin: 0;
+  }
+  @page A2 {
+    size: A2 landscape;
+    margin: 0;
+  }
+  @page A1 {
+    size: A1 landscape;
+    margin: 0;
+  }
+  @page A0 {
+    size: A0 landscape;
+    margin: 0;
   }
 </style>

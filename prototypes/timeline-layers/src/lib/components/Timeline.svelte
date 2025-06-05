@@ -331,7 +331,7 @@
 <style>
   .axis-container {
     position: fixed;
-    top: 140px;
+    top: 70px;
     height: 100vh;
     width: 100%;
     z-index: 0;
