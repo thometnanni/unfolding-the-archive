@@ -18,21 +18,12 @@
       const items = row.layers ?? row.ticks ?? []
       items.forEach((item) => {
         const text = item.text
-        if (
-          !text ||
-          item.count === 0 ||
-          !text.toLowerCase().includes(lower)
-        ) {
+        if (!text || item.count === 0 || text.toLowerCase() !== lower) {
           return
         }
         const x = item.x
         const y = 'y' in item ? item.y : (item.y1 + item.y2) / 2
-        const typeCounts = item.typeCounts || {}
-        const typeKey = JSON.stringify(
-          Object.entries(typeCounts)
-            .sort(([a], [b]) => a.localeCompare(b))
-        )
-        const key = `${text}||${item.count}||${typeKey}`
+        const key = `${text}||${item.count}`
         if (!map.has(key)) map.set(key, [])
         map.get(key).push({ x, y })
       })

@@ -183,8 +183,7 @@
             colorIndex: ly.color,
             visible: ly.visible,
             highlight:
-              searchTerm &&
-              ly.name.toLowerCase().includes(searchTerm.toLowerCase())
+              searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
           }
         }),
         labelX: x - labelPadding,
@@ -210,8 +209,7 @@
           colorIndex: ly.color,
           visible: ly.visible,
           highlight:
-            searchTerm &&
-            ly.name.toLowerCase().includes(searchTerm.toLowerCase())
+            searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
         }))
       })
       accY += (d.layers.length + 1) * layerSpacing + layerSpacing
@@ -348,7 +346,7 @@
     z-index: -1;
     overflow: hidden;
   }
-  
+
   /* 
   .spacer {
     width: 1px;

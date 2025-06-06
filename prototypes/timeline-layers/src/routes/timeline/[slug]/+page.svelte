@@ -88,7 +88,7 @@
     <div class="info">
       <h1 class="timeline-title">{title}</h1>
       {#if searchTerm}
-        <p>
+        <p class="search-info">
           Highlighted the layers named <strong>{searchTerm}</strong> and connected
           them with a line when they appear identically across multiple files.
         </p>
@@ -124,7 +124,8 @@
   }
 
   .info {
-    background: white;
+    background: rgba(255, 255, 255, 0.174);
+    backdrop-filter: blur(1px);
     z-index: 10;
     padding: 10px;
     margin-top: 10px;
@@ -135,12 +136,14 @@
 
   .info > * {
     max-width: 800px;
+    font-size: 0.875rem;
   }
 
   .legend-grid {
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(3, auto);
+    font-size: 0.875rem;
     gap: 5px;
     max-width: 100%;
     overflow: auto;
@@ -150,7 +153,6 @@
   .legend div > div {
     display: flex;
     align-items: top;
-    font-size: 0.8rem;
   }
 
   .color-box {
@@ -170,6 +172,11 @@
   .info p {
     margin: 0;
     padding: 0;
+  }
+
+  .info p.search-info {
+    margin-bottom: 10px;
+    max-width: 640px;
   }
 
   p {
