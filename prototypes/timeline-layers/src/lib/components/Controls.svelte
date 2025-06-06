@@ -105,22 +105,24 @@
   }
 
   .controls label {
-    margin-left: 16px;
-    font-size: 0.9rem;
+    /* margin-left: 16px; */
+    /* font-size: 0.9rem; */
   }
 
   .controls input[type='number'] {
-    width: 60px;
+    /* width: 60px; */
+    color: black;
     margin-left: 4px;
   }
 
   .search-box {
     position: relative;
-    flex: 1;
+    /* flex: 1; */
   }
 
   .search-box input {
     width: 100%;
+    min-width: 350px;
     max-width: 400px;
     padding: 4px 8px;
     box-sizing: border-box;
@@ -128,7 +130,7 @@
 
   .suggestions {
     position: absolute;
-    bottom: 100%; /* Open upward */
+    bottom: 100%;
     left: 0;
     right: 0;
     z-index: 9999;
@@ -141,6 +143,7 @@
     overflow-y: hidden;
     transition: max-height 0.2s ease;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 1.2em;
   }
 
   .search-box:hover .suggestions {
