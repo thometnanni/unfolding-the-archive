@@ -28,9 +28,8 @@ body {
   font-style: italic;
 }
 
-button, label, input {
+button, label, input, label {
   font-family: 'Ronzino', Helvetica, Arial, sans-serif;
-  font-size: 1.2em;
   border: none;
   background-color: var(--grey-3);
   color: var(--grey-2);

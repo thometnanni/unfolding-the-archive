@@ -238,7 +238,7 @@
           x={xScale(t)}
           y={margin.top - fontSize}
           text-anchor="middle"
-          style="font-size: {fontSize * 1.2}px"
+          style="font-size: {fontSize * 1.4}px"
         >
           {timeFormat('%m/%d/%Y')(t)}
         </text>

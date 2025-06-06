@@ -61,10 +61,8 @@
 
     <button on:click={savePoster}>Save as PDF</button>
 
-    <label>
-      Font Size
-      <input type="number" min="6" max="48" bind:value={baseFontSize} />
-    </label>
+    Font Size
+    <input type="number" min="6" max="48" bind:value={baseFontSize} />
   </div>
 
   <div class="search-box">
@@ -90,10 +88,13 @@
     display: flex;
     gap: 8px;
     padding: 8px;
-    background: var(--grey-3);
+    background: rgb(254, 255, 190);
     position: sticky;
     bottom: 0;
     z-index: 1;
+  }
+  .controls * {
+    font-size: 1rem;
   }
 
   .controls button {
@@ -143,7 +144,6 @@
     overflow-y: hidden;
     transition: max-height 0.2s ease;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
-    font-size: 1.2em;
   }
 
   .search-box:hover .suggestions {
@@ -169,6 +169,6 @@
   }
 
   .suggestions span {
-    font-size: 0.6rem;
+    /* font-size: 0.6rem; */
   }
 </style>

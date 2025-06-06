@@ -75,7 +75,6 @@
     </div>
 
     <div class="info">
-      <h1 class="timeline-title">{title}</h1>
       {#if searchTerm}
         <p class="search-info">
           Highlighted the layers named <strong>{searchTerm}</strong> and connected
@@ -94,6 +93,7 @@
           {/each}
         </div>
       </div>
+      <h1 class="timeline-title">{title}</h1>
     </div>
     <Controls
       bind:baseFontSize
@@ -141,9 +141,10 @@
   .legend-grid {
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: repeat(3, auto);
-    font-size: 0.875rem;
-    gap: 5px;
+    grid-template-rows: repeat(3, 5px);
+    justify-content: start;
+    font-size: 0.6rem;
+    gap: 10px;
     max-width: 100%;
     overflow: auto;
     padding: 10px 0;
@@ -155,17 +156,18 @@
   }
 
   .color-box {
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.6rem;
+    height: 0.6rem;
     border: 1px solid #444;
-    margin-right: 8px;
+    margin-right: 5px;
     flex-shrink: 0;
   }
 
   .timeline-title {
-    font-size: 2.5em;
+    font-size: 3em;
+    line-height: 0.8;
     font-weight: normal;
-    margin: 0 0 5px 0;
+    margin: 15px 0 2px 0;
   }
 
   .info p {
@@ -175,7 +177,7 @@
 
   .info p.search-info {
     margin-bottom: 10px;
-    max-width: 640px;
+    max-width: 440px;
   }
 
   p {
