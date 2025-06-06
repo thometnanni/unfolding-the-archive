@@ -39,7 +39,7 @@
         data = raw.filter((item) => {
           if (seen.has(item.path)) return false
           seen.add(item.path)
-          return true
+          return item.layers && item.layers.length > 0
         })
       }
     } catch (err) {
@@ -87,6 +87,12 @@
 
     <div class="info">
       <h1 class="timeline-title">{title}</h1>
+      {#if searchTerm}
+        <p>
+          Highlighted the layers named <strong>{searchTerm}</strong> and connected
+          them with a line when they appear identically across multiple files.
+        </p>
+      {/if}
       <p>The colours refer to the AutoCAD Color Index</p>
       <div class="legend">
         <div class="legend-grid">
@@ -122,6 +128,9 @@
     z-index: 10;
     padding: 10px;
     margin-top: 10px;
+    position: sticky;
+    bottom: 0;
+    width: fit-content;
   }
 
   .info > * {
@@ -132,7 +141,7 @@
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(3, auto);
-    gap: 10px;
+    gap: 5px;
     max-width: 100%;
     overflow: auto;
     padding: 10px 0;
@@ -141,19 +150,19 @@
   .legend div > div {
     display: flex;
     align-items: top;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
 
   .color-box {
-    width: .8rem;
-    height: .8rem;
+    width: 0.8rem;
+    height: 0.8rem;
     border: 1px solid #444;
     margin-right: 8px;
     flex-shrink: 0;
   }
 
   .timeline-title {
-    font-size: 1.5em;
+    font-size: 2.5em;
     font-weight: normal;
     margin: 0 0 5px 0;
   }
@@ -206,6 +215,10 @@
       margin: 0;
       padding: 0;
       position: relative;
+    }
+
+    .info {
+      position: unset;
     }
 
     .timeline-wrapper {

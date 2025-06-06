@@ -14,12 +14,12 @@
   $: fontSize = baseFontSize
   $: margin = {
     top: fontSize * 2,
-    right: fontSize * 2,
+    right: fontSize * 20,
     bottom: fontSize * 6,
     left: fontSize * 2
   }
 
-  $: rowH = fontSize * 1.5
+  $: rowH = fontSize * 1.7
   $: tickSpacing = fontSize * 0.25
   $: layerSpacing = fontSize * 1
   $: charPx = fontSize * 0.6
@@ -348,6 +348,7 @@
     z-index: -1;
     overflow: hidden;
   }
+  
   /* 
   .spacer {
     width: 1px;
@@ -371,7 +372,7 @@
 
   .proj-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
-    fill: var(--grey-1);
+    fill: var(--grey-2);
     dominant-baseline: middle;
   }
 
