@@ -86,13 +86,14 @@
 
 <style>
   .controls {
-    height: 80px;
+    height: 30px;
     display: flex;
     gap: 8px;
     padding: 8px;
     background: var(--grey-3);
     position: sticky;
     top: 0;
+    z-index: 1;
   }
 
   .controls button {
@@ -126,6 +127,8 @@
   }
 
   .suggestions {
+    left: 0;
+    right: 0;
     max-width: 400px;
     margin: 0;
     padding: 0;
@@ -134,11 +137,10 @@
     max-height: 0;
     overflow-y: auto;
     transition: max-height 0.1s ease;
-    z-index: 1;
   }
 
   .search-box:hover .suggestions {
-    max-height: 100px;
+    max-height: 70vh;
   }
 
   .suggestions li {
