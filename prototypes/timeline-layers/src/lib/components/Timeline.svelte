@@ -329,7 +329,7 @@
 <style>
   .axis-container {
     position: fixed;
-    top: 45px;
+    top: 0px;
     height: 100vh;
     width: 100%;
     z-index: 0;

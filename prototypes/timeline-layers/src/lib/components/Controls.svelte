@@ -92,7 +92,7 @@
     padding: 8px;
     background: var(--grey-3);
     position: sticky;
-    top: 0;
+    bottom: 0;
     z-index: 1;
   }
 
@@ -127,20 +127,25 @@
   }
 
   .suggestions {
+    position: absolute;
+    bottom: 100%; /* Open upward */
     left: 0;
     right: 0;
+    z-index: 9999;
     max-width: 400px;
     margin: 0;
     padding: 0;
     list-style: none;
     background: #fff;
     max-height: 0;
-    overflow-y: auto;
-    transition: max-height 0.1s ease;
+    overflow-y: hidden;
+    transition: max-height 0.2s ease;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .search-box:hover .suggestions {
-    max-height: 70vh;
+    max-height: 90vh;
+    overflow: scroll;
   }
 
   .suggestions li {

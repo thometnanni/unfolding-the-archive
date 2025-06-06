@@ -69,17 +69,6 @@
 </script>
 
 {#if data.length > 0}
-  <Controls
-    bind:baseFontSize
-    bind:viewMode
-    bind:searchTerm
-    bind:paperSize
-    {data}
-    on:save={handleSave}
-    on:mode={handleModeChange}
-    on:search={handleSearch}
-  />
-
   <article class="poster {paperSize}">
     <div class="timeline-wrapper">
       <Timeline {data} {viewMode} {searchTerm} {baseFontSize} />
@@ -106,6 +95,16 @@
         </div>
       </div>
     </div>
+    <Controls
+      bind:baseFontSize
+      bind:viewMode
+      bind:searchTerm
+      bind:paperSize
+      {data}
+      on:save={handleSave}
+      on:mode={handleModeChange}
+      on:search={handleSearch}
+    />
   </article>
 {:else}
   <p>Loading timeline…</p>
@@ -126,11 +125,11 @@
   .info {
     background: rgba(255, 255, 255, 0.174);
     backdrop-filter: blur(1px);
-    z-index: 10;
+    /* z-index: 10; */
     padding: 10px;
     margin-top: 10px;
     position: sticky;
-    bottom: 0;
+    bottom: 50px;
     width: fit-content;
   }
 
