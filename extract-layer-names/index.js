@@ -9,7 +9,7 @@ const archive_path = normalize('../data')
 const files = fileStructure
   .filter(
     ({ isFile, extension }) =>
-      isFile && (extension === 'dwg' || extension === 'dxf')
+      isFile && (extension === 'dwg') //|| extension === 'dxf') // cannot extract layer colours from DXF files
   )
   // .filter((_, i) => i >= 0 && i <= 50)
   .map((file) => ({
@@ -28,11 +28,11 @@ function exportLayerNames(file) {
   fileHandler.database = database
 
  
-  if (file.extension === 'dxf') {
+  if (file.extension == 'dxf') {
     const dxf = new libdxfrw.DRW_DxfRW(fileContent)
     dxf.read(fileHandler, false)
     dxf.delete()
-  } else if (file.extension === 'dwg') {
+  } else if (file.extension == 'dwg') {
     const dwg = new libdxfrw.DRW_DwgR(fileContent)
     dwg.read(fileHandler, false)
     dwg.delete()
@@ -41,16 +41,39 @@ function exportLayerNames(file) {
   const layers = listToArray(fileHandler.database.layers, [
     'name',
     'color',
-    'locked',
-    'visible'
-  ]).map((l) => ({
-    name: l.name,
-    color: l.color,
-    locked: l.locked,
-    visible: l.off,
+    'color24',
+    'lineType',
+    'lWeight',
+    'lTypeH',
+    'plotF'
+  ]).map(l => (
+  
+    // console.log(l),
+    {
+    name:    l.name,
+    color:   l.color,
+    // color24: l.color24,
+    lWeight: l.lWeight,  
+    // lTypeH:  l.lTypeH,   
+    // plotF:   l.plotF,
+    linetype: l.lineType,
     entityCount: 0,
-    typeCounts: {}
-  }))
+    typeCounts:  {}
+  }));
+
+
+
+
+  // check props
+  // const rawLayer = listToArray(fileHandler.database.layers)[0];
+
+  // const props = [
+  //   ...Object.getOwnPropertyNames(rawLayer),
+  //   ...Object.getOwnPropertyNames(Object.getPrototypeOf(rawLayer)),
+  // ];
+
+  // console.log(props);
+
 
   const layerMap = Object.fromEntries(layers.map((l) => [l.name, l]))
 

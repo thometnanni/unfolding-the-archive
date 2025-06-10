@@ -1,16 +1,21 @@
 export function aciToHex(aci) {
+
+  aci = aci == -1 ? 257 : aci
+
   const table = {
     0: "#000000", // BYBLOCK or default black
-    1: "#CC9999", //  Red
-    2: "#CCCC99", //  Yellow
-    3: "#99CC99", //  Green
-    4: "#99CCCC", //  Cyan
-    5: "#9999CC", //  Blue
-    6: "#CC99CC", //  Magenta
+    1: "#CC0000", //  Red
+    2: "#CCCC00", //  Yellow
+    3: "#00CC00", //  Green
+    4: "#00CCCC", //  Cyan
+    5: "#0000CC", //  Blue
+    6: "#CC00CC", //  Magenta
     7: "#ccc",    // White
-    8: "#999999", // Dark Gray
+    8: "#000000", // Dark Gray
     9: "#C0C0C0", // Light Gray
     256: "#ccc",  // BYLAYER
+
+    257 : "#000000", // Fallback for -1  as it often is the case with DXF files
   };
 
   if (table.hasOwnProperty(aci)) {

@@ -13,7 +13,9 @@
   $: usedAcis = Array.from(
     new Set(
       data.flatMap((item) =>
-        item.layers?.map((layer) => layer.color).filter((c) => c != null)
+        item.layers
+          ?.map((layer) => (layer.color === -1 ? 257 : layer.color))
+          .filter((c) => c != null)
       )
     )
   ).sort((a, b) => a - b)
@@ -75,13 +77,22 @@
     </div>
 
     <div class="info">
+      <p>
+        This timeline visualises the layers of AutoCAD files the <em>{title}</em
+        > project. It displays the layers across different files, with each file
+        represented as a row.
+      </p>
       {#if searchTerm}
         <p class="search-info">
           Highlighted the layers named <strong>{searchTerm}</strong> and connected
           them with a line when they appear identically across multiple files.
         </p>
       {/if}
-      <p>The colours refer to the AutoCAD Color Index</p>
+      <p>
+        The colors follow the AutoCAD Color Index (ACI), which differentiates
+        layers based on their function—such as structure, annotations, or
+        construction details.
+      </p>
       <div class="legend">
         <div class="legend-grid">
           {#each aciLegend as { aci, name }}
@@ -93,6 +104,7 @@
           {/each}
         </div>
       </div>
+
       <h1 class="timeline-title">{title}</h1>
     </div>
     <Controls
@@ -125,7 +137,8 @@
   .info {
     background: rgba(255, 255, 255, 0.174);
     backdrop-filter: blur(1px);
-    /* z-index: 10; */
+    font-size: 0.7em;
+    color: var(--grey-2);
     padding: 10px;
     margin-top: 10px;
     position: sticky;
@@ -134,8 +147,7 @@
   }
 
   .info > * {
-    max-width: 800px;
-    font-size: 0.875rem;
+    max-width: 450px;
   }
 
   .legend-grid {
@@ -158,13 +170,15 @@
   .color-box {
     width: 0.6rem;
     height: 0.6rem;
-    border: 1px solid #444;
+    border: .5px solid black;
     margin-right: 5px;
     flex-shrink: 0;
   }
 
   .timeline-title {
-    font-size: 3em;
+    color: black;
+    max-width: 950px;
+    font-size: 3.5em;
     line-height: 0.8;
     font-weight: normal;
     margin: 15px 0 2px 0;
@@ -173,6 +187,7 @@
   .info p {
     margin: 0;
     padding: 0;
+    margin-bottom: 5px;
   }
 
   .info p.search-info {

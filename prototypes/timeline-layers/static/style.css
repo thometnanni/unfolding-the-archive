@@ -2,6 +2,7 @@ html {
   --grey-1: #dcdcdc;
   --grey-2: #666;
   --grey-3: #f0f0f0;
+  --highlight : rgb(254, 255, 190);
 }
 
 body {
@@ -12,7 +13,7 @@ body {
 }
 
 ::selection {
-  background: var(--grey-1);
+  background: var(--highlight);
 
 }
 

@@ -10,7 +10,8 @@
   export let viewMode
   export let searchTerm = ''
   export let baseFontSize = 12
-
+  console.log(data)
+  
   $: fontSize = baseFontSize
   $: margin = {
     top: fontSize * 2,
@@ -139,6 +140,7 @@
       candidateTicks.push(last)
     }
 
+    // avoid too many ticks close together
     const minPixelGap = fontSize * 8
     const filteredTicks = []
     candidateTicks.forEach((d) => {
@@ -238,9 +240,9 @@
           x={xScale(t)}
           y={margin.top - fontSize}
           text-anchor="middle"
-          style="font-size: {fontSize * 1.4}px"
+          style="font-size: {fontSize * 1.2}px"
         >
-          {timeFormat('%m/%d/%Y')(t)}
+          {timeFormat('%b %d, %Y')(t)}
         </text>
       {/each}
     </svg>
@@ -276,6 +278,7 @@
                 ? strokeWidth * 3
                 : strokeWidth}px"
               stroke={aciToHex(tick.colorIndex || 0)}
+              class:empty={tick.count == 0}
             />
           {/each}
           <text
@@ -308,6 +311,7 @@
               y={layer.y}
               fill={aciToHex(layer.colorIndex || 0)}
               style="font-size: {fontSize}px"
+              class:empty={layer.count == 0}
             >
               {layer.text}
               <tspan
@@ -315,6 +319,7 @@
                   0.5}px; fill: #666; dominant-baseline: no-change;"
               >
                 {' '}({layer.count})
+                <!-- / {layer.colorIndex} -->
               </tspan>
             </text>
           {/each}
@@ -366,6 +371,7 @@
   .axis-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: var(--grey-2);
+    fill: black;
   }
 
   .proj-label {
@@ -377,6 +383,9 @@
   /* .tick.hidden {
     opacity: 0.3;
   } */
+  .empty {
+    opacity: 0.1;
+  }
 
   .layer-text.hidden {
     text-decoration-color: var(--grey-2);

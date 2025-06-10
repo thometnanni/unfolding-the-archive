@@ -88,7 +88,7 @@
     display: flex;
     gap: 8px;
     padding: 8px;
-    background: rgb(254, 255, 190);
+    background: var(--highlight);
     position: sticky;
     bottom: 0;
     z-index: 1;
