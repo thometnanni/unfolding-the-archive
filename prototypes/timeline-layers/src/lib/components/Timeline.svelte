@@ -10,8 +10,7 @@
   export let viewMode
   export let searchTerm = ''
   export let baseFontSize = 12
-  console.log(data)
-  
+
   $: fontSize = baseFontSize
   $: margin = {
     top: fontSize * 2,
@@ -51,14 +50,32 @@
   }
 
   function onWindowScroll() {
-    const y = window.scrollY - wrapperTop
-    const maxY = scrollableHeight
-    const clamped = Math.min(Math.max(y, 0), maxY)
-    const progress = maxY > 0 ? clamped / maxY : 0
-    const maxScroll = container.scrollWidth - container.clientWidth
-    const scrollX = progress * maxScroll
-    container.scrollLeft = scrollX
-    axis.scrollLeft = scrollX
+    const labels = container.querySelectorAll('.proj-label')
+    const viewportLine = 100 // 100px from the top of the viewport
+
+    let targetLabel = null
+    let minDist = Infinity
+
+    labels.forEach((label) => {
+      const rect = label.getBoundingClientRect()
+      const labelMiddle = rect.top + rect.height / 2
+      const dist = Math.abs(labelMiddle - viewportLine)
+
+      if (dist < minDist) {
+        minDist = dist
+        targetLabel = label
+      }
+    })
+
+    if (targetLabel) {
+      const rect = targetLabel.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      const labelX = rect.left - containerRect.left + container.scrollLeft
+      const scrollTo = labelX - 200
+
+      container.scrollTo({ left: scrollTo, behavior: 'smooth' })
+      axis.scrollTo({ left: scrollTo, behavior: 'smooth' })
+    }
   }
 
   onMount(() => {
@@ -141,7 +158,7 @@
     }
 
     // avoid too many ticks close together
-    const minPixelGap = fontSize * 8
+    const minPixelGap = fontSize * 7.4
     const filteredTicks = []
     candidateTicks.forEach((d) => {
       if (
@@ -240,7 +257,7 @@
           x={xScale(t)}
           y={margin.top - fontSize}
           text-anchor="middle"
-          style="font-size: {fontSize * 1.2}px"
+          style="font-size: {fontSize}px"
         >
           {timeFormat('%b %d, %Y')(t)}
         </text>

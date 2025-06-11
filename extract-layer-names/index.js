@@ -1,18 +1,18 @@
 import createModule from './node_modules/@mlightcad/libdxfrw-web/dist/libdxfrw.js'
 import { readFileSync, writeFileSync } from 'node:fs'
+import DxfParser from 'dxf-parser'
 import fileStructure from '../output/file-structure.json' with { type: 'json' }
 import { join, normalize } from 'node:path'
 
 const libdxfrw = await createModule()
-
 const archive_path = normalize('../data')
 const files = fileStructure
   .filter(
     ({ isFile, extension }) =>
-      isFile && (extension === 'dwg') //|| extension === 'dxf') // cannot extract layer colours from DXF files
+      isFile && (extension === 'dwg') //|| extension === 'dxf') 
   )
-  // .filter((_, i) => i >= 0 && i <= 50)
-  .map((file) => ({
+   // .filter((_, i) => i >= 0 && i <= 50)
+ .map((file) => ({
     ...file,
     layers: exportLayerNames(file)
   }))
@@ -22,31 +22,52 @@ writeFileSync('../output/layer-names.json', JSON.stringify(files))
 function exportLayerNames(file) {
   const path = join(archive_path, file.path)
   const fileContent = readFileSync(path)
+  let layers = []
 
-  const database = new libdxfrw.DRW_Database()
-  const fileHandler = new libdxfrw.DRW_FileHandler()
-  fileHandler.database = database
+  if (file.extension === 'dxf') {
+    try {
+      const text = fileContent.toString('utf8')
+      const parsed = new DxfParser().parseSync(text)
+      const entries = parsed.tables?.layer?.entries || parsed.tables?.layer?.layers || {}
+      const map = {}
 
- 
-  if (file.extension == 'dxf') {
-    const dxf = new libdxfrw.DRW_DxfRW(fileContent)
-    dxf.read(fileHandler, false)
-    dxf.delete()
-  } else if (file.extension == 'dwg') {
+      for (const l of Object.values(entries)) {
+        map[l.name] = {
+          name: l.name,
+          color: l.colorIndex ?? null,
+          lWeight: l.lineWeight ?? null,
+          linetype: l.lineTypeName ?? null,
+          entityCount: 0,
+          typeCounts: {}
+        }
+      }
+      for (const e of parsed.entities || []) {
+        const ln = e.layer
+        if (!map[ln]) {
+          map[ln] = { name: ln, color: null, lWeight: null, linetype: null, entityCount: 0, typeCounts: {} }
+        }
+        const info = map[ln]
+        info.entityCount++
+        const type = e.type || e.constructor.name || 'UNKNOWN'
+        info.typeCounts[type] = (info.typeCounts[type] || 0) + 1
+      }
+      layers = Object.values(map)
+    } catch (err) {
+      console.error(`Error parsing DXF ${path}:`, err.message)
+      layers = []
+    }
+
+  } else if (file.extension === 'dwg') {
+    const database = new libdxfrw.DRW_Database()
+    const fileHandler = new libdxfrw.DRW_FileHandler()
+    fileHandler.database = database
+
     const dwg = new libdxfrw.DRW_DwgR(fileContent)
     dwg.read(fileHandler, false)
     dwg.delete()
-  }
-
-  const layers = listToArray(fileHandler.database.layers, [
-    'name',
-    'color',
-    'color24',
-    'lineType',
-    'lWeight',
-    'lTypeH',
-    'plotF'
-  ]).map(l => (
+    layers = listToArray(database.layers, [
+      'name', 'color', 'color24', 'lineType', 'lWeight'
+    ]).map(l => (
   
     // console.log(l),
     {
@@ -61,24 +82,9 @@ function exportLayerNames(file) {
     typeCounts:  {}
   }));
 
-
-
-
-  // check props
-  // const rawLayer = listToArray(fileHandler.database.layers)[0];
-
-  // const props = [
-  //   ...Object.getOwnPropertyNames(rawLayer),
-  //   ...Object.getOwnPropertyNames(Object.getPrototypeOf(rawLayer)),
-  // ];
-
-  // console.log(props);
-
-
-  const layerMap = Object.fromEntries(layers.map((l) => [l.name, l]))
-
-  const entities = listToArray(fileHandler.database.mBlock.entities)
-  entities.forEach((entity) => {
+   const layerMap = Object.fromEntries(layers.map((l) => [l.name, l]))
+    const entities = listToArray(fileHandler.database.mBlock.entities)
+    entities.forEach((entity) => {
     const layerName = entity.layer
     const layerObj = layerMap[layerName]
     if (!layerObj) return
@@ -92,8 +98,9 @@ function exportLayerNames(file) {
     layerObj.typeCounts[type] = (layerObj.typeCounts[type] || 0) + 1
   })
 
-  database.delete()
-  fileHandler.delete()
+    database.delete()
+    fileHandler.delete()
+  }
 
   return layers
 }

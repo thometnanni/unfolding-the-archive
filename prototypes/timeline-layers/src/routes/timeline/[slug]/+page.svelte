@@ -137,7 +137,7 @@
   .info {
     background: rgba(255, 255, 255, 0.174);
     backdrop-filter: blur(1px);
-    font-size: 0.7em;
+    font-size: 0.8em;
     color: var(--grey-2);
     padding: 10px;
     margin-top: 10px;
@@ -146,7 +146,7 @@
     width: fit-content;
   }
 
-  .info > * {
+  .info > p {
     max-width: 450px;
   }
 
@@ -155,14 +155,15 @@
     grid-auto-flow: column;
     grid-template-rows: repeat(3, 5px);
     justify-content: start;
-    font-size: 0.6rem;
+    font-size: 8px;
     gap: 10px;
-    max-width: 100%;
-    overflow: auto;
-    padding: 10px 0;
+    /* overflow: auto; */
+    /* padding: 10px 0; */
   }
 
   .legend div > div {
+    max-width: 100px;
+    width: fit-content;
     display: flex;
     align-items: top;
   }
@@ -170,7 +171,7 @@
   .color-box {
     width: 0.6rem;
     height: 0.6rem;
-    border: .5px solid black;
+    border: 0.5px solid black;
     margin-right: 5px;
     flex-shrink: 0;
   }
