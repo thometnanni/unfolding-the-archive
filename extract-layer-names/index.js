@@ -9,7 +9,7 @@ const archive_path = normalize('../data')
 const files = fileStructure
   .filter(
     ({ isFile, extension }) =>
-      isFile && (extension === 'dwg') //|| extension === 'dxf') 
+      isFile && (extension === 'dwg' || extension === 'dxf') 
   )
    // .filter((_, i) => i >= 0 && i <= 50)
  .map((file) => ({
@@ -30,6 +30,9 @@ function exportLayerNames(file) {
       const parsed = new DxfParser().parseSync(text)
       const entries = parsed.tables?.layer?.entries || parsed.tables?.layer?.layers || {}
       const map = {}
+
+      console.log( parsed.header);
+      
 
       for (const l of Object.values(entries)) {
         map[l.name] = {

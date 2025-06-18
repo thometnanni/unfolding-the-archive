@@ -10,6 +10,7 @@
   export let viewMode
   export let searchTerm = ''
   export let baseFontSize = 12
+  export let ctbData = null
 
   $: fontSize = baseFontSize
   $: margin = {
@@ -25,6 +26,7 @@
   $: charPx = fontSize * 0.6
   $: labelPadding = fontSize * 0.5
   $: strokeWidth = fontSize * 0.1
+  $: styleMap = ctbData ? new Map(ctbData.map((s) => [s.aci, s])) : new Map()
 
   let plotW = 0
   let plotH = 0
@@ -73,8 +75,8 @@
       const labelX = rect.left - containerRect.left + container.scrollLeft
       const scrollTo = labelX - 200
 
-      container.scrollTo({ left: scrollTo, behavior: 'smooth' })
-      axis.scrollTo({ left: scrollTo, behavior: 'smooth' })
+      container.scrollTo({ left: scrollTo, behavior: 'instant' })
+      axis.scrollTo({ left: scrollTo, behavior: 'instant' })
     }
   }
 
@@ -294,7 +296,7 @@
               style="stroke-width: {tick.highlight
                 ? strokeWidth * 3
                 : strokeWidth}px"
-              stroke={aciToHex(tick.colorIndex || 0)}
+            stroke={ styleMap.get(tick.colorIndex)?.color_hex || aciToHex(tick.colorIndex || 0) }
               class:empty={tick.count == 0}
             />
           {/each}
@@ -326,7 +328,7 @@
               class:hidden={!layer.visible}
               x={layer.x}
               y={layer.y}
-              fill={aciToHex(layer.colorIndex || 0)}
+              fill={ styleMap.get(layer.colorIndex)?.color_hex || aciToHex(layer.colorIndex || 0) }
               style="font-size: {fontSize}px"
               class:empty={layer.count == 0}
             >

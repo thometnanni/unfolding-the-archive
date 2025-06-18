@@ -3,12 +3,34 @@
   import Controls from '$lib/components/Controls.svelte'
   import Timeline from '$lib/components/Timeline.svelte'
   import { aciToHex } from '$lib/index.js'
+  import { page } from '$app/stores'
 
   let data = []
-  let viewMode = 'extended'
+  let viewMode = 'compact'
   let searchTerm = ''
   let baseFontSize = 12
   let paperSize = 'A4'
+  let ctbData = null
+
+  $: slug = $page.params.slug
+  $: ctbPath = $page.url.searchParams.get('ctb')
+
+  $: if (ctbPath) {
+    loadCtbData(ctbPath)
+  }
+
+  async function loadCtbData(ctbPath) {
+    const jsonPath = `/ctb/${ctbPath}.json`
+    try {
+      const res = await fetch(jsonPath)
+      if (res.ok) {
+        const raw = await res.json()
+        ctbData = raw.styles || raw
+      }
+    } catch (err) {
+      console.error('Failed to load CTB:', err)
+    }
+  }
 
   $: usedAcis = Array.from(
     new Set(
@@ -20,7 +42,19 @@
     )
   ).sort((a, b) => a - b)
 
-  $: aciLegend = usedAcis.map((aci) => ({ aci, name: `ACI ${aci}` }))
+  $: ctbMap = ctbData ? new Map(ctbData.map((s) => [s.aci, s])) : new Map()
+
+  // $: console.log(ctbMap)
+
+  $: aciLegend = usedAcis.map((aci) => {
+    const style = ctbMap.get(aci)
+    return {
+      aci,
+      name: style?.localized_name || `ACI ${aci}`,
+      hex: style?.color_hex || aciToHex(aci),
+      lineweight_mm: style?.lineweight_mm || undefined
+    }
+  })
 
   $: title =
     data.length > 0
@@ -73,7 +107,7 @@
 {#if data.length > 0}
   <article class="poster {paperSize}">
     <div class="timeline-wrapper">
-      <Timeline {data} {viewMode} {searchTerm} {baseFontSize} />
+      <Timeline {data} {viewMode} {searchTerm} {baseFontSize} {ctbData} />
     </div>
 
     <div class="info">
@@ -95,11 +129,10 @@
       </p>
       <div class="legend">
         <div class="legend-grid">
-          {#each aciLegend as { aci, name }}
+          {#each aciLegend as { aci, name, lineweight_mm, hex }}
             <div>
-              <span class="color-box" style="background-color: {aciToHex(aci)};"
-              ></span>
-              <span>{name}</span>
+              <span class="color-box" style="background-color: {hex};"></span>
+              <span>{lineweight_mm || name}</span>
             </div>
           {/each}
         </div>
@@ -135,7 +168,7 @@
   }
 
   .info {
-    background: rgba(255, 255, 255, 0.174);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(1px);
     font-size: 0.8em;
     color: var(--grey-2);
