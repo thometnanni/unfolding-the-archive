@@ -5,11 +5,12 @@ import { dateFromName } from './helper/dates.js'
 import { removeNull } from './helper/clean.js'
 import { fileSize, birthtime } from './helper/stat.js'
 
-const archive_path = normalize('../data')
+const archive_path = normalize('../data/TP 261 Markt Hall')
 const output_path = normalize('../output')
 
-function read_directory(path = '') {
-  const entries = readdirSync(join(archive_path, path), {
+function read_directory(path) {
+  path = path ?? archive_path
+  const entries = readdirSync(path, {
     withFileTypes: true
   })
     .filter(({ name }) => !ignore_files.includes(name))

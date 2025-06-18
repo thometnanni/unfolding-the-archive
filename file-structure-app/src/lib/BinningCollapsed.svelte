@@ -18,7 +18,7 @@
     }
   })
 
-  const yBinSize = 0.25
+  const yBinSize = 1
   const xBinSize = 1
 
   let chartHeight = $state(0)
@@ -57,9 +57,11 @@
     scaleLinear().domain([minDay, maxDay]).range([0, innerChartWidth])
   )
 
+  const maxInactiveDays = 3
+
   let xBins = $derived(
     '-'
-      .repeat(diffDay)
+      .repeat(diffDay + 1)
       .split('-')
       .map((_, tick) => {
         const day = tick + minDay
@@ -88,18 +90,27 @@
             yBins[yBin].push(file)
           })
 
+        const yBinsTidy = Object.entries(yBins).map(([yBin, files]) => ({
+          yBin,
+          y: scaleY(+yBin * yBinSize),
+          files
+        }))
+
+        const maxFiles = Math.max(
+          ...yBinsTidy.map(({ files }) => files.length),
+          0
+        )
+
         return {
-          yBins: Object.entries(yBins).map(([yBin, files]) => ({
-            yBin,
-            y: scaleY(+yBin * yBinSize),
-            files
-          })),
+          yBins: yBinsTidy,
+          maxFiles,
           scale: {
             value: tick,
             label,
-            opacity: isFirstOfWeek ? 0.3 : 0.1,
+            opacity: isFirstOfWeek ? 0.05 : 0.05,
             x
-          }
+          },
+          tick
         }
       })
       .map((xBin, i, xBins) => {
@@ -126,22 +137,32 @@
       .filter(({ next, yBins }, i, xBins) => {
         if (yBins.length > 0) return true
 
-        const margin = 2
         const before = xBins
-          .slice(i - margin - 1, i)
+          .slice(i - maxInactiveDays - 1, i)
           .map(({ next }) => next)
-          .includes(0)
         const after = xBins
-          .slice(i, i + margin)
+          .slice(i, i + maxInactiveDays)
           .map(({ next }) => next)
-          .includes(0)
 
-        if (i <= margin || before) return true
+        if (
+          // i <= maxInactiveDays ||
+          i === xBins.length - 1 ||
+          (before.includes(0) &&
+            after.includes(0) &&
+            !before.includes(maxInactiveDays + 1))
+        )
+          return true
+      })
+      .map((xBin) => {
+        const width = Math.max(xBin.maxFiles * 2 + 2, 10) //+ (xBin.next > maxInactiveDays ? 20 : 0)
+        const fullWidth = width + (xBin.next > maxInactiveDays ? 40 : 0)
+        return { ...xBin, width, fullWidth }
+      })
+      .map((xBin, i, xBins) => {
+        const before = xBins.slice(0, i)
 
-        // if (i >= xBins.length + margin || after) return true
-
-        // if ((i <= margin || before) && (i >= xBins.length + margin || after))
-        //   return true
+        const x = before.reduce((prev, curr) => prev + curr.fullWidth, 0)
+        return { ...xBin, x: x }
       })
   )
 
@@ -189,33 +210,6 @@
     bind:clientWidth={chartWidth}
     bind:clientHeight={chartHeight}
   >
-    <g transform="translate({paddingLeft + axisWidth}, {paddingTop})">
-      <!-- {#each files as file}
-      <circle
-        cx={scaleX(file.day)}
-        cy={scaleY(file.hours)}
-        r="2.5"
-        opacity="0.05"
-        fill={getColorFromFileType(file.type!)}
-      />
-    {/each} -->
-
-      {#each xBins as xBin}
-        <g transform="translate({xBin.scale.x},0)" class="x-bin">
-          {#each xBin.yBins as yBin}
-            <g transform="translate(0,{yBin.y})" class="y-bin">
-              {#each yBin.files as file, index}
-                <g transform="translate({2 + index * 2},2)" class="file">
-                  <line y2={binHeight} stroke={getColorFromFileType(file.type!)}
-                  ></line>
-                </g>
-              {/each}
-            </g>
-          {/each}
-        </g>
-      {/each}
-    </g>
-
     <g transform="translate({paddingLeft},{paddingTop})">
       {#each yTicks as tick}
         <g transform="translate(0,{tick.y})" class="text-xs opacity-70">
@@ -225,7 +219,7 @@
             y1="0"
             y2="0"
             stroke="black"
-            opacity={tick.showLabel ? 0.3 : 0.1}
+            opacity={tick.showLabel ? 0.1 : 0.05}
           />
 
           {#if tick.showLabel}
@@ -244,13 +238,13 @@
 
     <g transform="translate({paddingLeft + axisWidth},{paddingTop})">
       {#each xBins as xBin}
-        <g transform="translate({xBin.scale.x},0)" class="text-xs opacity-70">
+        <g transform="translate({xBin.x},0)" class="text-xs opacity-70">
           <line
             x1="0"
             x2="0"
             y1="0"
             y2={innerChartHeight}
-            stroke={xBin.next === 0 ? 'black' : 'blue'}
+            stroke={xBin.yBins.length > 0 ? 'black' : 'black'}
             opacity={xBin.scale.opacity}
           />
 
@@ -264,6 +258,52 @@
               {xBin.scale.label}
             </text>
           {/if}
+        </g>
+      {/each}
+    </g>
+    <g transform="translate({paddingLeft + axisWidth}, {paddingTop})">
+      <!-- {#each files as file}
+      <circle
+        cx={scaleX(file.day)}
+        cy={scaleY(file.hours)}
+        r="2.5"
+        opacity="0.05"
+        fill={getColorFromFileType(file.type!)}
+      />
+    {/each} -->
+
+      {#each xBins as xBin}
+        <g transform="translate({xBin.x},0)" class="x-bin">
+          {#if xBin.next > maxInactiveDays}
+            <g transform="translate({xBin.width},0)">
+              <line y1="0" y2={innerChartHeight} stroke="black" opacity="0.05">
+              </line>
+              <rect
+                width="38"
+                fill="white"
+                height={innerChartHeight + 2}
+                x="1"
+                y="-1"
+              ></rect>
+              <text
+                x="20"
+                y={innerChartHeight / 2}
+                text-anchor="middle"
+                dominant-baseline="middle"
+                style="font-size: 12px">{xBin.next}</text
+              >
+            </g>
+          {/if}
+          {#each xBin.yBins as yBin}
+            <g transform="translate(0,{yBin.y})" class="y-bin">
+              {#each yBin.files as file, index}
+                <g transform="translate({2 + index * 2},2)" class="file">
+                  <line y2={binHeight} stroke={getColorFromFileType(file.type!)}
+                  ></line>
+                </g>
+              {/each}
+            </g>
+          {/each}
         </g>
       {/each}
     </g>
