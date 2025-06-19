@@ -4,11 +4,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 const libredwg = await LibreDwg.create('./libredwg/')
 
 const fileContent = readFileSync('test.dwg')
-const dwg = libredwg.dwg_read_data(fileContent, Dwg_File_Type.DXF)
+const dwg = libredwg.dwg_read_data(fileContent, Dwg_File_Type.DWG)
 
-console.log(dwg)
 const db = libredwg.convert(dwg)
-console.log(db)
 const json = JSON.stringify(
   db,
   (_, v) => (typeof v === 'bigint' ? v.toString() : v),
