@@ -5,7 +5,7 @@ import { dateFromName } from './helper/dates.js'
 import { removeNull } from './helper/clean.js'
 import { fileSize, birthtime } from './helper/stat.js'
 
-const archive_path = normalize('../data/TP 261 Markt Hall')
+const archive_path = normalize('../data/TP 261 Markthal')
 const output_path = normalize('../output')
 
 function read_directory(path) {
@@ -79,7 +79,7 @@ function handleDirectories(directory) {
 }
 
 function handleFiles(file) {
-  file.extension = file.name.match(/.([^.]+)$/)[1].toLowerCase()
+  file.extension = file.name.match(/.([^.]+)$/)?.[1].toLowerCase()
   file.fileSize = fileSize(file)
   file.birthtime = birthtime(file)
   file.dateFromName = dateFromName(file)
