@@ -3,4 +3,6 @@ node_modules
 archive.json
 *.ctb
 
+*.dxf
+*.dwg
 prototypes/timeline-layers/static/ctb/*.json
