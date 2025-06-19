@@ -1,8 +1,9 @@
 <script>
   import { onMount } from 'svelte'
-  import { scaleTime } from 'd3-scale'
   import { extent } from 'd3-array'
   import { timeFormat } from 'd3-time-format'
+  import { timeMonth } from 'd3-time'
+
   import { aciToHex } from '$lib/index.js'
   import Connections from '$lib/components/Connections.svelte'
 
@@ -17,7 +18,7 @@
     top: fontSize * 2,
     right: fontSize * 20,
     bottom: fontSize * 6,
-    left: fontSize * 2
+    left: fontSize * 20
   }
 
   $: rowH = fontSize * 1.7
@@ -32,13 +33,14 @@
   let plotH = 0
   let xScale
   let xTicks = []
+  let breakIndicators = []
   let rowsCompact = []
   let rowsExtended = []
+  let gap_thresh = 0
 
   let wrapper
   let container
   let axis
-  // let spacer
 
   let scrollableHeight = 0
   let wrapperTop = 0
@@ -47,7 +49,7 @@
     if (!wrapper || !container) return
     wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY
     scrollableHeight = container.scrollWidth - container.clientWidth
-    // spacer.style.height = scrollableHeight + 'px'
+
     container.style.height = plotH + 'px'
   }
 
@@ -70,10 +72,14 @@
     })
 
     if (targetLabel) {
+      // const rect = targetLabel.getBoundingClientRect()
+      // const containerRect = container.getBoundingClientRect()
+      // const labelX = rect.left - containerRect.left + container.scrollLeft
+      // const scrollTo = labelX - 200
       const rect = targetLabel.getBoundingClientRect()
       const containerRect = container.getBoundingClientRect()
-      const labelX = rect.left - containerRect.left + container.scrollLeft
-      const scrollTo = labelX - 200
+      const labelEndX = rect.right - containerRect.left + container.scrollLeft
+      const scrollTo = labelEndX - 400
 
       container.scrollTo({ left: scrollTo, behavior: 'instant' })
       axis.scrollTo({ left: scrollTo, behavior: 'instant' })
@@ -111,120 +117,158 @@
         : new Date(lastDate.getTime() + ++miss * 1000)
     )
 
-    const [minD, maxD] = extent(filled)
-    const pad = (maxD - minD) * 0.1
-    const domain = [
-      new Date(minD.getTime() - pad),
-      new Date(maxD.getTime() + pad)
-    ]
+    const projectDates = filled.slice().sort((a, b) => a - b)
+
+    const collapsed_gap = 400
+    // const one_year = 31536000000
+    // gap_thresh = one_year * 2
+
+    const gaps = projectDates
+      .slice(1)
+      .map((date, i) => date.getTime() - projectDates[i].getTime())
+
+    // bin the max gap
+    const maxGap = Math.max(...gaps)
+    const breakIdx = gaps.indexOf(maxGap) + 1
+
+    let segments = []
+    let breaks = []
+
+    let seg = { start: projectDates[0], end: projectDates[0] }
+    for (let i = 1; i < projectDates.length; i++) {
+      if (i === breakIdx) {
+        seg.end = projectDates[i - 1]
+        segments.push(seg)
+        breaks.push({ start: projectDates[i - 1], end: projectDates[i] })
+        seg = { start: projectDates[i], end: projectDates[i] }
+      } else {
+        seg.end = projectDates[i]
+      }
+    }
+    segments.push(seg)
 
     const names = sorted.map((d) => d.path.split('/').pop())
     const extraPx = Math.max(...names.map((n) => n.length)) * charPx
-    const vw = Math.max(
-      window.innerWidth - margin.left - margin.right,
-      fontSize * 10
-    )
-    plotW = vw + extraPx
+    const baseWidth =
+      Math.max(window.innerWidth - margin.left - margin.right, fontSize * 10) +
+      extraPx
 
-    xScale = scaleTime()
-      .domain(domain)
-      .range([margin.left, margin.left + plotW])
+    const totalTime = segments.reduce((sum, s) => sum + (s.end - s.start), 0)
+    const availTimeW = baseWidth - breaks.length * collapsed_gap
+    const timeToPx = (ms) => (ms > 0 ? (ms / totalTime) * availTimeW : 0)
 
-    const projectDates = filled
-      .slice()
-      .sort((a, b) => a.getTime() - b.getTime())
-    const gaps = []
-    for (let i = 1; i < projectDates.length; i++) {
-      gaps.push(projectDates[i].getTime() - projectDates[i - 1].getTime())
-    }
-    const sortedGaps = [...gaps].sort((a, b) => a - b)
-    const mid = Math.floor(sortedGaps.length / 2)
-    const medianGap =
-      sortedGaps.length === 0
-        ? 0
-        : sortedGaps.length % 2
-          ? sortedGaps[mid]
-          : (sortedGaps[mid - 1] + sortedGaps[mid]) / 2
-    const threshold = medianGap * 4
-
-    const candidateTicks = [projectDates[0]]
-    for (let i = 1; i < projectDates.length; i++) {
-      const delta = projectDates[i].getTime() - projectDates[i - 1].getTime()
-      if (delta >= threshold) {
-        candidateTicks.push(projectDates[i])
-      }
-    }
-    if (projectDates.length > 1) {
-      const last = projectDates[projectDates.length - 1]
-      candidateTicks.push(last)
-    }
-
-    // avoid too many ticks close together
-    const minPixelGap = fontSize * 7.4
-    const filteredTicks = []
-    candidateTicks.forEach((d) => {
-      if (
-        filteredTicks.length === 0 ||
-        Math.abs(xScale(d) - xScale(filteredTicks[filteredTicks.length - 1])) >
-          minPixelGap
-      ) {
-        filteredTicks.push(d)
+    let cursor = margin.left
+    segments.forEach((s) => {
+      s.startPx = cursor
+      const segMs = s.end - s.start
+      const w = timeToPx(segMs)
+      s.endPx = cursor + w
+      const brk = breaks.find((b) => b.start.getTime() === s.end.getTime())
+      cursor += w
+      if (brk) {
+        brk.startPx = cursor
+        brk.endPx = cursor + collapsed_gap
+        cursor += collapsed_gap
       }
     })
 
-    xTicks = Array.from(new Set(filteredTicks.map((d) => d.getTime())))
+    const discontinuous = (date) => {
+      if (!date) return margin.left
+      const t = date.getTime()
+      const seg = segments.find((s) => t >= s.start && t <= s.end)
+      if (seg) {
+        const pct =
+          seg.end > seg.start ? (t - seg.start) / (seg.end - seg.start) : 0
+        return seg.startPx + pct * (seg.endPx - seg.startPx)
+      }
+      const br = breaks.find((b) => t > b.start && t < b.end)
+      if (br) return br.startPx + collapsed_gap / 2
+      return t < segments[0].start ? margin.left : cursor
+    }
+
+    xScale = discontinuous
+    plotW = cursor - margin.left
+
+    let candidates = []
+    // segments.forEach((s) => candidates.push(s.start))
+    // if (segments.length) candidates.push(segments[segments.length - 1].end)
+
+    segments.forEach((seg) => {
+      candidates.push(seg.start)
+      timeMonth
+        .every(1)
+        .range(seg.start, seg.end)
+        .forEach((m) => candidates.push(m))
+      candidates.push(seg.end)
+    })
+
+    const uniq = Array.from(new Set(candidates.map((d) => d.getTime())))
       .map((ms) => new Date(ms))
-      .sort((a, b) => a.getTime() - b.getTime())
+      .sort((a, b) => a - b)
+    const minPx = fontSize * 7.4
+
+    xTicks = []
+    if (uniq.length) {
+      xTicks.push(uniq[0])
+      for (let i = 1; i < uniq.length; i++) {
+        if (
+          Math.abs(xScale(uniq[i]) - xScale(xTicks[xTicks.length - 1])) > minPx
+        ) {
+          xTicks.push(uniq[i])
+        }
+      }
+    }
+
+    breakIndicators = breaks.map((b) => ({
+      x: b.startPx + collapsed_gap / 2,
+      gap: b.end.getTime() - b.start.getTime()
+    }))
 
     if (viewMode === 'compact') {
       plotH = margin.top + rowH * sorted.length + margin.bottom
     } else {
-      let totalY = margin.top
-      sorted.forEach((d) => {
-        totalY += (d.layers.length + 1) * layerSpacing + layerSpacing
-      })
-      plotH = totalY + margin.bottom
+      let y = margin.top
+      sorted.forEach(
+        (d) => (y += (d.layers.length + 1) * layerSpacing + layerSpacing)
+      )
+      plotH = y + margin.bottom
     }
 
     rowsCompact = sorted.map((d, i) => {
-      const rawX = xScale(filled[i])
-      const x = Math.round(rawX)
+      const raw = xScale(filled[i])
+      const x = Math.round(raw)
       const y = margin.top + i * rowH
       return {
         name: d.path.split('/').pop(),
-        ticks: d.layers.map((ly, j) => {
-          const rawTickX = rawX + j * tickSpacing
-          const tickX = Math.round(rawTickX)
-          return {
-            x: tickX,
-            y1: y + tickSpacing,
-            y2: y + rowH - tickSpacing,
-            text: ly.name,
-            count: ly.entityCount || 0,
-            colorIndex: ly.color,
-            visible: ly.visible,
-            highlight:
-              searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
-          }
-        }),
+        ticks: d.layers.map((ly, j) => ({
+          x: Math.round(raw + j * tickSpacing),
+          y1: y + tickSpacing,
+          y2: y + rowH - tickSpacing,
+          text: ly.name,
+          count: ly.entityCount || 0,
+          colorIndex: ly.color,
+          visible: ly.visible,
+          highlight:
+            searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
+        })),
         labelX: x - labelPadding,
         labelY: y + rowH / 2
       }
     })
 
     rowsExtended = []
-    let accY = margin.top
+    let yAcc = margin.top
     sorted.forEach((d, i) => {
-      const rawX = xScale(filled[i])
-      const x = Math.round(rawX)
-      const layerYs = d.layers.map((_, j) => accY + (j + 2) * layerSpacing)
+      const raw = xScale(filled[i])
+      const x = Math.round(raw)
+      const layerYs = d.layers.map((_, j) => yAcc + (j + 2) * layerSpacing)
       rowsExtended.push({
         name: d.path.split('/').pop(),
         labelX: x - labelPadding,
-        labelY: layerYs[0] || accY + layerSpacing,
+        labelY: layerYs[0] || yAcc + layerSpacing,
         layers: d.layers.map((ly, j) => ({
           text: ly.name,
-          x: Math.round(rawX),
+          x: Math.round(raw),
           y: layerYs[j],
           count: ly.entityCount || 0,
           colorIndex: ly.color,
@@ -233,10 +277,28 @@
             searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
         }))
       })
-      accY += (d.layers.length + 1) * layerSpacing + layerSpacing
+      yAcc += (d.layers.length + 1) * layerSpacing + layerSpacing
     })
 
     updateMeasurements()
+  }
+
+  const one_year = 31536000000
+  const one_month = one_year / 12
+  const one_day = 86400000
+
+  function formatGap(ms) {
+    const years = Math.floor(ms / one_year)
+    ms -= years * one_year
+    const months = Math.floor(ms / one_month)
+    ms -= months * one_month
+    const days = Math.floor(ms / one_day)
+
+    let parts = []
+    if (years) parts.push(`${years} year${years > 1 ? 's' : ''}`)
+    if (months) parts.push(`${months} month${months > 1 ? 's' : ''}`)
+    if (days) parts.push(`${days} day${days > 1 ? 's' : ''}`)
+    return parts.join(', ')
   }
 </script>
 
@@ -253,6 +315,7 @@
           style="stroke-width: {strokeWidth / 2}px"
         />
       {/each}
+
       {#each xTicks as t}
         <text
           class="axis-label"
@@ -261,7 +324,30 @@
           text-anchor="middle"
           style="font-size: {fontSize}px"
         >
-          {timeFormat('%b %d, %Y')(t)}
+          {timeFormat('%b %Y')(t)}
+        </text>
+      {/each}
+
+      {#each breakIndicators as b}
+        <line
+          class="grid v"
+          x1={b.x}
+          x2={b.x}
+          y1={0}
+          y2={plotH}
+          style="stroke-width: {strokeWidth / 2}px"
+        />
+      {/each}
+
+      {#each breakIndicators as b}
+        <text
+          class="axis-break"
+          x={b.x}
+          y={margin.top - fontSize}
+          text-anchor="middle"
+          style="font-size: {fontSize}px"
+        >
+          {formatGap(b.gap)}
         </text>
       {/each}
     </svg>
@@ -296,7 +382,8 @@
               style="stroke-width: {tick.highlight
                 ? strokeWidth * 3
                 : strokeWidth}px"
-            stroke={ styleMap.get(tick.colorIndex)?.color_hex || aciToHex(tick.colorIndex || 0) }
+              stroke={styleMap.get(tick.colorIndex)?.color_hex ||
+                aciToHex(tick.colorIndex || 0)}
               class:empty={tick.count == 0}
             />
           {/each}
@@ -328,7 +415,8 @@
               class:hidden={!layer.visible}
               x={layer.x}
               y={layer.y}
-              fill={ styleMap.get(layer.colorIndex)?.color_hex || aciToHex(layer.colorIndex || 0) }
+              fill={styleMap.get(layer.colorIndex)?.color_hex ||
+                aciToHex(layer.colorIndex || 0)}
               style="font-size: {fontSize}px"
               class:empty={layer.count == 0}
             >
@@ -338,7 +426,6 @@
                   0.5}px; fill: #666; dominant-baseline: no-change;"
               >
                 {' '}({layer.count})
-                <!-- / {layer.colorIndex} -->
               </tspan>
             </text>
           {/each}
@@ -346,78 +433,59 @@
       {/if}
     </svg>
   </div>
-
-  <!-- <div bind:this={spacer} class="spacer"></div> -->
 </div>
 
 <style>
   .axis-container {
     position: fixed;
-    top: 0px;
+    top: 0;
     height: 100vh;
     width: 100%;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
   }
-
   text {
     dominant-baseline: middle;
   }
-
   .rows-container {
     position: relative;
     z-index: -1;
     overflow: hidden;
   }
-
-  /* 
-  .spacer {
-    width: 1px;
-    position: fixed;
-  } */
-
   svg {
     display: block;
   }
-
   .grid.v {
     stroke: var(--grey-1);
     stroke-dasharray: 5 2;
     z-index: 0;
   }
-
-  .axis-label {
+  .axis-label,
+  .axis-break {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: var(--grey-2);
-    fill: black;
   }
 
+  .axis-break {
+    fill: #999;
+  }
   .proj-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: var(--grey-2);
-    dominant-baseline: middle;
   }
-
-  /* .tick.hidden {
-    opacity: 0.3;
-  } */
   .empty {
     opacity: 0.1;
   }
-
   .layer-text.hidden {
     text-decoration-color: var(--grey-2);
   }
-
   .rows-container.searching svg :not(.highlight) {
     opacity: 0.3;
   }
-
   .rows-container svg {
     opacity: 1;
   }
-
   .rows-container.searching .highlight,
   .rows-container.searching .proj-label {
     opacity: 1 !important;
