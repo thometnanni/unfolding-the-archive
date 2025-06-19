@@ -43,7 +43,6 @@
   //   chartWidth - paddingLeft - paddingRight - axisWidth
   // )
 
-  let innerChartWidth = $derived(diffDay * 10)
   let chartWidth = $derived(
     innerChartWidth + paddingLeft + paddingRight + axisWidth
   )
@@ -53,9 +52,9 @@
   const scaleY = $derived(
     scaleLinear().domain([0, 24]).range([0, innerChartHeight])
   )
-  const scaleX = $derived(
-    scaleLinear().domain([minDay, maxDay]).range([0, innerChartWidth])
-  )
+  // const scaleX = $derived(
+  //   scaleLinear().domain([minDay, maxDay]).range([0, innerChartWidth])
+  // )
 
   const maxInactiveDays = 3
 
@@ -77,7 +76,7 @@
           })()
         const year = `${date.getFullYear()}`.slice(2)
         const label = isFirstOfMonth && `${month} ${isFirstOfYear ? year : ''}`
-        const x = scaleX(tick + minDay)
+        // const x = scaleX(tick + minDay)
 
         let yBins: { [key: number]: FileStructureType } = {}
         // const yBinCount = 24 / yBinSize
@@ -107,8 +106,8 @@
           scale: {
             value: tick,
             label,
-            opacity: isFirstOfWeek ? 0.05 : 0.05,
-            x
+            opacity: isFirstOfWeek ? 0.05 : 0.05
+            // x
           },
           tick
         }
@@ -182,6 +181,10 @@
         return '#9595A3'
     }
   }
+
+  let innerChartWidth = $derived(
+    xBins[xBins.length - 1].x + xBins[xBins.length - 1].width
+  )
 
   const labeledTicks = [0, 6, 12, 18, 24]
   let yTicks = $derived(
