@@ -16,7 +16,7 @@
   $: fontSize = baseFontSize
   $: margin = {
     top: fontSize * 2,
-    right: fontSize * 20,
+    right: fontSize * 30,
     bottom: fontSize * 6,
     left: fontSize * 20
   }
@@ -36,19 +36,15 @@
   let breakIndicators = []
   let rowsCompact = []
   let rowsExtended = []
-  let gap_thresh = 0
 
   let wrapper
   let container
   let axis
 
-  let scrollableHeight = 0
-  let wrapperTop = 0
+  const collapsed_gap = 200
 
   function updateMeasurements() {
     if (!wrapper || !container) return
-    wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY
-    scrollableHeight = container.scrollWidth - container.clientWidth
 
     container.style.height = plotH + 'px'
   }
@@ -118,10 +114,6 @@
     )
 
     const projectDates = filled.slice().sort((a, b) => a - b)
-
-    const collapsed_gap = 400
-    // const one_year = 31536000000
-    // gap_thresh = one_year * 2
 
     const gaps = projectDates
       .slice(1)
@@ -288,17 +280,15 @@
   const one_day = 86400000
 
   function formatGap(ms) {
-    const years = Math.floor(ms / one_year)
-    ms -= years * one_year
-    const months = Math.floor(ms / one_month)
-    ms -= months * one_month
-    const days = Math.floor(ms / one_day)
-
-    let parts = []
-    if (years) parts.push(`${years} year${years > 1 ? 's' : ''}`)
-    if (months) parts.push(`${months} month${months > 1 ? 's' : ''}`)
-    if (days) parts.push(`${days} day${days > 1 ? 's' : ''}`)
-    return parts.join(', ')
+    const units = [
+      { n: Math.floor(ms / one_year), label: 'year' },
+      { n: Math.floor((ms % one_year) / one_month), label: 'month' },
+      { n: Math.floor((ms % one_month) / one_day), label: 'day' }
+    ]
+    const first = units.find((u) => u.n)
+    return first
+      ? `${first.n} ${first.label}${first.n > 1 ? 's' : ''}`
+      : '0 days'
   }
 </script>
 
