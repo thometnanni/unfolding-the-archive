@@ -2,6 +2,8 @@
   import { onMount } from 'svelte'
   import Controls from '$lib/components/Controls.svelte'
   import Timeline from '$lib/components/Timeline.svelte'
+  import Legend from '$lib/components/Legend.svelte'
+
   import { aciToHex } from '$lib/index.js'
   import { page } from '$app/stores'
 
@@ -110,36 +112,8 @@
       <Timeline {data} {viewMode} {searchTerm} {baseFontSize} {ctbData} />
     </div>
 
-    <div class="info">
-      <p>
-        This timeline visualises the layers of AutoCAD files the <em>{title}</em
-        > project. It displays the layers across different files, with each file
-        represented as a row.
-      </p>
-      {#if searchTerm}
-        <p class="search-info">
-          Highlighted the layers named <strong>{searchTerm}</strong> and connected
-          them with a line when they appear identically across multiple files.
-        </p>
-      {/if}
-      <p>
-        The colors follow the AutoCAD Color Index (ACI), which differentiates
-        layers based on their function—such as structure, annotations, or
-        construction details.
-      </p>
-      <div class="legend">
-        <div class="legend-grid">
-          {#each aciLegend as { aci, name, lineweight_mm, hex }}
-            <div>
-              <span class="color-box" style="background-color: {hex};"></span>
-              <span>{lineweight_mm || name}</span>
-            </div>
-          {/each}
-        </div>
-      </div>
+    <Legend {title} {searchTerm} {aciLegend} />
 
-      <h1 class="timeline-title">{title}</h1>
-    </div>
     <Controls
       bind:baseFontSize
       bind:viewMode
@@ -167,22 +141,6 @@
     margin: 0;
   }
 
-  .info {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(1px);
-    font-size: 0.8em;
-    color: var(--grey-2);
-    padding: 10px;
-    margin-top: 10px;
-    position: sticky;
-    bottom: 50px;
-    width: fit-content;
-  }
-
-  .info > p {
-    max-width: 450px;
-  }
-
   .legend-grid {
     display: grid;
     grid-auto-flow: column;
@@ -192,13 +150,6 @@
     gap: 10px;
     /* overflow: auto; */
     /* padding: 10px 0; */
-  }
-
-  .legend div > div {
-    max-width: 100px;
-    width: fit-content;
-    display: flex;
-    align-items: top;
   }
 
   .color-box {
@@ -216,17 +167,6 @@
     line-height: 0.8;
     font-weight: normal;
     margin: 15px 0 2px 0;
-  }
-
-  .info p {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 5px;
-  }
-
-  .info p.search-info {
-    margin-bottom: 10px;
-    max-width: 440px;
   }
 
   p {
