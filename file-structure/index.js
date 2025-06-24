@@ -5,7 +5,8 @@ import { dateFromName } from './helper/dates.js'
 import { removeNull } from './helper/clean.js'
 import { fileSize, birthtime } from './helper/stat.js'
 
-const archive_path = normalize('../data/TP 261 Markt Hall')
+const folderName = 'TP 255 Serpentine Gallery Pavilion'
+const archive_path = normalize(`../data/${folderName}`)
 const output_path = normalize('../output')
 
 function read_directory(path) {

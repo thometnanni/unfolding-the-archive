@@ -12,7 +12,9 @@ let geometries = {}
 
 const geometriesCount = {}
 
-const archive_path = normalize('../data/TP 261 Markt Hall')
+const folderName = "TP 255 Serpentine Gallery Pavilion"
+
+const archive_path = normalize(`../data/${folderName}`)
 const files = fileStructure
   .filter(({ isFile, extension }) => isFile && extension === 'dwg')
   .filter((_, i) => i >= 0 && i <= 100)
@@ -23,7 +25,7 @@ const files = fileStructure
   }))
 
 writeFileSync(
-  '../output/geometries-count.json',
+  `../output/geometries-count-${folderName}.json`,
   JSON.stringify(
     Object.entries(geometriesCount).sort((a, b) => b[1].count - a[1].count),
     null,
@@ -32,7 +34,7 @@ writeFileSync(
 )
 
 writeFileSync(
-  '../output/geometries.json',
+  `../output/geometries-${folderName}.json`,
   JSON.stringify(
     geometries,
     (_, v) => (typeof v === 'bigint' ? v.toString() : v),
@@ -41,8 +43,10 @@ writeFileSync(
 )
 
 writeFileSync(
-  '../output/geometries-files.json',
-  JSON.stringify(files, (_, v) => (typeof v === 'bigint' ? v.toString() : v), 2)
+  `../output/geometries-files-${folderName}.json`,
+  JSON.stringify(files, (_, v) => (typeof v === 'bigint' ? v.toString() : v),
+  2
+)
 )
 
 function exportLayers(file) {
