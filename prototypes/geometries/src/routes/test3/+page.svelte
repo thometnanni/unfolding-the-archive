@@ -17,12 +17,9 @@
   function getRotationInfo(verts) {
     const cx = verts.reduce((s, v) => s + v.x, 0) / verts.length
     const cy = verts.reduce((s, v) => s + v.y, 0) / verts.length
-    let sxx = 0,
-      sxy = 0,
-      syy = 0
+    let sxx = 0, sxy = 0, syy = 0
     verts.forEach((v) => {
-      const dx = v.x - cx,
-        dy = v.y - cy
+      const dx = v.x - cx, dy = v.y - cy
       sxx += dx * dx
       sxy += dx * dy
       syy += dy * dy
@@ -30,8 +27,7 @@
     let angle = 0.5 * Math.atan2(2 * sxy, sxx - syy)
     const rightYs = verts
       .map((v) => {
-        const dx = v.x - cx,
-          dy = v.y - cy
+        const dx = v.x - cx, dy = v.y - cy
         const rx = dx * Math.cos(-angle) - dy * Math.sin(-angle)
         const ry = dx * Math.sin(-angle) + dy * Math.cos(-angle)
         return rx > 0 ? ry : null
@@ -46,8 +42,7 @@
   }
 
   function rotatePoint(pt, angle, center) {
-    const dx = pt.x - center.x,
-      dy = pt.y - center.y
+    const dx = pt.x - center.x, dy = pt.y - center.y
     return {
       x: dx * Math.cos(-angle) - dy * Math.sin(-angle) + center.x,
       y: dx * Math.sin(-angle) + dy * Math.cos(-angle) + center.y
@@ -56,20 +51,13 @@
 
   const createSketch = (dataPath, countPath) => (p) => {
     let shapes = []
-    let idx = 0
-    let lastFrame = 0
-    const switchFrames = 10
-    const padding = 0.8
-    const minSize = 100
-    const maxSize = 1900
-    let globalMaxDim = 1
+    const minPts = 3
 
     p.preload = () => {
       p.loadJSON(dataPath, (data) => {
         shapes = Object.entries(data)
-          // .slice(0, 1000)
           .map(([id, obj]) => {
-            if (!Array.isArray(obj.vertices) || obj.vertices.length < 3)
+            if (!Array.isArray(obj.vertices) || obj.vertices.length < minPts)
               return null
             const { angle, center } = getRotationInfo(obj.vertices)
             const verts = obj.vertices.map((pt) =>
@@ -83,54 +71,61 @@
               w: Math.max(...xs) - Math.min(...xs),
               h: Math.max(...ys) - Math.min(...ys)
             }
-            return { id, verts, bounds }
+            return {
+              id,
+              verts,
+              bounds
+            }
           })
           .filter(Boolean)
-        globalMaxDim = Math.max(
-          ...shapes.map((s) => Math.max(s.bounds.w, s.bounds.h)),
-          1
-        )
+          .sort((a, b) => b.verts.length - a.verts.length)
       })
     }
 
     p.setup = () => {
       p.createCanvas(p.windowWidth / files.length, p.windowHeight - 30)
+      p.noLoop()
     }
 
     p.draw = () => {
       p.background(255)
       if (!shapes.length) return
-      if (p.frameCount - lastFrame > switchFrames) {
-        idx = (idx + 1) % shapes.length
-        lastFrame = p.frameCount
-      }
-      const { verts, bounds } = shapes[idx]
-      const dim = Math.max(bounds.w, bounds.h)
-      const canvasSize = Math.min(p.width, p.height) * padding
-      const shapeScale = p.constrain(
-        canvasSize / dim,
-        minSize / dim,
-        maxSize / dim
-      )
-      const strokeW = p.constrain(globalMaxDim / dim, 0.2, 1)
 
-      p.push()
-      p.translate(p.width / 2, p.height / 2)
-      p.stroke(0)
-      p.strokeWeight(strokeW)
-      p.noFill()
-      p.beginShape()
-      verts.forEach((pt) => {
-        const x = (pt.x - (bounds.minX + bounds.w / 2)) * shapeScale
-        const y = (pt.y - (bounds.minY + bounds.h / 2)) * shapeScale
-        p.vertex(x, y)
-      })
-      p.endShape(p.CLOSE)
-      p.pop()
+      const cols = Math.ceil(Math.sqrt(shapes.length * (p.width / p.height)))
+      const rows = Math.ceil(shapes.length / cols)
+      const cellW = p.width / cols
+      const cellH = p.height / rows
+      const padding = 0.75
+
+      for (let i = 0; i < shapes.length; i++) {
+        const shape = shapes[i]
+        const { verts, bounds } = shape
+        const col = i % cols
+        const row = Math.floor(i / cols)
+        const centerX = col * cellW + cellW / 2
+        const centerY = row * cellH + cellH / 2
+        const dim = Math.max(bounds.w, bounds.h)
+        const shapeScale = (Math.min(cellW, cellH) * padding) / dim
+
+        p.push()
+        p.translate(centerX, centerY)
+        p.stroke(0)
+        p.strokeWeight(0.5)
+        p.noFill()
+        p.beginShape()
+        verts.forEach((pt) => {
+          const x = (pt.x - (bounds.minX + bounds.w / 2)) * shapeScale
+          const y = (pt.y - (bounds.minY + bounds.h / 2)) * shapeScale
+          p.vertex(x, y)
+        })
+        p.endShape(p.CLOSE)
+        p.pop()
+      }
     }
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth / files.length, p.windowHeight - 30)
+      p.redraw()
     }
   }
 </script>
@@ -174,5 +169,4 @@
     background: rgb(254, 255, 190);
     border-bottom: 1px solid #ccc;
   }
-
 </style>
