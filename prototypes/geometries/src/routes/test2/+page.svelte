@@ -130,7 +130,7 @@
     }
 
     p.draw = () => {
-      p.background(255, 10)
+      p.background(255, 30)
 
       if (shapes.length < 2) return
 
