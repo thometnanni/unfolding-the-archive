@@ -22,7 +22,6 @@ unfolding-the-archive/
 ├── prototypes/                # Experimental or prototype scripts
 ├── package.json
 ├── readme.md
-└── ...
 ```
 
 ## Requirements
@@ -85,11 +84,6 @@ node index.js
 ```
 
 This will parse all `.ctb` files in `data/` and output JSON files in `output/`.
-
-## Customization
-
-- Use the `--folder` argument in scripts to target a specific project or folder.
-- Adjust filtering logic in `filtergeometries.js` as needed.
 
 ## Visualization
 
