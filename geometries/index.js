@@ -1,20 +1,27 @@
 import { Dwg_File_Type, LibreDwg } from '../libredwg/libredwg/libredwg-web.js'
 import { readFileSync, writeFileSync } from 'node:fs'
-import fileStructure from '../output/file-structure.json' with { type: 'json' }
+import fs from 'fs/promises'
 import { join, normalize } from 'node:path'
 import objectHash from 'object-hash'
 
+function getArgValue(flag, fallback) {
+  const idx = process.argv.indexOf(flag)
+  return idx !== -1 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback
+}
+
+const folderName = getArgValue('--folder', 'TP 255 Serpentine Gallery Pavilion')
+const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
+const archive_path = normalize(`../data/${folderName}`)
+
+import path from 'path'
+const fileStructurePath = path.resolve(`../output/file-structure-${safeFolderName}.json`)
+const fileStructure = JSON.parse(await fs.readFile(fileStructurePath, 'utf8'))
+
 const libredwg = await LibreDwg.create('../libredwg/libredwg/')
 
-// const libdxfrw = await createModule()
-
 let geometries = {}
-
 const geometriesCount = {}
 
-const folderName = "TP 255 Serpentine Gallery Pavilion"
-
-const archive_path = normalize(`../data/${folderName}`)
 const files = fileStructure
   .filter(({ isFile, extension }) => isFile && extension === 'dwg')
   .filter((_, i) => i >= 0 && i <= 100)
@@ -25,7 +32,7 @@ const files = fileStructure
   }))
 
 writeFileSync(
-  `../output/geometries-count-${folderName}.json`,
+  `../output/geometries-count-${safeFolderName}.json`,
   JSON.stringify(
     Object.entries(geometriesCount).sort((a, b) => b[1].count - a[1].count),
     null,
@@ -34,7 +41,7 @@ writeFileSync(
 )
 
 writeFileSync(
-  `../output/geometries-${folderName}.json`,
+  `../output/geometries-${safeFolderName}.json`,
   JSON.stringify(
     geometries,
     (_, v) => (typeof v === 'bigint' ? v.toString() : v),
@@ -43,7 +50,7 @@ writeFileSync(
 )
 
 writeFileSync(
-  `../output/geometries-files-${folderName}.json`,
+  `../output/geometries-files-${safeFolderName}.json`,
   JSON.stringify(files, (_, v) => (typeof v === 'bigint' ? v.toString() : v),
   2
 )

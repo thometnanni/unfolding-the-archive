@@ -5,7 +5,12 @@ import { dateFromName } from './helper/dates.js'
 import { removeNull } from './helper/clean.js'
 import { fileSize, birthtime } from './helper/stat.js'
 
-const folderName = 'TP 255 Serpentine Gallery Pavilion'
+function getArgValue(flag, fallback) {
+  const idx = process.argv.indexOf(flag)
+  return idx !== -1 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback
+}
+
+const folderName = getArgValue('--folder', 'TP 255 Serpentine Gallery Pavilion')
 const archive_path = normalize(`../data/${folderName}`)
 const output_path = normalize('../output')
 
@@ -47,27 +52,17 @@ const archive = read_directory()
   }))
   .map(removeNull)
 
+const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
+const outputFile = join(output_path, `file-structure-${safeFolderName}.json`)
+
 writeFileSync(
-  join(output_path, 'file-structure.json'),
+  outputFile,
   JSON.stringify(archive, null, 2),
   'utf8'
 )
 console.log(
-  `exported structured data for ${archive.length} files and directories`
+  `exported structured data for ${archive.length} files and directories to ${outputFile}`
 )
-
-// const counts = Object.entries(
-//   archive
-//     .map(({ isDirectory, extension }) =>
-//       isDirectory ? 'directory' : extension
-//     )
-//     .reduce((prev, current) => {
-//       prev[current] = prev[current] ? prev[current] + 1 : 1
-//       return prev
-//     }, {})
-// ).sort(([, a], [, b]) => (a < b ? 1 : a > b ? -1 : 0))
-
-// console.log(counts)
 
 function getTypeKey(entry) {
   if (entry.isDirectory()) return 'isDirectory'

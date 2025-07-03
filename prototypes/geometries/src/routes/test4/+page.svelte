@@ -10,9 +10,18 @@
       countPath: 'TP 261 Markt Hall-top1000-count.json'
     },
     {
-      dataPath: 'TP 255 Serpentine Gallery Pavilion-top1000.json',
-      countPath: 'TP 255 Serpentine Gallery Pavilion-top1000-count.json'
-    }
+      dataPath: 'TP_255_Serpentine__Research_-top1000.json',
+      countPath: 'TP_255_Serpentine__Research_-top1000-count.json'
+    },
+     {
+      dataPath: 'TP_377_Boijmans-top1000.json',
+      countPath: 'TP_377_Boijmans-top1000-count.json'
+    },
+      {
+      dataPath: 'TP_255_Serpentine_Gallery_Pavilion-top1000.json',
+      countPath: 'TP_255_Serpentine_Gallery_Pavilion-top1000-count.json'
+    },
+    
   ]
 
   let showOverview = false
@@ -230,6 +239,7 @@
 <style>
   :global(body) {
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
   }
   
   .toggle-btn {

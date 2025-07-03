@@ -15,14 +15,16 @@
   let ctbData = null
 
   $: slug = $page.params.slug
-  $: ctbPath = $page.url.searchParams.get('ctb')
+  // $: ctbPath = $page.url.searchParams.get('ctb')
+  // const ctbPath = url.searchParams.get('ctb')
+  let ctbPath = null
 
   $: if (ctbPath) {
     loadCtbData(ctbPath)
   }
 
   async function loadCtbData(ctbPath) {
-    const jsonPath = `/ctb/${ctbPath}.json`
+    const jsonPath = `../ctb/${ctbPath}.json`
     try {
       const res = await fetch(jsonPath)
       if (res.ok) {
@@ -58,15 +60,19 @@
     }
   })
 
-  $: title =
-    data.length > 0
-      ? data[0].path.split('/')[0].replace(/(^\w)/, (m) => m.toUpperCase())
-      : ''
+  // $: title = data.length > 0 ? data[0].path.split('/')[0].replace(/(^\w)/, (m) => m.toUpperCase()) : ''
+  $: title = $page.params.slug
+    .replace(/-/g, ' ')
+    .replace(/_/g, ' ')
+    .replace(/(^\w)/, (m) => m.toUpperCase())
+  // $:console.log(title)
 
   onMount(async () => {
     const path = window.location.pathname
+    ctbPath = new URLSearchParams(window.location.search).get('ctb')
+
     const filename = path.split('/').pop()
-    const jsonPath = `/${filename}.json`
+    const jsonPath = `../data/${filename}.json`
     try {
       const res = await fetch(jsonPath)
       if (res.ok) {

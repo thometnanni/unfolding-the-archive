@@ -46,7 +46,7 @@ function rgbToHex(r, g, b) {
 }
 
 function parseCtbBuffer(buffer) {
-  // Validate and decompress
+  
   const header = buffer.toString('ascii', 0, 32);
   if (!header.includes('PIAFILEVERSION')) throw new Error('Not a valid PIA-style CTB file');
   const zsig = Buffer.from([0x78, 0xDA]);
@@ -60,7 +60,7 @@ function parseCtbBuffer(buffer) {
   const tables = {};
   let currentTable = null;
 
-  // Generic table and globals parsing
+  
   lines.forEach(rawLine => {
     const line = rawLine.trim();
     if (!line) return;
@@ -89,7 +89,7 @@ function parseCtbBuffer(buffer) {
     }
   });
 
-  // Resolve lineweight table alias
+  
   const lwTable = tables['lineweight_table'] || tables['custom_lineweight_table'];
 
   const styleList = [];
@@ -100,7 +100,7 @@ function parseCtbBuffer(buffer) {
     const name = rawName.trim();
     const props = tables[idx] || {};
 
-    // Determine lineweight in mm via table or custom override
+    
     let lineweight_mm = null;
     if (props.custom_lineweight_table && /^-?\d*\.?\d+$/.test(props.custom_lineweight_table)) {
       lineweight_mm = parseFloat(props.custom_lineweight_table);
@@ -112,7 +112,7 @@ function parseCtbBuffer(buffer) {
       }
     }
 
-    // Parse screening percentage
+    
     let screeningPercent = null;
     const screening = props.screening_table || props.screening || props.plot_screening || props.screen;
     if (screening) {
@@ -136,7 +136,7 @@ function parseCtbBuffer(buffer) {
       ...(screeningPercent != null && { screening_percent: screeningPercent })
     };
 
-    // Include any other props except parsed ones
+    
     Object.entries(props).forEach(([key, val]) => {
       if (![
         'custom_lineweight_table','lineweight',
@@ -154,7 +154,7 @@ function parseCtbBuffer(buffer) {
   return { globals, styles: styleList };
 }
 
-// Main execution
+
 (function main() {
   const dataDir = 'data';
   const outDir = 'output';

@@ -1,23 +1,35 @@
 import createModule from './node_modules/@mlightcad/libdxfrw-web/dist/libdxfrw.js'
 import { readFileSync, writeFileSync } from 'node:fs'
+import fs from 'fs/promises'
 import DxfParser from 'dxf-parser'
-import fileStructure from '../output/file-structure.json' with { type: 'json' }
-import { join, normalize } from 'node:path'
+import { join, normalize, resolve } from 'node:path'
+
+function getArgValue(flag, fallback) {
+  const idx = process.argv.indexOf(flag)
+  return idx !== -1 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback
+}
+
+const folderName = getArgValue('--folder', 'TP 255 Serpentine Gallery Pavilion')
+const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
+const archive_path = normalize(`../data/${folderName}`)
+
+const fileStructurePath = resolve(`../output/file-structure-${safeFolderName}.json`)
+const fileStructure = JSON.parse(await fs.readFile(fileStructurePath, 'utf8'))
 
 const libdxfrw = await createModule()
-const archive_path = normalize('../data')
+
 const files = fileStructure
   .filter(
     ({ isFile, extension }) =>
-      isFile && (extension === 'dwg' || extension === 'dxf') 
+      isFile && (extension === 'dwg' || extension === 'dxf')
   )
-   // .filter((_, i) => i >= 0 && i <= 50)
- .map((file) => ({
+  // .filter((_, i) => i >= 0 && i <= 50)
+  .map((file) => ({
     ...file,
     layers: exportLayerNames(file)
   }))
 
-writeFileSync('../output/layer-names.json', JSON.stringify(files))
+writeFileSync(`../output/layer-names-${safeFolderName}.json`, JSON.stringify(files))
 
 function exportLayerNames(file) {
   const path = join(archive_path, file.path)
