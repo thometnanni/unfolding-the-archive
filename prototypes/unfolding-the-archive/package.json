@@ -1,0 +1,16 @@
+{
+  "name": "unfolding-the-archive",
+  "version": "1.0.0",
+  "description": "unfold the archive",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server"
+  },
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
