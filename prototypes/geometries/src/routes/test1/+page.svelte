@@ -1,7 +1,7 @@
 <script>
   import P5 from 'p5-svelte'
 
-  const minVertices = 3;
+  const minVertices = 3
   const files = [
     {
       dataPath: 'TP 261 Markt Hall-top1000.json',
@@ -70,7 +70,10 @@
         shapes = Object.entries(data)
           // .slice(0, 1000)
           .map(([id, obj]) => {
-            if (!Array.isArray(obj.vertices) || obj.vertices.length < minVertices)
+            if (
+              !Array.isArray(obj.vertices) ||
+              obj.vertices.length < minVertices
+            )
               return null
             const { angle, center } = getRotationInfo(obj.vertices)
             const verts = obj.vertices.map((pt) =>
@@ -121,7 +124,7 @@
       p.strokeWeight(strokeW)
       p.noFill()
       p.noStroke()
-      p.fill("blue")
+      p.fill('blue')
       p.beginShape()
       verts.forEach((pt) => {
         const x = (pt.x - (bounds.minX + bounds.w / 2)) * shapeScale
@@ -148,13 +151,6 @@
 </div>
 
 <style>
-  :global(body) {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
-  }
   .viz-multi {
     display: flex;
     flex-direction: row;
@@ -177,5 +173,4 @@
     background: rgb(254, 255, 190);
     border-bottom: 1px solid #ccc;
   }
-
 </style>

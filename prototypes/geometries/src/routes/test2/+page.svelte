@@ -194,13 +194,6 @@
 </div>
 
 <style>
-  :global(body) {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
-  }
   .viz-multi {
     display: flex;
     flex-direction: row;

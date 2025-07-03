@@ -145,10 +145,11 @@
             const { verts, bounds } = shape
             p.push()
             p.translate(x, y)
-            p.strokeWeight(2)
+            p.strokeWeight(1)
             p.noFill()
+            p.fill('white')
             p.stroke('white')
-            
+
             // if (verts.length === 2) {
             //   p.stroke('red')
             // } else {
@@ -229,14 +230,8 @@
 <style>
   :global(body) {
     margin: 0;
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(0, 0, 0);
   }
-
+  
   .toggle-btn {
     position: fixed;
     bottom: 10px;
@@ -252,6 +247,11 @@
     flex-direction: row;
     width: 100%;
     height: 100vh;
+    margin: 0;
+    display: flex;
+    overflow: scroll;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(0, 0, 0);
   }
   .viz-column {
     display: flex;
@@ -261,15 +261,16 @@
     border-right: 1px solid #ccc;
   }
   .viz-title {
-    position: sticky;
-    top: 0;
+    /* position: sticky;
+    top: 0; */
     z-index: 100;
     text-align: center;
     font-family: sans-serif;
     font-size: 14px;
     font-weight: bold;
-    padding: 8px;
+    /* padding: 8px; */
     background: rgb(254, 255, 190);
+    background-color: white;
     border-bottom: 1px solid #ccc;
   }
 </style>
