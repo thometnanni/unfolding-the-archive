@@ -1,10 +1,10 @@
 # Unfolding the Archive
 
-This repository is part of the NWO-funded project *Unfolding the Archive: New Dimensions of Access to Born-digital Architecture Collections*, led by Ania Molenda at the Nieuwe Instituut. The project explores new ways to access and interpret born-digital architecture archives, combining methods from museum studies, archival studies, architecture, and digital humanities. The goal is to develop prototypes and tools that enable dynamic, multimodal, and participatory exploration of digital archival materials, focusing on underused metadata and new forms of discovery.
+This project is part of *Unfolding the Archive: New Dimensions of Access to Born-digital Architecture Collections*, led by Ania Molenda at the Nieuwe Instituut. It explores new ways to access and interpret born-digital architecture archives, combining methods from museum studies, archival studies, architecture, and digital humanities. The goal is to develop prototypes and tools that enable dynamic, multimodal, and participatory exploration of digital archival materials, focusing on underused metadata as new forms of discovery.
 
 ---
 
-This project provides scripts to extract, count, and filter geometries and layer names from a collection of AutoCAD DWG/DXF files. It also includes utilities for handling plot styles and visualizing the results.
+This repository provides scripts to extract, count, and filter geometries and layer names from a collection of AutoCAD DWG/DXF files. It also includes utilities for handling plot styles and visualizing the results.
 
 ## Folder Structure
 
@@ -27,7 +27,7 @@ unfolding-the-archive/
 ## Requirements
 
 - Node.js (v18+ recommended)
-- DWG/DXF files in the `data/` folder (see scripts for expected structure)
+- DWG/DXF files in the `data/` folder
 
 ## Usage
 
@@ -40,7 +40,7 @@ cd file-structure
 node index.js --folder "Folder Name"
 ```
 
-This will scan the `data/` folder and generate `output/file-structure-Your_Project_Name.json`, which is required by the other scripts.
+This will scan the `data/` folder and generate `output/file-structure-Project_Name.json`, which is required by the other scripts.
 
 ### 2. Extract Layer Names
 
@@ -49,7 +49,7 @@ cd extract-layer-names
 node index.js --folder "Folder Name"
 ```
 
-This will process all DWG/DXF files listed in `output/file-structure-Your_Project_Name.json` and write the results to `output/layer-names-Your_Project_Name.json`.
+This will process all DWG/DXF files listed in `output/file-structure-Project_Name.json` and write the results to `output/layer-names-Project_Name.json`.
 
 ### 3. Extract Geometries
 
@@ -59,8 +59,8 @@ node index.js --folder "Folder Name"
 ```
 
 This will process the files and output:
-- `output/geometries-Your_Project_Name.json` — all geometries
-- `output/geometries-count-Your_Project_Name.json` — geometry usage counts
+- `output/geometries-Project_Name.json` — all geometries
+- `output/geometries-count-Project_Name.json` — geometry usage counts
 
 ### 4. Filter Geometries
 
@@ -83,7 +83,7 @@ cd extract-layer-names/plot-styles
 node index.js
 ```
 
-This will parse all `.ctb` files in `data/` and output JSON files in `output/`.
+This will parse all `.ctb` files in `data/` and output JSON files in `output/`. This is helpful when visualising the layer names.
 
 ## Visualization
 
