@@ -1,0 +1,36 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: black;
+  color: white;
+  margin: 0;
+
+  section#about,
+  nav {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      margin-left: 2rem;
+      margin-right: 2rem;
+      max-width: 600px;
+    }
+  }
+
+  nav {
+    margin: 1rem 0rem 2rem;
+    gap: 0.5rem;
+  }
+
+  section#prototype {
+    background: white;
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+  }
+}
