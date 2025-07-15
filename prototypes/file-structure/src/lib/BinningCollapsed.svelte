@@ -1,5 +1,5 @@
 <script lang="ts">
-  import FileStructure from '../../../../output/file-structure.json' assert { type: 'json' }
+  import FileStructure from '../../static/file-structure-TP_377_Boijmans.json' assert { type: 'json' }
 
   type FileStructureType = typeof FileStructure
   // type FileStructureEntry = FileStructureType[number]

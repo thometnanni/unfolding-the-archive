@@ -1,5 +1,5 @@
 <script lang="ts">
-  import FileStructure from '../../../../output/file-structure.json'
+  import FileStructure from '../../static/file-structure-TP_377_Boijmans.json'
   import { scaleLinear } from 'd3-scale'
 
   const files = FileStructure.filter(({ isFile }) => isFile).map((file) => {
