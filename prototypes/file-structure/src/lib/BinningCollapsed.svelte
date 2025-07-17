@@ -1,22 +1,26 @@
 <script lang="ts">
-  import FileStructure from '../../static/file-structure-TP_377_Boijmans.json' assert { type: 'json' }
-
-  type FileStructureType = typeof FileStructure
-  // type FileStructureEntry = FileStructureType[number]
+  // import FileStructure from '../../static/file-structure-TP_377_Boijmans.json' assert { type: 'json' }
   import { scaleLinear } from 'd3-scale'
+  // export let data: any
 
-  const files = FileStructure.filter(({ isFile }) => isFile).map((file) => {
-    const date = new Date(file.birthtime!)
-    const seconds =
-      date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()
-    return {
-      ...file,
-      date,
-      seconds,
-      hours: seconds / (60 * 60),
-      day: Math.floor(file.birthtime! / (1000 * 60 * 60 * 24))
-    }
-  })
+  let { data } = $props()
+  type FileStructureType = typeof data
+  // type FileStructureEntry = FileStructureType[number]
+
+  const files = data
+    .filter(({ isFile }) => isFile)
+    .map((file) => {
+      const date = new Date(file.birthtime!)
+      const seconds =
+        date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()
+      return {
+        ...file,
+        date,
+        seconds,
+        hours: seconds / (60 * 60),
+        day: Math.floor(file.birthtime! / (1000 * 60 * 60 * 24))
+      }
+    })
 
   const yBinSize = 1
   const xBinSize = 1
@@ -42,10 +46,6 @@
   // let innerChartWidth = $derived(
   //   chartWidth - paddingLeft - paddingRight - axisWidth
   // )
-
-  let chartWidth = $derived(
-    innerChartWidth + paddingLeft + paddingRight + axisWidth
-  )
 
   let binHeight = $derived(innerChartHeight / (24 / yBinSize) - 3)
 
@@ -184,6 +184,10 @@
 
   let innerChartWidth = $derived(
     xBins[xBins.length - 1].x + xBins[xBins.length - 1].width
+  )
+
+  let chartWidth = $derived(
+    innerChartWidth + paddingLeft + paddingRight + axisWidth
   )
 
   const labeledTicks = [0, 6, 12, 18, 24]
