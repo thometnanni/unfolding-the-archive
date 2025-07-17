@@ -7,20 +7,22 @@
   type FileStructureType = typeof data
   // type FileStructureEntry = FileStructureType[number]
 
-  const files = data
-    .filter(({ isFile }) => isFile)
-    .map((file) => {
-      const date = new Date(file.birthtime!)
-      const seconds =
-        date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()
-      return {
-        ...file,
-        date,
-        seconds,
-        hours: seconds / (60 * 60),
-        day: Math.floor(file.birthtime! / (1000 * 60 * 60 * 24))
-      }
-    })
+  const files = $derived(
+    data
+      .filter(({ isFile }) => isFile)
+      .map((file) => {
+        const date = new Date(file.birthtime!)
+        const seconds =
+          date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()
+        return {
+          ...file,
+          date,
+          seconds,
+          hours: seconds / (60 * 60),
+          day: Math.floor(file.birthtime! / (1000 * 60 * 60 * 24))
+        }
+      })
+  )
 
   const yBinSize = 1
   const xBinSize = 1
@@ -35,10 +37,10 @@
   let paddingRight = 50
   let paddingLeft = 50
 
-  const days = files.map(({ day }) => day)
-  const minDay = Math.min(...days)
-  const maxDay = Math.max(...days)
-  const diffDay = maxDay - minDay
+  const days = $derived(files.map(({ day }) => day))
+  const minDay = $derived(Math.min(...days))
+  const maxDay = $derived(Math.max(...days))
+  const diffDay = $derived(maxDay - minDay)
 
   console.log(minDay, maxDay)
 
