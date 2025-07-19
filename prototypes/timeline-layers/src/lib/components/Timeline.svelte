@@ -1,9 +1,6 @@
 <script>
   import { onMount } from 'svelte'
-  import { extent } from 'd3-array'
   import { timeFormat } from 'd3-time-format'
-  import { timeMonth } from 'd3-time'
-
   import { aciToHex } from '$lib/index.js'
   import Connections from '$lib/components/Connections.svelte'
 
@@ -33,7 +30,8 @@
   let plotH = 0
   let xScale
   let xTicks = []
-  let breakIndicators = []
+  let xBins = []
+  let xPositions = []
   let rowsCompact = []
   let rowsExtended = []
 
@@ -41,42 +39,30 @@
   let container
   let axis
 
-  const collapsed_gap = 200
-
   function updateMeasurements() {
     if (!wrapper || !container) return
-
     container.style.height = plotH + 'px'
   }
 
   function onWindowScroll() {
     const labels = container.querySelectorAll('.proj-label')
-    const viewportLine = 100 // 100px from the top of the viewport
-
+    const viewportLine = 100
     let targetLabel = null
     let minDist = Infinity
-
     labels.forEach((label) => {
       const rect = label.getBoundingClientRect()
       const labelMiddle = rect.top + rect.height / 2
       const dist = Math.abs(labelMiddle - viewportLine)
-
       if (dist < minDist) {
         minDist = dist
         targetLabel = label
       }
     })
-
     if (targetLabel) {
-      // const rect = targetLabel.getBoundingClientRect()
-      // const containerRect = container.getBoundingClientRect()
-      // const labelX = rect.left - containerRect.left + container.scrollLeft
-      // const scrollTo = labelX - 200
       const rect = targetLabel.getBoundingClientRect()
       const containerRect = container.getBoundingClientRect()
       const labelEndX = rect.right - containerRect.left + container.scrollLeft
       const scrollTo = labelEndX - 400
-
       container.scrollTo({ left: scrollTo, behavior: 'instant' })
       axis.scrollTo({ left: scrollTo, behavior: 'instant' })
     }
@@ -93,6 +79,9 @@
   })
 
   $: if (data.length && container) {
+    const MONTH_WIDTH = 100
+    const BINNED_WIDTH = 200
+
     const sorted = [...data].sort((a, b) => {
       const ta = a.birthtime ? new Date(a.birthtime).getTime() : Infinity
       const tb = b.birthtime ? new Date(b.birthtime).getTime() : Infinity
@@ -113,108 +102,95 @@
         : new Date(lastDate.getTime() + ++miss * 1000)
     )
 
-    const projectDates = filled.slice().sort((a, b) => a - b)
+    const minDate = new Date(Math.min(...filled.map((d) => d.getTime())))
+    const maxDate = new Date(Math.max(...filled.map((d) => d.getTime())))
 
-    const gaps = projectDates
-      .slice(1)
-      .map((date, i) => date.getTime() - projectDates[i].getTime())
+    let months = []
+    let d = new Date(minDate.getFullYear(), minDate.getMonth(), 1)
+    while (d <= maxDate) {
+      months.push(new Date(d))
+      d.setMonth(d.getMonth() + 1)
+    }
+    xTicks = months
 
-    // bin the max gap
-    const maxGap = Math.max(...gaps)
-    const breakIdx = gaps.indexOf(maxGap) + 1
+    let monthsWithDataSet = new Set(
+      filled.map((dt) => dt.getFullYear() + '-' + dt.getMonth())
+    )
 
-    let segments = []
-    let breaks = []
-
-    let seg = { start: projectDates[0], end: projectDates[0] }
-    for (let i = 1; i < projectDates.length; i++) {
-      if (i === breakIdx) {
-        seg.end = projectDates[i - 1]
-        segments.push(seg)
-        breaks.push({ start: projectDates[i - 1], end: projectDates[i] })
-        seg = { start: projectDates[i], end: projectDates[i] }
+    let bins = []
+    let i = 0
+    while (i < months.length) {
+      let key = months[i].getFullYear() + '-' + months[i].getMonth()
+      if (monthsWithDataSet.has(key)) {
+        bins.push({
+          type: 'month',
+          start: months[i],
+          end: months[i],
+          width: MONTH_WIDTH
+        })
+        i++
       } else {
-        seg.end = projectDates[i]
-      }
-    }
-    segments.push(seg)
-
-    const names = sorted.map((d) => d.path.split('/').pop())
-    const extraPx = Math.max(...names.map((n) => n.length)) * charPx
-    const baseWidth =
-      Math.max(window.innerWidth - margin.left - margin.right, fontSize * 10) +
-      extraPx
-
-    const totalTime = segments.reduce((sum, s) => sum + (s.end - s.start), 0)
-    const availTimeW = baseWidth - breaks.length * collapsed_gap
-    const timeToPx = (ms) => (ms > 0 ? (ms / totalTime) * availTimeW : 0)
-
-    let cursor = margin.left
-    segments.forEach((s) => {
-      s.startPx = cursor
-      const segMs = s.end - s.start
-      const w = timeToPx(segMs)
-      s.endPx = cursor + w
-      const brk = breaks.find((b) => b.start.getTime() === s.end.getTime())
-      cursor += w
-      if (brk) {
-        brk.startPx = cursor
-        brk.endPx = cursor + collapsed_gap
-        cursor += collapsed_gap
-      }
-    })
-
-    const discontinuous = (date) => {
-      if (!date) return margin.left
-      const t = date.getTime()
-      const seg = segments.find((s) => t >= s.start && t <= s.end)
-      if (seg) {
-        const pct =
-          seg.end > seg.start ? (t - seg.start) / (seg.end - seg.start) : 0
-        return seg.startPx + pct * (seg.endPx - seg.startPx)
-      }
-      const br = breaks.find((b) => t > b.start && t < b.end)
-      if (br) return br.startPx + collapsed_gap / 2
-      return t < segments[0].start ? margin.left : cursor
-    }
-
-    xScale = discontinuous
-    plotW = cursor - margin.left
-
-    let candidates = []
-    // segments.forEach((s) => candidates.push(s.start))
-    // if (segments.length) candidates.push(segments[segments.length - 1].end)
-
-    segments.forEach((seg) => {
-      candidates.push(seg.start)
-      timeMonth
-        .every(1)
-        .range(seg.start, seg.end)
-        .forEach((m) => candidates.push(m))
-      candidates.push(seg.end)
-    })
-
-    const uniq = Array.from(new Set(candidates.map((d) => d.getTime())))
-      .map((ms) => new Date(ms))
-      .sort((a, b) => a - b)
-    const minPx = fontSize * 7.4
-
-    xTicks = []
-    if (uniq.length) {
-      xTicks.push(uniq[0])
-      for (let i = 1; i < uniq.length; i++) {
-        if (
-          Math.abs(xScale(uniq[i]) - xScale(xTicks[xTicks.length - 1])) > minPx
+        let gapStart = i
+        while (
+          i < months.length &&
+          !monthsWithDataSet.has(
+            months[i].getFullYear() + '-' + months[i].getMonth()
+          )
         ) {
-          xTicks.push(uniq[i])
+          i++
+        }
+        let gapLen = i - gapStart
+        if (gapLen >= 2) {
+          bins.push({
+            type: 'bin',
+            start: months[gapStart],
+            end: months[i - 1],
+            width: BINNED_WIDTH
+          })
+        } else {
+          for (let j = gapStart; j < i; j++) {
+            bins.push({
+              type: 'month',
+              start: months[j],
+              end: months[j],
+              width: MONTH_WIDTH
+            })
+          }
         }
       }
     }
+    xBins = bins
 
-    breakIndicators = breaks.map((b) => ({
-      x: b.startPx + collapsed_gap / 2,
-      gap: b.end.getTime() - b.start.getTime()
-    }))
+    xPositions = []
+    let acc = margin.left
+    for (let b of xBins) {
+      xPositions.push(acc)
+      acc += b.width
+    }
+    plotW = acc - margin.left
+
+    xScale = (date) => {
+      for (let j = 0; j < xBins.length; j++) {
+        let b = xBins[j]
+        if (
+          b.type === 'month' &&
+          b.start.getFullYear() === date.getFullYear() &&
+          b.start.getMonth() === date.getMonth()
+        ) {
+          return xPositions[j]
+        }
+      }
+      for (let j = 0; j < xBins.length; j++) {
+        let b = xBins[j]
+        if (b.type === 'bin' && date >= b.start && date <= b.end) {
+          return xPositions[j] + b.width / 2
+        }
+      }
+      return margin.left
+    }
+
+    const names = sorted.map((d) => d.path.split('/').pop())
+    const extraPx = Math.max(...names.map((n) => n.length)) * charPx
 
     if (viewMode === 'compact') {
       plotH = margin.top + rowH * sorted.length + margin.bottom
@@ -275,74 +251,65 @@
     updateMeasurements()
   }
 
-  const one_year = 31536000000
-  const one_month = one_year / 12
-  const one_day = 86400000
-
-  function formatGap(ms) {
-    const units = [
-      { n: Math.floor(ms / one_year), label: 'year' },
-      { n: Math.floor((ms % one_year) / one_month), label: 'month' },
-      { n: Math.floor((ms % one_month) / one_day), label: 'day' }
-    ]
-    const first = units.find((u) => u.n)
-    return first
-      ? `${first.n} ${first.label}${first.n > 1 ? 's' : ''}`
-      : '0 days'
+  function formatBin(start, end) {
+    return timeFormat('%b %Y')(start) + ' – ' + timeFormat('%b %Y')(end)
   }
 </script>
 
 <div bind:this={wrapper} class="timeline-wrapper">
   <div bind:this={axis} class="axis-container">
     <svg width={margin.left + plotW + margin.right} height={plotH}>
-      {#each xTicks as t}
+      {#each xBins as b, i}
         <line
           class="grid v"
-          x1={xScale(t)}
-          x2={xScale(t)}
+          x1={xPositions[i]}
+          x2={xPositions[i]}
           y1={0}
           y2={plotH}
           style="stroke-width: {strokeWidth / 2}px"
         />
+        {#if b.type === 'month'}
+          <text
+            class="axis-label"
+            x={xPositions[i] + b.width / 2}
+            y={margin.top - fontSize}
+            text-anchor="middle"
+            style="font-size: {fontSize}px"
+          >
+            {timeFormat('%b %Y')(b.start)}
+          </text>
+        {:else}
+          <rect
+            x={xPositions[i]}
+            y={margin.top - fontSize * 2.4}
+            width={b.width}
+            height={fontSize * 2.4}
+            fill="#f5f5f5"
+            rx={fontSize * 0.4}
+          />
+          <text
+            class="axis-label axis-bin"
+            x={xPositions[i] + b.width / 2}
+            y={margin.top - fontSize}
+            text-anchor="middle"
+            style="font-size: {fontSize * 0.9}px"
+          >
+            {formatBin(b.start, b.end)}
+          </text>
+        {/if}
       {/each}
-
-      {#each xTicks as t}
-        <text
-          class="axis-label"
-          x={xScale(t)}
-          y={margin.top - fontSize}
-          text-anchor="middle"
-          style="font-size: {fontSize}px"
-        >
-          {timeFormat('%b %Y')(t)}
-        </text>
-      {/each}
-
-      {#each breakIndicators as b}
+      {#if xBins.length}
         <line
           class="grid v"
-          x1={b.x}
-          x2={b.x}
+          x1={xPositions[xBins.length] || margin.left + plotW}
+          x2={xPositions[xBins.length] || margin.left + plotW}
           y1={0}
           y2={plotH}
           style="stroke-width: {strokeWidth / 2}px"
         />
-      {/each}
-
-      {#each breakIndicators as b}
-        <text
-          class="axis-break"
-          x={b.x}
-          y={margin.top - fontSize}
-          text-anchor="middle"
-          style="font-size: {fontSize}px"
-        >
-          {formatGap(b.gap)}
-        </text>
-      {/each}
+      {/if}
     </svg>
   </div>
-
   <div
     bind:this={container}
     class="rows-container {searchTerm ? 'searching' : ''}"
@@ -356,7 +323,6 @@
       height={plotH}
       {viewMode}
     />
-
     <svg width={margin.left + plotW + margin.right} height={plotH}>
       {#if viewMode === 'compact'}
         {#each rowsCompact as row}
@@ -451,14 +417,14 @@
     stroke-dasharray: 5 2;
     z-index: 0;
   }
-  .axis-label,
-  .axis-break {
+  .axis-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: var(--grey-2);
   }
-
-  .axis-break {
-    fill: #999;
+  .axis-bin {
+    fill: #bbb;
+    font-style: italic;
+    font-size: 90%;
   }
   .proj-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;

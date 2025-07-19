@@ -34,7 +34,7 @@
 </script>
 
 <div class="controls">
-  <div>
+  <div class="controls-left">
     <button
       class:active={viewMode === 'compact'}
       on:click={() => (viewMode = 'compact')}
@@ -48,51 +48,78 @@
       Extended
     </button>
 
-    <!-- <label>
-      Paper
-      <select bind:value={paperSize}>
-        <option value="A2">A2</option>
-        <option value="A3">A3</option>
-        <option value="A4">A4</option>
-        <option value="A5">A5</option>
-        <option value="A0">A0</option>
-      </select>
-    </label> -->
-
-    <button on:click={savePoster}>Save as PDF</button>
-
-    Font Size
-    <input type="number" min="6" max="48" bind:value={baseFontSize} />
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search layers…"
+        bind:value={searchTerm}
+        on:input={() => dispatch('search', searchTerm)}
+      />
+      <ul class="suggestions">
+        {#each suggestions as layer}
+          <li on:click={() => selectLayer(layer)}>
+            {layer.name} <span>({layer.count})</span>
+          </li>
+        {/each}
+      </ul>
+    </div>
   </div>
 
-  <div class="search-box">
+  <div class="controls-right">
+    Font Size
     <input
-      type="text"
-      placeholder="Search layers…"
-      bind:value={searchTerm}
-      on:input={() => dispatch('search', searchTerm)}
+      type="number"
+      min="6"
+      max="24"
+      bind:value={baseFontSize}
+      on:input={() => {
+        if (baseFontSize < 6) baseFontSize = 6
+        if (baseFontSize > 24) baseFontSize = 24
+      }}
     />
-    <ul class="suggestions">
-      {#each suggestions as layer}
-        <li on:click={() => selectLayer(layer)}>
-          {layer.name} <span>({layer.count})</span>
-        </li>
-      {/each}
-    </ul>
+    <button on:click={savePoster}>Save as PDF</button>
   </div>
 </div>
 
 <style>
   .controls {
-    height: 30px;
+    height: 46px;
     display: flex;
+    align-items: center;
     gap: 8px;
-    padding: 8px;
     background: var(--highlight);
     position: sticky;
     bottom: 0;
     z-index: 1;
+    justify-content: space-between;
   }
+
+  .controls-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .controls-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-box {
+    position: relative;
+    flex: 1;
+    margin: 0 20px;
+    min-width: 300px;
+    max-width: 400px;
+  }
+
+  .search-box input {
+    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+  }
+
   .controls * {
     font-size: 1rem;
   }

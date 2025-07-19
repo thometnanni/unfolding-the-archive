@@ -43,27 +43,12 @@
     position: sticky;
     bottom: 50px;
     width: fit-content;
-    /* backdrop-filter: blur(1px); */
-    text-shadow:
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white,
-      0 0 10px white;
+    backdrop-filter: blur(2px);
+    background: white;
   }
+
   .info > p {
-    max-width: 450px;
+    max-width: 550px;
   }
   .legend-grid {
     display: grid;

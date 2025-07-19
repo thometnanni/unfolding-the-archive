@@ -220,8 +220,8 @@
       position: relative;
     }
 
-    .info {
-      position: unset;
+    :global(.info) {
+      position: relative !important;
     }
 
     .timeline-wrapper {
