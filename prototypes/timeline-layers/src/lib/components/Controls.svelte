@@ -77,7 +77,7 @@
         if (baseFontSize > 24) baseFontSize = 24
       }}
     />
-    <button on:click={savePoster}>Save as PDF</button>
+    <!-- <button on:click={savePoster}>Save as PDF</button> -->
   </div>
 </div>
 
