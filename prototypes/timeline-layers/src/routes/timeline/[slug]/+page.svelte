@@ -24,7 +24,7 @@
   }
 
   async function loadCtbData(ctbPath) {
-    const jsonPath = `../ctb/${ctbPath}.json`
+    const jsonPath = `../data/${ctbPath}.json`
     try {
       const res = await fetch(jsonPath)
       if (res.ok) {
