@@ -22,14 +22,14 @@
     details.
   </p>
   <div class="legend">
-    <div class="legend-grid">
+    <!-- <div class="legend-grid">
       {#each aciLegend as { aci, name, lineweight_mm, hex }}
         <div>
           <span class="color-box" style="background-color: {hex};"></span>
           <span>{lineweight_mm || name}</span>
         </div>
       {/each}
-    </div>
+    </div> -->
   </div>
   <h1 class="timeline-title">{title}</h1>
 </div>
@@ -42,14 +42,21 @@
     margin-top: 10px;
     position: sticky;
     bottom: 50px;
-    width: fit-content;
-    backdrop-filter: blur(2px);
-    background: white;
+    backdrop-filter: blur(1px);
+    margin-left: auto;
+    margin-right: 0;
+    max-width: 500px;
+    width: 100%;
+    text-align: right;
+    /* background: rgba(255, 255, 255, 0.265); */
   }
 
-  .info > p {
-    max-width: 550px;
+  .info > p,
+  .info p.search-info {
+    text-align: right;
+    max-width: 100%;
   }
+
   .legend-grid {
     display: grid;
     grid-auto-flow: column;

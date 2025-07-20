@@ -269,6 +269,13 @@
           style="stroke-width: {strokeWidth / 2}px"
         />
         {#if b.type === 'month'}
+          <rect
+            x={xPositions[i]}
+            y={margin.top - fontSize * 2.4}
+            width={b.width}
+            height={fontSize * 2.4}
+            fill="#fff"
+          />
           <text
             class="axis-label"
             x={xPositions[i] + b.width / 2}
@@ -285,7 +292,6 @@
             width={b.width}
             height={fontSize * 2.4}
             fill="#f5f5f5"
-            rx={fontSize * 0.4}
           />
           <text
             class="axis-label axis-bin"
