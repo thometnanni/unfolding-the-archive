@@ -1,0 +1,2945 @@
+[
+  {
+    "name": "3d-model",
+    "parent": ".",
+    "path": "3d-model",
+    "isDirectory": true
+  },
+  {
+    "name": "065-basis.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/065-basis.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2086094,
+    "birthtime": 910967131000,
+    "type": "drawing"
+  },
+  {
+    "name": "3Deiland-6.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/3Deiland-6.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 696080,
+    "birthtime": 910804652000,
+    "type": "drawing"
+  },
+  {
+    "name": "3d-2.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/3d-2.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 27941078,
+    "birthtime": 911567124000,
+    "type": "drawing"
+  },
+  {
+    "name": "UserSettings",
+    "parent": "3d-model",
+    "path": "3d-model/UserSettings",
+    "isDirectory": true
+  },
+  {
+    "name": "AcDataSyncConfiguration.xml",
+    "parent": "3d-model/UserSettings",
+    "path": "3d-model/UserSettings/AcDataSyncConfiguration.xml",
+    "isFile": true,
+    "extension": "xml",
+    "fileSize": 42101,
+    "birthtime": 1387410148000
+  },
+  {
+    "name": "schaal abt.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/schaal abt.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 57684,
+    "birthtime": 910958414000,
+    "type": "drawing"
+  },
+  {
+    "name": "schaal abt12.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/schaal abt12.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 30118,
+    "birthtime": 910965932000,
+    "type": "drawing"
+  },
+  {
+    "name": "trap-3d.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/trap-3d.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 970531,
+    "birthtime": 910898999000,
+    "type": "drawing"
+  },
+  {
+    "name": "w-dunes02.3ds",
+    "parent": "3d-model",
+    "path": "3d-model/w-dunes02.3ds",
+    "isFile": true,
+    "extension": "3ds",
+    "fileSize": 833270,
+    "birthtime": 911570646000
+  },
+  {
+    "name": "w-dunes02.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/w-dunes02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2892682,
+    "birthtime": 911570708000,
+    "type": "drawing"
+  },
+  {
+    "name": "w-dunes05.3ds",
+    "parent": "3d-model",
+    "path": "3d-model/w-dunes05.3ds",
+    "isFile": true,
+    "extension": "3ds",
+    "fileSize": 138998,
+    "birthtime": 911568856000
+  },
+  {
+    "name": "w-dunes05.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/w-dunes05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 471638,
+    "birthtime": 911568890000,
+    "type": "drawing"
+  },
+  {
+    "name": "windmill.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/windmill.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 186175,
+    "birthtime": 911497464000,
+    "type": "drawing"
+  },
+  {
+    "name": "zaalvormwand.dwg",
+    "parent": "3d-model",
+    "path": "3d-model/zaalvormwand.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 70453,
+    "birthtime": 910799622000,
+    "type": "drawing"
+  },
+  {
+    "name": "bar3x.psd",
+    "parent": ".",
+    "path": "bar3x.psd",
+    "isFile": true,
+    "extension": "psd",
+    "fileSize": 39147783,
+    "birthtime": 908217098000,
+    "type": "image"
+  },
+  {
+    "name": "duin6840-1.avi",
+    "parent": ".",
+    "path": "duin6840-1.avi",
+    "isFile": true,
+    "extension": "avi",
+    "fileSize": 16519168,
+    "birthtime": 907606360000
+  },
+  {
+    "name": "duin6840.avi",
+    "parent": ".",
+    "path": "duin6840.avi",
+    "isFile": true,
+    "extension": "avi",
+    "fileSize": 3438080,
+    "birthtime": 907604172000
+  },
+  {
+    "name": "dxf-9-10-98",
+    "parent": ".",
+    "path": "dxf-9-10-98",
+    "isDirectory": true
+  },
+  {
+    "name": "do-00.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-00.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 525414,
+    "birthtime": 905433324000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-01.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-01.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 7188275,
+    "birthtime": 905433437000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-02.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-02.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 5775159,
+    "birthtime": 905433567000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-03.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-03.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 1886737,
+    "birthtime": 905434094000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-04.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-04.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 2086165,
+    "birthtime": 905434238000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-05.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-05.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 6968087,
+    "birthtime": 905434507000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-06.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-06.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 3253672,
+    "birthtime": 905434698000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-07.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-07.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 4001031,
+    "birthtime": 905435119000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-08.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-08.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 8654661,
+    "birthtime": 905435424000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-G-noord2.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-G-noord2.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 2408442,
+    "birthtime": 905432682000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-G-oost2.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-G-oost2.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 1500285,
+    "birthtime": 905432718000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-G-west2.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-G-west2.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 1572058,
+    "birthtime": 905432436000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-G-zuid2.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-G-zuid2.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 1364318,
+    "birthtime": 905433067000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-doorsnede.dxf",
+    "parent": "dxf-9-10-98",
+    "path": "dxf-9-10-98/do-doorsnede.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 4547844,
+    "birthtime": 905433189000,
+    "type": "drawing"
+  },
+  {
+    "name": "expotuin.tif",
+    "parent": ".",
+    "path": "expotuin.tif",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 151434872,
+    "birthtime": 1199721266000,
+    "type": "image"
+  },
+  {
+    "name": "fase-documenten",
+    "parent": ".",
+    "path": "fase-documenten",
+    "isDirectory": true
+  },
+  {
+    "name": "18-11-1998",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/18-11-1998",
+    "isDirectory": true
+  },
+  {
+    "name": "b-00.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 938980,
+    "birthtime": 911331860000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-01.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 882329,
+    "birthtime": 911322686000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-02.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2818196,
+    "birthtime": 911322738000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-03.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-03.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3151803,
+    "birthtime": 911323412000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-04.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-04.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 1287016,
+    "birthtime": 911323506000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-05.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2426407,
+    "birthtime": 911323552000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-06.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3029798,
+    "birthtime": 911323602000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-07.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 249018,
+    "birthtime": 911323710000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-08.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 4415987,
+    "birthtime": 911327844000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-09.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-09.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 542240,
+    "birthtime": 911328424000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-10.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 155925,
+    "birthtime": 911328098000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-11.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-11.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 725244,
+    "birthtime": 911328560000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-12.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-12.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 204234,
+    "birthtime": 911328622000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-13.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-13.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 1227424,
+    "birthtime": 911328657000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-14.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-14.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 384405,
+    "birthtime": 911328824000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-D-1tot8.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-D-1tot8.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 481598,
+    "birthtime": 911321943000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-D-22tot25.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-D-22tot25.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 170953,
+    "birthtime": 911299196000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-D-26-32.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-D-26-32.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3972213,
+    "birthtime": 911320018000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-D-9tot21.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-D-9tot21.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3528157,
+    "birthtime": 911321885000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-k-1.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-k-1.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 60495,
+    "birthtime": 911325885000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-t-1.dwg",
+    "parent": "fase-documenten/18-11-1998",
+    "path": "fase-documenten/18-11-1998/b-t-1.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 675029,
+    "birthtime": 911329077000,
+    "type": "drawing"
+  },
+  {
+    "name": "24-10-98 ABT-B",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/24-10-98 ABT-B",
+    "isDirectory": true
+  },
+  {
+    "name": "DO-06.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/DO-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 188346,
+    "birthtime": 909238078000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-07.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/DO-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 162322,
+    "birthtime": 909237955000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-08.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/DO-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 122395,
+    "birthtime": 909240422000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-09-partieel.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/DO-09-partieel.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 396906,
+    "birthtime": 909238442000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-10.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/DO-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 170769,
+    "birthtime": 909249313000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-1tot8.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/DO-D-1tot8.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 321987,
+    "birthtime": 909238217000,
+    "type": "drawing"
+  },
+  {
+    "name": "do6-10.EXE",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/do6-10.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 703988,
+    "birthtime": 909250675000
+  },
+  {
+    "name": "do6-10.zip",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/do6-10.zip",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 687561,
+    "birthtime": 909254631000,
+    "type": "zip"
+  },
+  {
+    "name": "r12-DO-10.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/r12-DO-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 217999,
+    "birthtime": 909249545000,
+    "type": "drawing"
+  },
+  {
+    "name": "temp.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-B",
+    "path": "fase-documenten/24-10-98 ABT-B/temp.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 26869,
+    "birthtime": 909246142000,
+    "type": "drawing"
+  },
+  {
+    "name": "24-10-98 ABT-C",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/24-10-98 ABT-C",
+    "isDirectory": true
+  },
+  {
+    "name": "1.tif",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/1.tif",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 135056,
+    "birthtime": 909246577000,
+    "type": "image"
+  },
+  {
+    "name": "2.tif",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/2.tif",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 133642,
+    "birthtime": 909246563000,
+    "type": "image"
+  },
+  {
+    "name": "3.tif",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/3.tif",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 132806,
+    "birthtime": 909246559000,
+    "type": "image"
+  },
+  {
+    "name": "4.tif",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/4.tif",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 141742,
+    "birthtime": 909246555000,
+    "type": "image"
+  },
+  {
+    "name": "DO-00.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/DO-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 134961,
+    "birthtime": 909237696000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-01.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/DO-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 120155,
+    "birthtime": 909237802000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-02.dwg",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/DO-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 122101,
+    "birthtime": 909237864000,
+    "type": "drawing"
+  },
+  {
+    "name": "QuarkDuinen291098.qxd",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/QuarkDuinen291098.qxd",
+    "isFile": true,
+    "extension": "qxd",
+    "fileSize": 643072,
+    "birthtime": 909659330000,
+    "type": "document"
+  },
+  {
+    "name": "do1tot3.zip",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/do1tot3.zip",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 391956,
+    "birthtime": 909254539000,
+    "type": "zip"
+  },
+  {
+    "name": "duinen.dxf",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/duinen.dxf",
+    "isFile": true,
+    "extension": "dxf",
+    "fileSize": 2474584,
+    "birthtime": 909672663000,
+    "type": "drawing"
+  },
+  {
+    "name": "duinen.fmz",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/duinen.fmz",
+    "isFile": true,
+    "extension": "fmz",
+    "fileSize": 418509,
+    "birthtime": 909246868000,
+    "type": "drawing"
+  },
+  {
+    "name": "duinen2.fmz",
+    "parent": "fase-documenten/24-10-98 ABT-C",
+    "path": "fase-documenten/24-10-98 ABT-C/duinen2.fmz",
+    "isFile": true,
+    "extension": "fmz",
+    "fileSize": 1632066,
+    "birthtime": 909664930000,
+    "type": "drawing"
+  },
+  {
+    "name": "26-10 98 ABT-B",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/26-10 98 ABT-B",
+    "isDirectory": true
+  },
+  {
+    "name": "DO-D-22tot25.dwg",
+    "parent": "fase-documenten/26-10 98 ABT-B",
+    "path": "fase-documenten/26-10 98 ABT-B/DO-D-22tot25.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 237695,
+    "birthtime": 909419056000,
+    "type": "drawing"
+  },
+  {
+    "name": "27-10-98",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/27-10-98",
+    "isDirectory": true
+  },
+  {
+    "name": "DO-00.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 137771,
+    "birthtime": 909659210000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-00.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-00.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 309373,
+    "birthtime": 909492211000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-01.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 123178,
+    "birthtime": 909490184000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-01.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-01.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 263034,
+    "birthtime": 909492174000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-02.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 131419,
+    "birthtime": 909489569000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-02.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-02.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 222325,
+    "birthtime": 909492145000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-03.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-03.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 126489,
+    "birthtime": 909489505000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-03.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-03.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 229987,
+    "birthtime": 909492120000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-04.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-04.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 307562,
+    "birthtime": 909489151000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-04.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-04.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 399810,
+    "birthtime": 909492091000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-05.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 234383,
+    "birthtime": 909492044000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-05.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-05.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 344411,
+    "birthtime": 909492039000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-06.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 210949,
+    "birthtime": 909489906000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-06.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-06.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 407951,
+    "birthtime": 909491959000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-07.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 188696,
+    "birthtime": 909490005000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-07.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-07.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 152727,
+    "birthtime": 909491923000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-08.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 148465,
+    "birthtime": 909490049000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-08.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-08.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 148162,
+    "birthtime": 909491886000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-09.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-09.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 552389,
+    "birthtime": 909497837000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-09.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-09.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 1140248,
+    "birthtime": 909491832000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-10.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 134217,
+    "birthtime": 909497495000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-10.plt",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-10.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 346588,
+    "birthtime": 909492350000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-9tot21.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/DO-D-9tot21.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3081007,
+    "birthtime": 909496559000,
+    "type": "drawing"
+  },
+  {
+    "name": "PLANS27-10-98.zip",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/PLANS27-10-98.zip",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 1309831,
+    "birthtime": 910098776000,
+    "type": "zip"
+  },
+  {
+    "name": "PLANS2~1.EXE",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/PLANS2~1.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 1311310,
+    "birthtime": 909501131000
+  },
+  {
+    "name": "SECTIO~1.EXE",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/SECTIO~1.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 563930,
+    "birthtime": 909501160000
+  },
+  {
+    "name": "axo-1-trappen.wmf",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/axo-1-trappen.wmf",
+    "isFile": true,
+    "extension": "wmf",
+    "fileSize": 51208,
+    "birthtime": 909494226000
+  },
+  {
+    "name": "do-t-1.dwg",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/do-t-1.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 460174,
+    "birthtime": 909497276000,
+    "type": "drawing"
+  },
+  {
+    "name": "plotsDO.EXE",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/plotsDO.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 998230,
+    "birthtime": 909492530000
+  },
+  {
+    "name": "plotsDO.zip",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/plotsDO.zip",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 976203,
+    "birthtime": 909500226000,
+    "type": "zip"
+  },
+  {
+    "name": "sections27-10-98.zip",
+    "parent": "fase-documenten/27-10-98",
+    "path": "fase-documenten/27-10-98/sections27-10-98.zip",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 562451,
+    "birthtime": 910098764000,
+    "type": "zip"
+  },
+  {
+    "name": "27-11-98",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/27-11-98",
+    "isDirectory": true
+  },
+  {
+    "name": "b-00.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 946335,
+    "birthtime": 911932900000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-01.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 938686,
+    "birthtime": 912095539000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-02.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2869348,
+    "birthtime": 912091487000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-03.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-03.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3239052,
+    "birthtime": 912091222000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-04.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-04.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 1443608,
+    "birthtime": 912090525000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-05.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2325502,
+    "birthtime": 912089520000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-06.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2928160,
+    "birthtime": 912176380000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-07.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 281829,
+    "birthtime": 912082305000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-08.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/b-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 4526166,
+    "birthtime": 912082254000,
+    "type": "drawing"
+  },
+  {
+    "name": "temp.dwg",
+    "parent": "fase-documenten/27-11-98",
+    "path": "fase-documenten/27-11-98/temp.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 25796,
+    "birthtime": 913227010000,
+    "type": "drawing"
+  },
+  {
+    "name": "30-10 SNW",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/30-10 SNW",
+    "isDirectory": true
+  },
+  {
+    "name": "DO-00.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 139678,
+    "birthtime": 909686573000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-00.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-00.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 309622,
+    "birthtime": 909686564000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-01.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 125475,
+    "birthtime": 909686635000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-01.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-01.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 263283,
+    "birthtime": 909686627000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-02.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 131419,
+    "birthtime": 909687722000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-02.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-02.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 222574,
+    "birthtime": 909686651000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-03.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-03.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 126578,
+    "birthtime": 909687734000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-03.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-03.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 230237,
+    "birthtime": 909686674000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-04.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-04.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 307574,
+    "birthtime": 909687750000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-04.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-04.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 400059,
+    "birthtime": 909686693000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-05.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 234383,
+    "birthtime": 909687768000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-05.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-05.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 344660,
+    "birthtime": 909686713000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-06.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 211094,
+    "birthtime": 909687787000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-06.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-06.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 408161,
+    "birthtime": 909686744000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-07.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 188728,
+    "birthtime": 909687803000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-07.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-07.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 152976,
+    "birthtime": 909686766000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-08.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 148663,
+    "birthtime": 909687824000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-08.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-08.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 148411,
+    "birthtime": 909686797000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-09.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-09.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 548084,
+    "birthtime": 909688066000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-09.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-09.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 1141571,
+    "birthtime": 909686865000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-10.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 134217,
+    "birthtime": 909688088000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-10.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-10.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 346856,
+    "birthtime": 909687340000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-11.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-11.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 558575,
+    "birthtime": 909698745000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-12.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-12.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 181345,
+    "birthtime": 909698964000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-12.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-12.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 94886,
+    "birthtime": 909698961000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-13.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-13.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 1173916,
+    "birthtime": 909698931000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-13.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-13.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 118953,
+    "birthtime": 909698927000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-14.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-14.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 312329,
+    "birthtime": 909698888000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-14.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-14.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 112695,
+    "birthtime": 909698884000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-1tot8.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-D-1tot8.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 325171,
+    "birthtime": 909687557000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-22tot25.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-D-22tot25.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 237695,
+    "birthtime": 909688287000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-9tot21.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-D-9tot21.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3084238,
+    "birthtime": 909689269000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-PLOTS.EXE",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-PLOTS.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 1117438,
+    "birthtime": 909699152000
+  },
+  {
+    "name": "DO-PLOTS.ZIP",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/DO-PLOTS.ZIP",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 1101018,
+    "birthtime": 909706877000,
+    "type": "zip"
+  },
+  {
+    "name": "PERSP1~1.TIF",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/PERSP1~1.TIF",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 6237140,
+    "birthtime": 909689336000,
+    "type": "image"
+  },
+  {
+    "name": "do-11.plt",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/do-11.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 115700,
+    "birthtime": 909698982000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-t-1.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/do-t-1.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 460174,
+    "birthtime": 909688119000,
+    "type": "drawing"
+  },
+  {
+    "name": "lift-b-02.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/lift-b-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 44663,
+    "birthtime": 909167850000,
+    "type": "drawing"
+  },
+  {
+    "name": "lift.dwg",
+    "parent": "fase-documenten/30-10 SNW",
+    "path": "fase-documenten/30-10 SNW/lift.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 54255,
+    "birthtime": 909442954000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/DO",
+    "isDirectory": true
+  },
+  {
+    "name": "DO-00.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 139678,
+    "birthtime": 909686573000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-01.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 125475,
+    "birthtime": 909686635000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-02.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 131419,
+    "birthtime": 909687722000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-03.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-03.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 126578,
+    "birthtime": 909687734000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-04.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-04.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 307574,
+    "birthtime": 909687750000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-05.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 234383,
+    "birthtime": 909687768000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-06.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 211094,
+    "birthtime": 909687787000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-07.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 188728,
+    "birthtime": 909687803000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-08.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 148663,
+    "birthtime": 909687824000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-09.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-09.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 548084,
+    "birthtime": 909688066000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-10.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 134217,
+    "birthtime": 909688088000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-11.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-11.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 558575,
+    "birthtime": 909698745000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-12.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-12.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 186569,
+    "birthtime": 910204246000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-13.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-13.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 1173916,
+    "birthtime": 909698931000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-14.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-14.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 312329,
+    "birthtime": 909698888000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-1tot8.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-D-1tot8.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 325171,
+    "birthtime": 909687557000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-22tot25.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-D-22tot25.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 237695,
+    "birthtime": 909688287000,
+    "type": "drawing"
+  },
+  {
+    "name": "DO-D-9tot21.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/DO-D-9tot21.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3084238,
+    "birthtime": 909689269000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC.EXE",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 356273,
+    "birthtime": 902918004000
+  },
+  {
+    "name": "IPHC9001.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9001.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 168621,
+    "birthtime": 903006618000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9002.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9002.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 136949,
+    "birthtime": 900333072000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9003.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9003.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 151390,
+    "birthtime": 900332946000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9004.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9004.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 122265,
+    "birthtime": 900332826000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9005.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9005.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 73884,
+    "birthtime": 900332666000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9006.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9006.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 76102,
+    "birthtime": 900332532000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9007.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9007.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 65661,
+    "birthtime": 900674556000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9008.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9008.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 66247,
+    "birthtime": 900332310000,
+    "type": "drawing"
+  },
+  {
+    "name": "IPHC9009.DWG",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/IPHC9009.DWG",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 94802,
+    "birthtime": 900691406000,
+    "type": "drawing"
+  },
+  {
+    "name": "do-t-1.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/do-t-1.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 460174,
+    "birthtime": 909688119000,
+    "type": "drawing"
+  },
+  {
+    "name": "lift-b-02.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/lift-b-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 44663,
+    "birthtime": 909167850000,
+    "type": "drawing"
+  },
+  {
+    "name": "lift.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/lift.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 54255,
+    "birthtime": 909442954000,
+    "type": "drawing"
+  },
+  {
+    "name": "pad.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/pad.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 463510,
+    "birthtime": 900002682000,
+    "type": "drawing"
+  },
+  {
+    "name": "schema-duinen.3ds",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/schema-duinen.3ds",
+    "isFile": true,
+    "extension": "3ds",
+    "fileSize": 11804,
+    "birthtime": 906557941000
+  },
+  {
+    "name": "schema-duinen.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/schema-duinen.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 391454,
+    "birthtime": 906658695000,
+    "type": "drawing"
+  },
+  {
+    "name": "temp.dwg",
+    "parent": "fase-documenten/DO",
+    "path": "fase-documenten/DO/temp.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 27731,
+    "birthtime": 910203844000,
+    "type": "drawing"
+  },
+  {
+    "name": "bestekset 01-12-98",
+    "parent": "fase-documenten",
+    "path": "fase-documenten/bestekset 01-12-98",
+    "isDirectory": true
+  },
+  {
+    "name": "b-00.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-00.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 154758,
+    "birthtime": 913290944000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-00.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-00.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 431638,
+    "birthtime": 912428016000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-01.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-01.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 129535,
+    "birthtime": 913290976000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-01.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-01.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 350460,
+    "birthtime": 912428060000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-02.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-02.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 129724,
+    "birthtime": 913291030000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-02.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-02.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 230703,
+    "birthtime": 912428240000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-03.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-03.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2910667,
+    "birthtime": 913291126000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-03.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-03.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 318016,
+    "birthtime": 912428320000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-04.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-04.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 991033,
+    "birthtime": 913291192000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-04.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-04.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 389111,
+    "birthtime": 912428367000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-05.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-05.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 2124849,
+    "birthtime": 913291282000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-05.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-05.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 281264,
+    "birthtime": 912428442000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-06.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-06.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 207309,
+    "birthtime": 913291384000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-06.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-06.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 472831,
+    "birthtime": 912428611000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-07.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-07.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 170006,
+    "birthtime": 913291422000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-07.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-07.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 161129,
+    "birthtime": 912428665000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-08.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-08.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 173935,
+    "birthtime": 913291464000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-08.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-08.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 277926,
+    "birthtime": 912428726000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-09.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-09.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 811866,
+    "birthtime": 913291552000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-09.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-09.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 1287139,
+    "birthtime": 912428826000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-10.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-10.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 176675,
+    "birthtime": 913291598000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-10.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-10.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 388848,
+    "birthtime": 912428929000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-11.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-11.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 299476,
+    "birthtime": 913291660000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-11.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-11.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 125494,
+    "birthtime": 912429165000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-12.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-12.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 258704,
+    "birthtime": 913291718000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-12.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-12.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 111372,
+    "birthtime": 912429205000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-13.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-13.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 318098,
+    "birthtime": 913291786000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-13.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-13.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 122694,
+    "birthtime": 912429241000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-14.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-14.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 342511,
+    "birthtime": 913291834000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-14.plt",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-14.plt",
+    "isFile": true,
+    "extension": "plt",
+    "fileSize": 120185,
+    "birthtime": 912429287000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-d-1tot8.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-d-1tot8.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 313645,
+    "birthtime": 913292052000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-d-22tot25.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-d-22tot25.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 158255,
+    "birthtime": 913292124000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-d-26tot32.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-d-26tot32.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 655490,
+    "birthtime": 913292196000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-d-9tot21.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-d-9tot21.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3190903,
+    "birthtime": 913292358000,
+    "type": "drawing"
+  },
+  {
+    "name": "b-k-1.dwg",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/b-k-1.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 50481,
+    "birthtime": 913292526000,
+    "type": "drawing"
+  },
+  {
+    "name": "plots.EXE",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/plots.EXE",
+    "isFile": true,
+    "extension": "exe",
+    "fileSize": 1236366,
+    "birthtime": 912430782000
+  },
+  {
+    "name": "plots.zip",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/plots.zip",
+    "isFile": true,
+    "extension": "zip",
+    "fileSize": 1219939,
+    "birthtime": 912437121000,
+    "type": "zip"
+  },
+  {
+    "name": "ruimtestaat.xls",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/ruimtestaat.xls",
+    "isFile": true,
+    "extension": "xls",
+    "fileSize": 44032,
+    "birthtime": 913120476000
+  },
+  {
+    "name": "tekeningenlijst 01-12-98.xls",
+    "parent": "fase-documenten/bestekset 01-12-98",
+    "path": "fase-documenten/bestekset 01-12-98/tekeningenlijst 01-12-98.xls",
+    "isFile": true,
+    "extension": "xls",
+    "fileSize": 23040,
+    "birthtime": 913293096000
+  },
+  {
+    "name": "max",
+    "parent": ".",
+    "path": "max",
+    "isDirectory": true
+  },
+  {
+    "name": "32duin4.max",
+    "parent": "max",
+    "path": "max/32duin4.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 541184,
+    "birthtime": 896812644000
+  },
+  {
+    "name": "bos.max",
+    "parent": "max",
+    "path": "max/bos.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 288768,
+    "birthtime": 896954274000
+  },
+  {
+    "name": "defVARIANTduinen.dwg",
+    "parent": "max",
+    "path": "max/defVARIANTduinen.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 373564,
+    "birthtime": 907669788000,
+    "type": "drawing"
+  },
+  {
+    "name": "duin1.max",
+    "parent": "max",
+    "path": "max/duin1.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 941568,
+    "birthtime": 907181665000
+  },
+  {
+    "name": "eiland.max",
+    "parent": "max",
+    "path": "max/eiland.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 254464,
+    "birthtime": 897312012000
+  },
+  {
+    "name": "eiland1.max",
+    "parent": "max",
+    "path": "max/eiland1.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 254976,
+    "birthtime": 897312368000
+  },
+  {
+    "name": "formzexportduinpad.max",
+    "parent": "max",
+    "path": "max/formzexportduinpad.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 301568,
+    "birthtime": 907078282000
+  },
+  {
+    "name": "hannover.max",
+    "parent": "max",
+    "path": "max/hannover.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 3961856,
+    "birthtime": 905886131000
+  },
+  {
+    "name": "hannover1.max",
+    "parent": "max",
+    "path": "max/hannover1.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 5400064,
+    "birthtime": 906392509000
+  },
+  {
+    "name": "molen.max",
+    "parent": "max",
+    "path": "max/molen.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 763904,
+    "birthtime": 911320382000
+  },
+  {
+    "name": "nachnutzung.max",
+    "parent": "max",
+    "path": "max/nachnutzung.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 988672,
+    "birthtime": 899914604000
+  },
+  {
+    "name": "pad.max",
+    "parent": "max",
+    "path": "max/pad.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 64000,
+    "birthtime": 903964038000
+  },
+  {
+    "name": "pad1.max",
+    "parent": "max",
+    "path": "max/pad1.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 124928,
+    "birthtime": 904225566000
+  },
+  {
+    "name": "pad2.max",
+    "parent": "max",
+    "path": "max/pad2.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 117760,
+    "birthtime": 905962554000
+  },
+  {
+    "name": "plaat.max",
+    "parent": "max",
+    "path": "max/plaat.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 1105920,
+    "birthtime": 896989180000
+  },
+  {
+    "name": "plaat01.max",
+    "parent": "max",
+    "path": "max/plaat01.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 1055744,
+    "birthtime": 897398400000
+  },
+  {
+    "name": "potjes.max",
+    "parent": "max",
+    "path": "max/potjes.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 3054592,
+    "birthtime": 899747538000
+  },
+  {
+    "name": "rfp.max",
+    "parent": "max",
+    "path": "max/rfp.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 2915328,
+    "birthtime": 898688584000
+  },
+  {
+    "name": "rfpvervolg.max",
+    "parent": "max",
+    "path": "max/rfpvervolg.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 2949120,
+    "birthtime": 899400222000
+  },
+  {
+    "name": "rfpvervolg1.max",
+    "parent": "max",
+    "path": "max/rfpvervolg1.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 2966016,
+    "birthtime": 899742778000
+  },
+  {
+    "name": "tempmolen.max",
+    "parent": "max",
+    "path": "max/tempmolen.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 763904,
+    "birthtime": 911320283000
+  },
+  {
+    "name": "total32-01.max",
+    "parent": "max",
+    "path": "max/total32-01.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 7098880,
+    "birthtime": 898605118000
+  },
+  {
+    "name": "total32-90.max",
+    "parent": "max",
+    "path": "max/total32-90.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 6216704,
+    "birthtime": 894544192000
+  },
+  {
+    "name": "total32-int.max",
+    "parent": "max",
+    "path": "max/total32-int.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 6234112,
+    "birthtime": 894597996000
+  },
+  {
+    "name": "total32.max",
+    "parent": "max",
+    "path": "max/total32.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 6205440,
+    "birthtime": 894540486000
+  },
+  {
+    "name": "variant 5130-a.max",
+    "parent": "max",
+    "path": "max/variant 5130-a.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 328192,
+    "birthtime": 907613502000
+  },
+  {
+    "name": "variant 5130.max",
+    "parent": "max",
+    "path": "max/variant 5130.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 242176,
+    "birthtime": 907608701000
+  },
+  {
+    "name": "variant 6840 met bar.max",
+    "parent": "max",
+    "path": "max/variant 6840 met bar.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 246272,
+    "birthtime": 908206490000
+  },
+  {
+    "name": "variant 6840 relaxed.max",
+    "parent": "max",
+    "path": "max/variant 6840 relaxed.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 250368,
+    "birthtime": 907603463000
+  },
+  {
+    "name": "variant 6840.max",
+    "parent": "max",
+    "path": "max/variant 6840.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 235520,
+    "birthtime": 907594300000
+  },
+  {
+    "name": "variant1.max",
+    "parent": "max",
+    "path": "max/variant1.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 175616,
+    "birthtime": 907255207000
+  },
+  {
+    "name": "variant2.max",
+    "parent": "max",
+    "path": "max/variant2.max",
+    "isFile": true,
+    "extension": "max",
+    "fileSize": 291328,
+    "birthtime": 907259298000
+  },
+  {
+    "name": "terrein",
+    "parent": ".",
+    "path": "terrein",
+    "isDirectory": true
+  },
+  {
+    "name": "Library.zlb",
+    "parent": "terrein",
+    "path": "terrein/Library.zlb",
+    "isFile": true,
+    "extension": "zlb",
+    "fileSize": 12543,
+    "birthtime": 906031492000
+  },
+  {
+    "name": "booklets",
+    "parent": "terrein",
+    "path": "terrein/booklets",
+    "isDirectory": true
+  },
+  {
+    "name": "251098.fmz",
+    "parent": "terrein/booklets",
+    "path": "terrein/booklets/251098.fmz",
+    "isFile": true,
+    "extension": "fmz",
+    "fileSize": 4161289,
+    "birthtime": 911327176000,
+    "dateFromName": "1998-10-24",
+    "type": "drawing"
+  },
+  {
+    "name": "251198.fmz",
+    "parent": "terrein/booklets",
+    "path": "terrein/booklets/251198.fmz",
+    "isFile": true,
+    "extension": "fmz",
+    "fileSize": 4161031,
+    "birthtime": 911990363000,
+    "dateFromName": "1998-11-24",
+    "type": "drawing"
+  },
+  {
+    "name": "studies",
+    "parent": "terrein",
+    "path": "terrein/studies",
+    "isDirectory": true
+  },
+  {
+    "name": "2Dstudy35.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/2Dstudy35.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 92375,
+    "birthtime": 913139112000,
+    "type": "drawing"
+  },
+  {
+    "name": "2dterrein.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/2dterrein.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 162579,
+    "birthtime": 906069102000,
+    "type": "drawing"
+  },
+  {
+    "name": "3d-nl_31.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/3d-nl_31.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 373948,
+    "birthtime": 905337840000,
+    "type": "drawing"
+  },
+  {
+    "name": "KADER.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/KADER.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 36676,
+    "birthtime": 912688354000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_21.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_21.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 276019,
+    "birthtime": 903468626000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_21b.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_21b.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 389634,
+    "birthtime": 904241752000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_22b.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_22b.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 381937,
+    "birthtime": 879242588000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_23.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_23.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 807670,
+    "birthtime": 878819048000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_31.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_31.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 3547399,
+    "birthtime": 904768891000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_31b.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_31b.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 4551532,
+    "birthtime": 904835450000,
+    "type": "drawing"
+  },
+  {
+    "name": "nl_32.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/nl_32.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 220432,
+    "birthtime": 878821084000,
+    "type": "drawing"
+  },
+  {
+    "name": "temp.dwg",
+    "parent": "terrein/studies",
+    "path": "terrein/studies/temp.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 156632,
+    "birthtime": 907689448000,
+    "type": "drawing"
+  },
+  {
+    "name": "terrein.avi",
+    "parent": ".",
+    "path": "terrein.avi",
+    "isFile": true,
+    "extension": "avi",
+    "fileSize": 27940352,
+    "birthtime": 905951556000
+  },
+  {
+    "name": "tif",
+    "parent": ".",
+    "path": "tif",
+    "isDirectory": true
+  },
+  {
+    "name": "overzicht1.TIF",
+    "parent": "tif",
+    "path": "tif/overzicht1.TIF",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 27717938,
+    "birthtime": 905430363000,
+    "type": "image"
+  },
+  {
+    "name": "overzicht2 copy.TIF",
+    "parent": "tif",
+    "path": "tif/overzicht2 copy.TIF",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 31228380,
+    "birthtime": 905430301000,
+    "type": "image"
+  },
+  {
+    "name": "persp1 DO copy.TIF",
+    "parent": "tif",
+    "path": "tif/persp1 DO copy.TIF",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 15200356,
+    "birthtime": 910109384000,
+    "type": "image"
+  },
+  {
+    "name": "persp1 DO copy.psd",
+    "parent": "tif",
+    "path": "tif/persp1 DO copy.psd",
+    "isFile": true,
+    "extension": "psd",
+    "fileSize": 101344114,
+    "birthtime": 910190866000,
+    "type": "image"
+  },
+  {
+    "name": "persp1 DO def.TIF",
+    "parent": "tif",
+    "path": "tif/persp1 DO def.TIF",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 23062006,
+    "birthtime": 910199977000,
+    "type": "image"
+  },
+  {
+    "name": "persp1 copy.TIF",
+    "parent": "tif",
+    "path": "tif/persp1 copy.TIF",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 15221122,
+    "birthtime": 905430478000,
+    "type": "image"
+  },
+  {
+    "name": "website-expo",
+    "parent": ".",
+    "path": "website-expo",
+    "isDirectory": true
+  },
+  {
+    "name": "3d-2.dwg",
+    "parent": "website-expo",
+    "path": "website-expo/3d-2.dwg",
+    "isFile": true,
+    "extension": "dwg",
+    "fileSize": 27940871,
+    "birthtime": 911567075000,
+    "type": "drawing"
+  },
+  {
+    "name": "gevels",
+    "parent": "website-expo",
+    "path": "website-expo/gevels",
+    "isDirectory": true
+  },
+  {
+    "name": "noord.PSD",
+    "parent": "website-expo/gevels",
+    "path": "website-expo/gevels/noord.PSD",
+    "isFile": true,
+    "extension": "psd",
+    "fileSize": 2068126,
+    "birthtime": 905351038000,
+    "type": "image"
+  },
+  {
+    "name": "noord.tif",
+    "parent": "website-expo/gevels",
+    "path": "website-expo/gevels/noord.tif",
+    "isFile": true,
+    "extension": "tif",
+    "fileSize": 4918002,
+    "birthtime": 905350484000,
+    "type": "image"
+  },
+  {
+    "name": "oost.PSD",
+    "parent": "website-expo/gevels",
+    "path": "website-expo/gevels/oost.PSD",
+    "isFile": true,
+    "extension": "psd",
+    "fileSize": 1411347,
+    "birthtime": 905351114000,
+    "type": "image"
+  }
+]

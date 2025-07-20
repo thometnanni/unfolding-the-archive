@@ -23,9 +23,14 @@
   const projects = [
     'TP_255_Serpentine_Gallery_Pavilion',
     'TP_261_Markt_Hall',
-    'TP_377_Boijmans'
+    'TP_377_Boijmans',
+    'TP_010_VPRO',
+    'TP_015_WoZoCo_s',
+    'TP_028_Silodam',
+    'TP_065_Expo_2000',
+    'TP_072_Flight_Forum',
+    'TP_170_Eyebeam_New_York'
   ]
-
   async function handleHashChange() {
     // Your function logic here
     const hash = window.location.hash.replace(/^#/, '')
