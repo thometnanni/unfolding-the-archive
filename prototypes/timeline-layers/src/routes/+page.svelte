@@ -11,7 +11,10 @@
     { value: 'TP_028_Silodam', label: 'TP 028 Silodam' },
     { value: 'TP_065_Expo_2000', label: 'TP 065 Expo 2000' },
     { value: 'TP_072_Flight_Forum', label: 'TP 072 Flight Forum' },
-    { value: 'TP_170_Eyebeam_New_York', label: 'TP 170 Eyebeam New York' }
+    { value: 'TP_170_Eyebeam_New_York', label: 'TP 170 Eyebeam New York' },
+    { value: 'TP_181_Pig_City', label: 'TP 181 Pig City' },
+    { value: 'TP_221_Cite_Clime', label: 'TP 221 Cite Clime' },
+    { value: 'TP_221_Cité_Clime_cite_clime', label: 'TP 221 Cité Climé cite clime' }
   ]
 </script>
 
