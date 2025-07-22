@@ -16,7 +16,5 @@
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.4.0"
   },
-  "dependencies": {
-    "filesize": "^11.0.2"
-  }
+  "dependencies": {}
 }
