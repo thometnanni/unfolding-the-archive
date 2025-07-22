@@ -18,7 +18,9 @@
   // const visualisationNames = Object.keys(visualisations) as VisualisationName[]
   // let selected: VisualisationName = 'BinningCollapsed'
 
-  let data: any = null
+  let data: any = $state(null)
+
+  let fetching: Boolean = $state(false)
 
   const projects = [
     'TP_255_Serpentine_Gallery_Pavilion',
@@ -34,8 +36,8 @@
   async function handleHashChange() {
     // Your function logic here
     const hash = window.location.hash.replace(/^#/, '')
-    console.log(window.location.hash, hash)
     if (hash == '') return (data = null)
+    fetching = true
 
     try {
       // data = fetch(`./static/file-structure-${hash}.json`).then((d) => d.json())
@@ -46,6 +48,7 @@
       window.location.hash = ''
       data = null
     }
+    fetching = false
   }
 
   onMount(() => {
@@ -60,13 +63,15 @@
 
 <main>
   {#if data == null}
-    <nav>
-      {#each projects as project}
-        <a href={`#${project}`}>
-          {project}
-        </a>
-      {/each}
-    </nav>
+    {#if !fetching}
+      <nav>
+        {#each projects as project}
+          <a href={`#${project}`}>
+            {project}
+          </a>
+        {/each}
+      </nav>
+    {/if}
   {:else}
     <BinningCollapsed {data} />
   {/if}
