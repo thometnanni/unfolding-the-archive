@@ -14,80 +14,104 @@ const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
 const archive_path = normalize(`../data/${folderName}`)
 
 import path from 'path'
-const fileStructurePath = path.resolve(`../output/file-structure-${safeFolderName}.json`)
+const fileStructurePath = path.resolve(
+  `../output/file-structure-${safeFolderName}.json`
+)
 const fileStructure = JSON.parse(await fs.readFile(fileStructurePath, 'utf8'))
 
-const libredwg = await LibreDwg.create('../libredwg/libredwg/')
-
 let geometries = {}
-const geometriesCount = {}
 
-const files = fileStructure
-  .filter(({ isFile, extension }) => isFile && extension === 'dwg')
-  .filter((_, i) => i >= 0 && i <= 100)
-  // .filter(({ name }) => name === '181004_east elevation.dwg')
-  .map((file) => ({
-    ...file,
-    layers: exportLayers(file)
-  }))
+await Promise.all(
+  fileStructure
+    .filter(({ isFile, extension }) => isFile && extension === 'dwg')
+    .map(async (file, i, { length }) => await exportLayers(file, i, length))
+)
 
-writeFileSync(
-  `../output/geometries-count-${safeFolderName}.json`,
-  JSON.stringify(
-    Object.entries(geometriesCount).sort((a, b) => b[1].count - a[1].count),
-    null,
-    2
-  )
+const filteredGeometries = Object.fromEntries(
+  Object.entries(geometries)
+    .sort((a, b) => b[1].files.length - a[1].files.length)
+    .filter(
+      ([, { files, vertices }]) => files.length >= 2 && vertices.length > 2
+    )
+    .slice(0, 500)
 )
 
 writeFileSync(
   `../output/geometries-${safeFolderName}.json`,
-  JSON.stringify(
-    geometries,
-    (_, v) => (typeof v === 'bigint' ? v.toString() : v),
-    2
+  JSON.stringify(filteredGeometries, (_, v) =>
+    typeof v === 'bigint' ? v.toString() : v
   )
 )
 
-writeFileSync(
-  `../output/geometries-files-${safeFolderName}.json`,
-  JSON.stringify(files, (_, v) => (typeof v === 'bigint' ? v.toString() : v),
-  2
-)
-)
-
-function exportLayers(file) {
+async function exportLayers(file, i, length) {
+  const libredwg = await LibreDwg.create('../libredwg/libredwg/')
   const path = join(archive_path, file.path)
-  console.log(path)
+  console.log(`\x1b[36m${i}/${length}\x1b[0m`, path)
   const fileContent = readFileSync(path)
 
-  const dwg = libredwg.dwg_read_data(fileContent, Dwg_File_Type.DXF)
+  const dwg = libredwg.dwg_read_data(fileContent, Dwg_File_Type.DWG)
   const db = libredwg.convert(dwg)
-  libredwg.dwg_free(db)
 
-  const hashedEntities = db.entities.map((entry) => [objectHash(entry), entry])
-  const entities = Object.fromEntries(hashedEntities)
+  function verticeToFixed(vertix) {
+    return vertix.map((d) => +d.toFixed(2))
+  }
 
-  const layers = db.tables.LAYER.entries.map((layer) => ({
-    ...layer,
-    geometries: hashedEntities
-      .filter(([, entity]) => layer.name === entity.layer)
-      .map(([hash]) => hash)
-  }))
+  db.entities
+    .map((entity) => {
+      switch (entity.type) {
+        case 'POLYLINE':
+        case 'LWPOLYLINE':
+          return {
+            // entity: entity,
+            vertices: entity.vertices.map(({ x, y }) => verticeToFixed([x, y]))
+          }
+        case 'LINE':
+          return {
+            // entity: entity,
+            vertices: [
+              verticeToFixed([entity.startPoint.x, entity.startPoint.y]),
+              verticeToFixed([entity.endPoint.x, entity.endPoint.y])
+            ]
+          }
+        case 'TEXT':
+        case 'MTEXT':
+        case 'INSERT':
+        case 'HATCH':
+        case 'CIRCLE':
+        case 'ARC':
+        case 'POINT':
+        case '3DFACE':
+        case 'DIMENSION':
+        case 'SPLINE':
+        case 'ELLIPSE':
+        case 'LEADER':
+        case 'SOLID':
+          return
 
-  geometries = { ...geometries, ...Object.fromEntries(hashedEntities) }
-
-  Object.keys(entities).forEach((hash) => {
-    if (geometriesCount[hash]) {
-      geometriesCount[hash].count++
-      geometriesCount[hash].files.push(file.path)
-    } else {
-      geometriesCount[hash] = {
-        count: 1,
-        files: [file.path]
+        default:
+          console.warn('Unmatched entity type:', entity.type)
       }
-    }
-  })
-
-  return layers
+    })
+    .filter((d) => d != null)
+    .forEach((geometry) => {
+      const hash = objectHash(geometry)
+      if (geometries[hash] == null) {
+        geometries[hash] = {
+          ...geometry,
+          first_used: file.birthtime,
+          last_used: file.birthtime,
+          files: [i]
+        }
+      } else {
+        geometries[hash].first_used = Math.min(
+          geometries[hash].first_used,
+          file.birthtime
+        )
+        geometries[hash].last_used = Math.max(
+          geometries[hash].last_used,
+          file.birthtime
+        )
+        geometries[hash].files.includes(i) || geometries[hash].files.push(i)
+      }
+    })
 }
