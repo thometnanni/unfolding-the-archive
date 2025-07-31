@@ -45,9 +45,9 @@
   let container
   let axis
 
-  function toggleRow(rowName) {
-    if (expanded.has(rowName)) expanded.delete(rowName)
-    else expanded.add(rowName)
+  function toggleRow(rowId) {
+    if (expanded.has(rowId)) expanded.delete(rowId)
+    else expanded.add(rowId)
     expanded = new Set(expanded)
   }
 
@@ -205,11 +205,13 @@
     let rows = []
     let yAcc = margin.top
     sorted.forEach((d, i) => {
+      const rowId = d.path // unique!
       const rowName = d.path.split('/').pop()
       const raw = xScale(filled[i])
       const x = Math.round(raw)
-      if (!expanded.has(rowName)) {
+      if (!expanded.has(rowId)) {
         rows.push({
+          id: rowId,
           type: 'compact',
           name: rowName,
           ticks: d.layers.map((ly, j) => ({
@@ -230,6 +232,7 @@
       } else {
         const layerYs = d.layers.map((_, j) => yAcc + (j + 2) * layerSpacing)
         rows.push({
+          id: rowId,
           type: 'extended',
           name: rowName,
           labelX: x - labelPadding,
@@ -357,12 +360,12 @@
             text-anchor="end"
             style="font-size: {fontSize /
               1.2}px; cursor: pointer; pointer-events: all;"
-            on:click={() => toggleRow(row.name)}
+            on:click={() => toggleRow(row.id)}
             title="Expand"
           >
             <tspan
-              style="font-size: {fontSize * 0.6}px; alignment-baseline: middle; fill:gainsboro"
-              >▶</tspan
+              style="font-size: {fontSize *
+                0.6}px; alignment-baseline: middle; fill:gainsboro">▶</tspan
             >
             {row.name}
           </text>
@@ -374,12 +377,12 @@
             text-anchor="end"
             style="font-size: {fontSize /
               1.2}px; font-weight: bold; cursor: pointer; pointer-events: all;"
-            on:click={() => toggleRow(row.name)}
+            on:click={() => toggleRow(row.id)}
             title="Collapse"
           >
             <tspan
-              style="font-size: {fontSize * 0.9}px; vertical-align: middle; fill:gainsboro"
-              >▼</tspan
+              style="font-size: {fontSize *
+                0.9}px; vertical-align: middle; fill:gainsboro">▼</tspan
             >
             {row.name}
           </text>
