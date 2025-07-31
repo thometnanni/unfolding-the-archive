@@ -49,12 +49,12 @@ select:hover {
 }
 
 main {
-  height: 50px;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
   gap: 10px;
   overflow-x: scroll;
-  padding: 0 5px;
-  justify-content: space-between;
 }
 
 nav {
@@ -78,6 +78,55 @@ section#prototype iframe {
 ::selection {
   background: var(--highlight);
   color: black;
+}
+
+
+#links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#links a {
+  color: white;
+  text-decoration: underline;
+  font-size: .7rem;
+}
+
+#title {
+  flex: 1; 
+  text-align: left; 
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+#title a{
+  color: white;
+  text-decoration: none;
+}
+
+#texts {
+  padding: 20px;
+  
+  font-size: 23px;
+  line-height: 27px;
+  max-width: 1024px;
+
+  hyphens: auto;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+
+    text-rendering: geometricPrecision;
+}
+
+
+#texts > * {
+  text-indent: 20px;
+
 }
 
 @media (max-width: 600px) {
