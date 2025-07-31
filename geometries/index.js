@@ -26,7 +26,7 @@ let geometries = {}
 await Promise.all(
   fileStructure
     .filter(({ isFile, extension }) => isFile && extension === 'dwg')
-    .filter(({ name }) => name == 'ENTREE.DWG')
+    // .filter(({ name }) => name == 'ENTREE.DWG')
     // .filter((_, i) => i >= 21 && i <= 30)
     .map(async (file, i, { length }) => await exportLayers(file, i, length))
 )
@@ -62,9 +62,8 @@ console.log(dimensions[0])
 
 if (!dimensions.length) {
   console.log('No geometries or dimensions to process.')
-  process.exit(0) 
+  process.exit(0)
 }
-
 
 const umap = new UMAP({
   // nComponents: 2,
