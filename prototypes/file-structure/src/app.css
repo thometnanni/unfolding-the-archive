@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Ronzino-Regular, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -39,6 +39,17 @@ h1 {
 #app {
   width: 100%;
   height: 100vh;
+}
+
+@font-face {
+  font-family: Ronzino;
+  src: url('fonts/Ronzino-Regular.woff2');
+  font-weight: normal;
+}
+@font-face {
+  font-family: Ronzino;
+  src: url('fonts/Ronzino-Oblique.woff2');
+  font-style: italic;
 }
 
 /* @media (prefers-color-scheme: light) {
