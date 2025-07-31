@@ -109,6 +109,11 @@ nav {
   text-decoration: none;
 }
 
+#texts a{
+  color: white;
+ text-underline-offset: 5px;
+}
+
 #texts {
   padding: 20px;
   
@@ -126,7 +131,6 @@ nav {
 
 #texts > * {
   text-indent: 20px;
-
 }
 
 @media (max-width: 600px) {
