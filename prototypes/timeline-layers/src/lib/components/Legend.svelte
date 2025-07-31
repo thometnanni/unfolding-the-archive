@@ -41,7 +41,7 @@
     padding: 10px;
     margin-top: 10px;
     position: sticky;
-    bottom: 50px;
+    bottom: 24px;
     backdrop-filter: blur(1px);
     margin-left: auto;
     margin-right: 0;

@@ -94,11 +94,13 @@
 
 <style>
   .controls {
-    height: 46px;
+    height: 26px;
     display: flex;
     align-items: center;
     gap: 8px;
     background: var(--highlight);
+    background: var(--grey-1);
+
     position: sticky;
     bottom: 0;
     z-index: 1;
@@ -118,17 +120,17 @@
   .search-box {
     position: relative;
     flex: 1;
-    margin: 0 5px;
+    margin: 0 2px;
     min-width: 300px;
-    max-width: 400px;
+    max-width: 300px;
   }
 
   .search-box input {
     width: 100%;
     min-width: 200px;
-    max-width: 400px;
-    padding: 4px 8px;
+    max-width: 300px;
     box-sizing: border-box;
+    font-size: 0.8rem;
   }
 
   .controls * {
@@ -161,9 +163,8 @@
 
   .search-box input {
     width: 100%;
-    min-width: 350px;
-    max-width: 400px;
-    padding: 4px 8px;
+    min-width: 250px;
+    max-width: 300px;
     box-sizing: border-box;
   }
 
@@ -173,7 +174,7 @@
     left: 0;
     right: 0;
     z-index: 9999;
-    max-width: 400px;
+    max-width: 300px;
     margin: 0;
     padding: 0;
     list-style: none;
