@@ -94,7 +94,8 @@
 
 <style>
   .controls {
-    height: 26px;
+    /* height: 30px; */
+    padding: 6px;
     display: flex;
     align-items: center;
     gap: 8px;
