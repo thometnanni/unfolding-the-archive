@@ -23,13 +23,23 @@ const fileStructure = JSON.parse(await fs.readFile(fileStructurePath, 'utf8'))
 
 let geometries = {}
 
-await Promise.all(
-  fileStructure
-    .filter(({ isFile, extension }) => isFile && extension === 'dwg')
-    // .filter(({ name }) => name == 'ENTREE.DWG')
-    // .filter((_, i) => i >= 21 && i <= 30)
-    .map(async (file, i, { length }) => await exportLayers(file, i, length))
+// await Promise.all(
+//   fileStructure
+//     .filter(({ isFile, extension }) => isFile && extension === 'dwg')
+//     // .filter(({ name }) => name == 'ENTREE.DWG')
+//     // .filter((_, i) => i >= 21 && i <= 30)
+//     .map(async (file, i, { length }) => await exportLayers(file, i, length))
+// )
+
+const dwgFiles = fileStructure.filter(
+  ({ isFile, extension }) => isFile && extension === 'dwg'
 )
+// .filter(({ name }) => name == 'ENTREE.DWG')
+//   .filter((_, i) => i >= 21 && i <= 30)
+
+for (let i = 0; i < dwgFiles.length; i++) {
+  await exportLayers(dwgFiles[i], i, dwgFiles.length)
+}
 
 const filteredGeometries = sampleArray(
   Object.values(geometries)
@@ -57,11 +67,12 @@ const dimensions = zScoreNormalize(
   })
 )
 
-console.log(dimensions[0])
-// console.log(dimensions)
-
-if (!dimensions.length) {
+if (!dimensions) {
   console.log('No geometries or dimensions to process.')
+  writeFileSync(
+    `../output/geometries-${safeFolderName}.json`,
+    JSON.stringify([])
+  )
   process.exit(0)
 }
 
@@ -173,8 +184,9 @@ async function exportLayers(file, i, length) {
           geometries[hash].files.includes(i) || geometries[hash].files.push(i)
         }
       })
-  } catch (error) {
-    console.log(error)
+    // console.log(`some success ${path}`)
+  } catch (_) {
+    console.log(`error reading file ${path}`)
   }
 }
 
