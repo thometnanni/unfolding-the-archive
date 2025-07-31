@@ -26,7 +26,6 @@
     'TP_255_Serpentine',
     'TP_255_Serpentine_Gallery_Pavilion',
     'TP_261_Markt_Hall'
-
     // 'TP_377_Boijmans',
     // 'TP_010_VPRO',
     // 'TP_015_WoZoCo_s',
@@ -66,17 +65,18 @@
 <main>
   {#if data == null}
     {#if !fetching}
-      <div class="no-geometries">
-        <p>No Geometries Found</p>
-      </div>
-      <!-- <nav>
+      <nav>
         {#each projects as project}
           <a href={`#${project}`}>
             {project}
           </a>
         {/each}
-      </nav> -->
+      </nav>
     {/if}
+  {:else if data.length === 0}
+    <div class="no-geometries">
+      <p>No Geometries Found</p>
+    </div>
   {:else}
     <UMap {data} />
   {/if}
@@ -87,22 +87,22 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background-color: black;
-    color: white;
-    text-align: center;
 
     nav {
       margin: 12.5px 50px 0px;
       display: flex;
       flex-direction: column;
-      align-items: center;
     }
   }
+
   .no-geometries {
+    height: 100vh;
+    display: flex;
     flex-direction: column;
-    background-color: black;
+    flex-direction: column;
     color: white;
+    justify-content: center;
+    background-color: black;
     text-align: center;
   }
 </style>
