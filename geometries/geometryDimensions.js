@@ -106,6 +106,9 @@ function polygonPerimeter(points) {
 }
 
 function zScoreNormalize(matrix) {
+  if (matrix.length === 0) {
+    return []
+  }
   const nFeatures = matrix[0].length
   const nSamples = matrix.length
   const means = Array(nFeatures).fill(0)
