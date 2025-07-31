@@ -1,5 +1,5 @@
-import { Dwg_File_Type, LibreDwg } from '../libredwg/libredwg/libredwg-web.js'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { Worker } from 'node:worker_threads'
 import fs from 'fs/promises'
 import { join, normalize } from 'node:path'
 import objectHash from 'object-hash'
@@ -26,6 +26,8 @@ let geometries = {}
 await Promise.all(
   fileStructure
     .filter(({ isFile, extension }) => isFile && extension === 'dwg')
+    .filter(({ name }) => name == 'ENTREE.DWG')
+    // .filter((_, i) => i >= 21 && i <= 30)
     .map(async (file, i, { length }) => await exportLayers(file, i, length))
 )
 
@@ -96,75 +98,105 @@ function sampleArray(arr, n) {
 }
 
 async function exportLayers(file, i, length) {
-  const libredwg = await LibreDwg.create('../libredwg/libredwg/')
+  // const libredwg = await LibreDwg.create('../libredwg/libredwg/')
   const path = join(archive_path, file.path)
   console.log(`\x1b[36m${i}/${length}\x1b[0m`, path)
   const fileContent = readFileSync(path)
 
-  const dwg = libredwg.dwg_read_data(fileContent, Dwg_File_Type.DWG)
-  const db = libredwg.convert(dwg)
+  try {
+    const db = await readFileWithTimeout(fileContent)
 
-  function verticeToFixed(vertix) {
-    return vertix.map((d) => +d.toFixed(2))
-  }
+    // const dwg = libredwg.dwg_read_data(fileContent, Dwg_File_Type.DWG)
+    // const db = libredwg.convert(dwg)
 
-  db.entities
-    .map((entity) => {
-      switch (entity.type) {
-        case 'POLYLINE':
-        case 'LWPOLYLINE':
-          return {
-            // entity: entity,
-            vertices: entity.vertices.map(({ x, y }) => verticeToFixed([x, y]))
-          }
-        case 'LINE':
-          return {
-            // entity: entity,
-            vertices: [
-              verticeToFixed([entity.startPoint.x, entity.startPoint.y]),
-              verticeToFixed([entity.endPoint.x, entity.endPoint.y])
-            ]
-          }
-        case 'TEXT':
-        case 'MTEXT':
-        case 'INSERT':
-        case 'HATCH':
-        case 'CIRCLE':
-        case 'ARC':
-        case 'POINT':
-        case '3DFACE':
-        case 'DIMENSION':
-        case 'SPLINE':
-        case 'ELLIPSE':
-        case 'LEADER':
-        case 'SOLID':
-          return
+    function verticeToFixed(vertix) {
+      return vertix.map((d) => +d.toFixed(2))
+    }
 
-        default:
-          console.warn('Unmatched entity type:', entity.type)
-      }
-    })
-    .filter((d) => d != null)
-    .forEach((geometry) => {
-      const hash = objectHash(geometry)
-      if (geometries[hash] == null) {
-        geometries[hash] = {
-          ...geometry,
-          first_used: file.birthtime,
-          last_used: file.birthtime,
-          files: [i],
-          dimensions: extractDimensions(geometry)
+    db.entities
+      .map((entity) => {
+        switch (entity.type) {
+          case 'POLYLINE':
+          case 'LWPOLYLINE':
+            return {
+              // entity: entity,
+              vertices: entity.vertices.map(({ x, y }) =>
+                verticeToFixed([x, y])
+              )
+            }
+          case 'LINE':
+            return {
+              // entity: entity,
+              vertices: [
+                verticeToFixed([entity.startPoint.x, entity.startPoint.y]),
+                verticeToFixed([entity.endPoint.x, entity.endPoint.y])
+              ]
+            }
+          case 'TEXT':
+          case 'MTEXT':
+          case 'INSERT':
+          case 'HATCH':
+          case 'CIRCLE':
+          case 'ARC':
+          case 'POINT':
+          case '3DFACE':
+          case 'DIMENSION':
+          case 'SPLINE':
+          case 'ELLIPSE':
+          case 'LEADER':
+          case 'SOLID':
+            return
+
+          default:
+            console.warn('Unmatched entity type:', entity.type)
         }
-      } else {
-        geometries[hash].first_used = Math.min(
-          geometries[hash].first_used,
-          file.birthtime
-        )
-        geometries[hash].last_used = Math.max(
-          geometries[hash].last_used,
-          file.birthtime
-        )
-        geometries[hash].files.includes(i) || geometries[hash].files.push(i)
-      }
+      })
+      .filter((d) => d != null)
+      .forEach((geometry) => {
+        const hash = objectHash(geometry)
+        if (geometries[hash] == null) {
+          geometries[hash] = {
+            ...geometry,
+            first_used: file.birthtime,
+            last_used: file.birthtime,
+            files: [i],
+            dimensions: extractDimensions(geometry)
+          }
+        } else {
+          geometries[hash].first_used = Math.min(
+            geometries[hash].first_used,
+            file.birthtime
+          )
+          geometries[hash].last_used = Math.max(
+            geometries[hash].last_used,
+            file.birthtime
+          )
+          geometries[hash].files.includes(i) || geometries[hash].files.push(i)
+        }
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function readFileWithTimeout(file, timeoutMs = 5000) {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker('./worker.js', { workerData: file })
+    const timer = setTimeout(() => {
+      worker.terminate()
+      reject(new Error('Timeout'))
+    }, timeoutMs)
+
+    worker.on('message', (result) => {
+      clearTimeout(timer)
+      resolve(result)
     })
+    worker.on('error', (err) => {
+      clearTimeout(timer)
+      reject(err)
+    })
+    worker.on('exit', (code) => {
+      if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`))
+    })
+  })
 }
