@@ -268,10 +268,10 @@
             <g transform="translate(0,{yBin.height})">
               <line x1={innerChartWidth} class="grid-line" />
               <rect
-                height="38"
+                height="39"
                 fill="white"
                 width={innerChartWidth + 2}
-                y="1"
+                y="0.5"
                 x="-1"
               ></rect>
               <text
