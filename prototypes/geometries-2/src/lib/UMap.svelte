@@ -174,7 +174,7 @@
 
     .active-geometry path {
       pointer-events: none;
-      fill: #00ff8c;
+      fill: #001aff;
       /* stroke: #00ff8c; */
       /* stroke-width: 5; */
     }
