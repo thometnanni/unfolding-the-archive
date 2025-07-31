@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import fs from 'fs/promises'
 import { join, normalize } from 'node:path'
 import objectHash from 'object-hash'
+import { UMAP } from 'umap-js'
 
 function getArgValue(flag, fallback) {
   const idx = process.argv.indexOf(flag)
@@ -14,6 +15,7 @@ const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
 const archive_path = normalize(`../data/${folderName}`)
 
 import path from 'path'
+import { extractDimensions, zScoreNormalize } from './geometryDimensions.js'
 const fileStructurePath = path.resolve(
   `../output/file-structure-${safeFolderName}.json`
 )
@@ -27,21 +29,65 @@ await Promise.all(
     .map(async (file, i, { length }) => await exportLayers(file, i, length))
 )
 
-const filteredGeometries = Object.fromEntries(
-  Object.entries(geometries)
-    .sort((a, b) => b[1].files.length - a[1].files.length)
-    .filter(
-      ([, { files, vertices }]) => files.length >= 2 && vertices.length > 2
-    )
-    .slice(0, 500)
+const filteredGeometries = sampleArray(
+  Object.values(geometries)
+    .sort((a, b) => b.files.length - a.files.length)
+    .filter(({ files, vertices, dimensions }) => {
+      // console.log(
+      //   dimensions.convexityRatio,
+      //   dimensions.compactness,
+      //   Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim))
+      // )
+      return (
+        files.length >= 2 &&
+        vertices.length > 2 &&
+        Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim)) ==
+          null
+      )
+    }),
+  500
 )
+// .slice(0, 500)
+
+const dimensions = zScoreNormalize(
+  filteredGeometries.map(({ dimensions }) => {
+    return Object.values(dimensions)
+  })
+)
+
+console.log(dimensions[0])
+// console.log(dimensions)
+
+const umap = new UMAP({
+  // nComponents: 2,
+  // nEpochs,
+  // minDist,
+  // spread
+  // nNeighbors: 15,
+})
+const embedding = await umap.fitAsync(dimensions, () => {
+  // console.log(epochNumber)
+})
 
 writeFileSync(
   `../output/geometries-${safeFolderName}.json`,
-  JSON.stringify(filteredGeometries, (_, v) =>
-    typeof v === 'bigint' ? v.toString() : v
+  JSON.stringify(
+    filteredGeometries.map((geometry, i) => ({
+      ...geometry,
+      embedding: embedding[i]
+    })),
+    (_, v) => (typeof v === 'bigint' ? v.toString() : v)
   )
 )
+
+function sampleArray(arr, n) {
+  const a = arr.slice()
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a.slice(0, n)
+}
 
 async function exportLayers(file, i, length) {
   const libredwg = await LibreDwg.create('../libredwg/libredwg/')
@@ -100,7 +146,8 @@ async function exportLayers(file, i, length) {
           ...geometry,
           first_used: file.birthtime,
           last_used: file.birthtime,
-          files: [i]
+          files: [i],
+          dimensions: extractDimensions(geometry)
         }
       } else {
         geometries[hash].first_used = Math.min(

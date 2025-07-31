@@ -1,6 +1,6 @@
 # Unfolding the Archive
 
-This project is part of *Unfolding the Archive: New Dimensions of Access to Born-digital Architecture Collections*, led by Ania Molenda at the Nieuwe Instituut. It explores new ways to access and interpret born-digital architecture archives, combining methods from museum studies, archival studies, architecture, and digital humanities. The goal is to develop prototypes and tools that enable dynamic, multimodal, and participatory exploration of digital archival materials, focusing on underused metadata as new forms of discovery.
+This project is part of _Unfolding the Archive: New Dimensions of Access to Born-digital Architecture Collections_, led by Ania Molenda at the Nieuwe Instituut. It explores new ways to access and interpret born-digital architecture archives, combining methods from museum studies, archival studies, architecture, and digital humanities. The goal is to develop prototypes and tools that enable dynamic, multimodal, and participatory exploration of digital archival materials, focusing on underused metadata as new forms of discovery.
 
 ---
 
@@ -12,7 +12,7 @@ This repository provides scripts to extract, count, and filter geometries and la
 unfolding-the-archive/
 ├── data/                      # Source DWG/DXF files (not included in repo)
 ├── extract-layer-names/       # Scripts for extracting layer names and plot styles
-├── file-structure/            # Scripts to generate file-structure.json 
+├── file-structure/            # Scripts to generate file-structure.json
 ├── file-structure-app/        # Svelte app for visualization
 ├── geometries/                # Scripts for extracting and filtering geometry data
 ├── output/                    # Generated JSON files (results)
@@ -31,7 +31,7 @@ unfolding-the-archive/
 
 ## Usage
 
-### 1. Generate File Structure 
+### 1. Generate File Structure
 
 From the project root:
 
@@ -59,22 +59,11 @@ node index.js --folder "Folder Name"
 ```
 
 This will process the files and output:
+
 - `output/geometries-Project_Name.json` — all geometries
 - `output/geometries-count-Project_Name.json` — geometry usage counts
 
-### 4. Filter Geometries
-
-You can filter geometries by count or get the top X most common geometries:
-
-```sh
-cd geometries
-node filtergeometries.js --folder "Folder Name" 9         # All geometries with count == 9
-node filtergeometries.js --folder "Folder Name" top100    # Top 100 most common geometries
-```
-
-Filtered files will be saved in `output/`.
-
-### 5. Plot Styles
+### 4. Plot Styles
 
 To parse CTB plot style files:
 

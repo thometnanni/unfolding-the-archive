@@ -5,7 +5,7 @@ const iframe = document.querySelector('iframe')
 const prototypes = [
   { value: 'file-structure', label: 'Calendar', schema: '#[project]' },
   { value: 'timeline-layers', label: 'Layers', schema: 'timeline/[project]' },
-  { value: 'geometries', label: 'Geometries', schema: '' }
+  { value: 'geometries-2', label: 'Geometries', schema: '#[project]' }
 ]
 const projects = [
   { value: 'TP_010_VPRO', label: 'TP 010 VPRO' },

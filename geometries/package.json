@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@mlightcad/libdxfrw-web": "^0.1.0",
-    "object-hash": "^3.0.0"
+    "object-hash": "^3.0.0",
+    "umap-js": "^1.4.0"
   }
 }
