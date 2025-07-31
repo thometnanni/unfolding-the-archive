@@ -7,7 +7,6 @@ const prototypes = [
   { value: 'timeline-layers', label: 'Layers', schema: 'timeline/[project]' },
   { value: 'geometries', label: 'Geometries', schema: '' }
 ]
-
 const projects = [
   { value: 'TP_010_VPRO', label: 'TP 010 VPRO' },
   { value: 'TP_015_WoZoCo_s', label: "TP 015 WoZoCo's" },
@@ -16,9 +15,13 @@ const projects = [
   { value: 'TP_065_EXPO_2000_Hannover', label: 'TP 065 Expo 2000 Hannover' },
   { value: 'TP_072_Flight_Forum', label: 'TP 072 Flight Forum' },
   { value: 'TP_170_Eyebeam_New_York', label: 'TP 170 Eyebeam New York' },
+  { value: 'TP_181_Pig_City', label: 'TP 181 Pig City' },
   { value: 'TP_255_Serpentine_Gallery_Pavilion', label: 'TP 255 Serpentine Gallery Pavilion' },
   { value: 'TP_261_Markt_Hall', label: 'TP 261 Markt Hall' },
-  { value: 'TP_377_Boijmans', label: 'TP 377 Boijmans' }
+  { value: 'TP_377_Boijmans', label: 'TP 377 Boijmans' },
+  { value: 'TP_221_Cite_Clime', label: 'TP 221 Cite Clime' },
+  { value: 'TP_221_Cite__Clime__cite_clime', label: 'TP 221 Cité Climé cite clime' },
+  { value: 'TP_255_Serpentine__Research_', label: 'TP 255 Serpentine Research' }
 ];
 
 function populateSelect(el, items) {
