@@ -58,6 +58,12 @@ const dimensions = zScoreNormalize(
 console.log(dimensions[0])
 // console.log(dimensions)
 
+if (!dimensions.length) {
+  console.log('No geometries or dimensions to process.')
+  process.exit(0) 
+}
+
+
 const umap = new UMAP({
   // nComponents: 2,
   // nEpochs,
