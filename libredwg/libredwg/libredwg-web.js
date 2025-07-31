@@ -5712,7 +5712,7 @@ class LibreEntityConverter {
       entity,
       "extrusion"
     ).data;
-    const vertices = libredwg.dwg_entity_polyline_2d_get_vertices(object);
+    const vertices = libredwg.dwg_entity_polyline_2d_get_vertices(object) ?? [];
     return {
       type: "POLYLINE",
       ...commonAttrs,
