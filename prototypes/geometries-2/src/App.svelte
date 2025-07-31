@@ -66,7 +66,9 @@
 <main>
   {#if data == null}
     {#if !fetching}
-      <p>No Geometries Found</p>
+      <div class="no-geometries">
+        <p>No Geometries Found</p>
+      </div>
       <!-- <nav>
         {#each projects as project}
           <a href={`#${project}`}>
@@ -86,7 +88,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     background-color: black;
     color: white;
     text-align: center;
@@ -95,6 +96,13 @@
       margin: 12.5px 50px 0px;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
+  }
+  .no-geometries {
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    text-align: center;
   }
 </style>
