@@ -400,6 +400,13 @@
 </div>
 
 <style>
+  :global(html) {
+    --grey-1: #d3d3d3;
+    --grey-2: #929292;
+    --grey-3: #f0f0f0;
+    --highlight: rgb(254, 255, 190);
+  }
+
   .scroll-container {
     position: relative;
     overflow-y: auto;
@@ -411,23 +418,23 @@
     display: block;
 
     .grid-line {
-      stroke: #ececf3;
+      stroke: var(--grey-3);
       mix-blend-mode: darken;
 
       &.heavy {
-        stroke: #91b5dd;
+        stroke: var(--grey-1);
       }
     }
 
     text {
-      fill: #5078a5;
+      fill: var(--grey-2);
     }
     .time-axis {
       text {
         fill: white;
       }
       rect {
-        fill: #6389b5;
+        fill: var(--grey-2);
       }
     }
 
@@ -500,9 +507,9 @@
     }
 
     .file-details {
-      color: #5078a5;
+      color: var(--grey-2);
       .light {
-        color: #91b5dd;
+        color: var(--grey-2);
       }
     }
   }
