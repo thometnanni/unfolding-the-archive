@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   export let viewMode
   export let searchTerm = ''
+  export let searchFile = ''
   export let data = []
   export let baseFontSize = 12
   export let paperSize = 'A4'
@@ -34,8 +35,9 @@
 </script>
 
 <div class="controls">
-  <div class="controls-left">
-    <button
+  <div class="controls-left"></div>
+  <div class="controls-right">
+    <!-- <button
       class:active={viewMode === 'compact'}
       on:click={() => (viewMode = 'compact')}
     >
@@ -46,7 +48,16 @@
       on:click={() => (viewMode = 'extended')}
     >
       Extended
-    </button>
+    </button> -->
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search files…"
+        bind:value={searchFile}
+        on:input={() => dispatch('searchFile', searchFile)}
+      />
+    </div>
 
     <div class="search-box">
       <input
@@ -65,7 +76,7 @@
     </div>
   </div>
 
-  <div class="controls-right">
+  <!-- <div class="controls-right">
     Font Size
     <input
       type="number"
@@ -76,9 +87,9 @@
         if (baseFontSize < 6) baseFontSize = 6
         if (baseFontSize > 24) baseFontSize = 24
       }}
-    />
-    <!-- <button on:click={savePoster}>Save as PDF</button> -->
-  </div>
+    /> -->
+  <!-- <button on:click={savePoster}>Save as PDF</button> -->
+  <!-- </div> -->
 </div>
 
 <style>
@@ -107,7 +118,7 @@
   .search-box {
     position: relative;
     flex: 1;
-    margin: 0 20px;
+    margin: 0 5px;
     min-width: 300px;
     max-width: 400px;
   }

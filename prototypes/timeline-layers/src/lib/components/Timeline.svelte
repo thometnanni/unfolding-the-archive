@@ -5,8 +5,8 @@
   import Connections from '$lib/components/Connections.svelte'
 
   export let data = []
-  export let viewMode
   export let searchTerm = ''
+  export let searchFile = ''
   export let baseFontSize = 12
   export let ctbData = null
 
@@ -26,18 +26,30 @@
   $: strokeWidth = fontSize * 0.1
   $: styleMap = ctbData ? new Map(ctbData.map((s) => [s.aci, s])) : new Map()
 
+  $: filteredData = searchFile
+    ? data.filter((d) =>
+        d.path?.toLowerCase().includes(searchFile.toLowerCase())
+      )
+    : data
+
+  let expanded = new Set()
+
   let plotW = 0
   let plotH = 0
   let xScale
   let xTicks = []
   let xBins = []
   let xPositions = []
-  let rowsCompact = []
-  let rowsExtended = []
 
   let wrapper
   let container
   let axis
+
+  function toggleRow(rowName) {
+    if (expanded.has(rowName)) expanded.delete(rowName)
+    else expanded.add(rowName)
+    expanded = new Set(expanded)
+  }
 
   function updateMeasurements() {
     if (!wrapper || !container) return
@@ -78,11 +90,12 @@
     }
   })
 
-  $: if (data.length && container) {
+  $: rows = (() => {
+    if (!filteredData.length) return []
     const MONTH_WIDTH = 100
     const BINNED_WIDTH = 200
 
-    const sorted = [...data].sort((a, b) => {
+    const sorted = [...filteredData].sort((a, b) => {
       const ta = a.birthtime ? new Date(a.birthtime).getTime() : Infinity
       const tb = b.birthtime ? new Date(b.birthtime).getTime() : Infinity
       return ta - tb
@@ -189,67 +202,56 @@
       return margin.left
     }
 
-    const names = sorted.map((d) => d.path.split('/').pop())
-    const extraPx = Math.max(...names.map((n) => n.length)) * charPx
-
-    if (viewMode === 'compact') {
-      plotH = margin.top + rowH * sorted.length + margin.bottom
-    } else {
-      let y = margin.top
-      sorted.forEach(
-        (d) => (y += (d.layers.length + 1) * layerSpacing + layerSpacing)
-      )
-      plotH = y + margin.bottom
-    }
-
-    rowsCompact = sorted.map((d, i) => {
+    let rows = []
+    let yAcc = margin.top
+    sorted.forEach((d, i) => {
+      const rowName = d.path.split('/').pop()
       const raw = xScale(filled[i])
       const x = Math.round(raw)
-      const y = margin.top + i * rowH
-      return {
-        name: d.path.split('/').pop(),
-        ticks: d.layers.map((ly, j) => ({
-          x: Math.round(raw + j * tickSpacing),
-          y1: y + tickSpacing,
-          y2: y + rowH - tickSpacing,
-          text: ly.name,
-          count: ly.entityCount || 0,
-          colorIndex: ly.color,
-          visible: ly.visible,
-          highlight:
-            searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
-        })),
-        labelX: x - labelPadding,
-        labelY: y + rowH / 2
+      if (!expanded.has(rowName)) {
+        rows.push({
+          type: 'compact',
+          name: rowName,
+          ticks: d.layers.map((ly, j) => ({
+            x: Math.round(raw + j * tickSpacing),
+            y1: yAcc + tickSpacing,
+            y2: yAcc + rowH - tickSpacing,
+            text: ly.name,
+            count: ly.entityCount || 0,
+            colorIndex: ly.color,
+            visible: ly.visible,
+            highlight:
+              searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
+          })),
+          labelX: x - labelPadding,
+          labelY: yAcc + rowH / 2
+        })
+        yAcc += rowH
+      } else {
+        const layerYs = d.layers.map((_, j) => yAcc + (j + 2) * layerSpacing)
+        rows.push({
+          type: 'extended',
+          name: rowName,
+          labelX: x - labelPadding,
+          labelY: layerYs[0] || yAcc + layerSpacing,
+          layers: d.layers.map((ly, j) => ({
+            text: ly.name,
+            x: Math.round(raw),
+            y: layerYs[j],
+            count: ly.entityCount || 0,
+            colorIndex: ly.color,
+            visible: ly.visible,
+            highlight:
+              searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
+          }))
+        })
+        yAcc += (d.layers.length + 1) * layerSpacing + layerSpacing
       }
     })
 
-    rowsExtended = []
-    let yAcc = margin.top
-    sorted.forEach((d, i) => {
-      const raw = xScale(filled[i])
-      const x = Math.round(raw)
-      const layerYs = d.layers.map((_, j) => yAcc + (j + 2) * layerSpacing)
-      rowsExtended.push({
-        name: d.path.split('/').pop(),
-        labelX: x - labelPadding,
-        labelY: layerYs[0] || yAcc + layerSpacing,
-        layers: d.layers.map((ly, j) => ({
-          text: ly.name,
-          x: Math.round(raw),
-          y: layerYs[j],
-          count: ly.entityCount || 0,
-          colorIndex: ly.color,
-          visible: ly.visible,
-          highlight:
-            searchTerm && ly.name.toLowerCase() === searchTerm.toLowerCase()
-        }))
-      })
-      yAcc += (d.layers.length + 1) * layerSpacing + layerSpacing
-    })
-
-    updateMeasurements()
-  }
+    plotH = yAcc + margin.bottom
+    return rows
+  })()
 
   function formatBin(start, end) {
     return timeFormat('%b %Y')(start) + ' – ' + timeFormat('%b %Y')(end)
@@ -322,16 +324,15 @@
     style="height: {plotH}px"
   >
     <Connections
-      rows={viewMode === 'compact' ? rowsCompact : rowsExtended}
+      {rows}
       {searchTerm}
       strokeWidth={strokeWidth / 2}
       width={margin.left + plotW + margin.right}
       height={plotH}
-      {viewMode}
     />
     <svg width={margin.left + plotW + margin.right} height={plotH}>
-      {#if viewMode === 'compact'}
-        {#each rowsCompact as row}
+      {#each rows as row}
+        {#if row.type === 'compact'}
           {#each row.ticks as tick}
             <line
               class="tick"
@@ -354,22 +355,35 @@
             x={row.labelX}
             y={row.labelY}
             text-anchor="end"
-            style="font-size: {fontSize / 1.2}px"
+            style="font-size: {fontSize /
+              1.2}px; cursor: pointer; pointer-events: all;"
+            on:click={() => toggleRow(row.name)}
+            title="Expand"
           >
+            <tspan
+              style="font-size: {fontSize * 0.6}px; alignment-baseline: middle; fill:gainsboro"
+              >▶</tspan
+            >
             {row.name}
           </text>
-        {/each}
-      {:else}
-        {#each rowsExtended as row}
+        {:else}
           <text
             class="proj-label"
             x={row.labelX}
             y={row.labelY}
             text-anchor="end"
-            style="font-size: {fontSize / 1.2}px"
+            style="font-size: {fontSize /
+              1.2}px; font-weight: bold; cursor: pointer; pointer-events: all;"
+            on:click={() => toggleRow(row.name)}
+            title="Collapse"
           >
+            <tspan
+              style="font-size: {fontSize * 0.9}px; vertical-align: middle; fill:gainsboro"
+              >▼</tspan
+            >
             {row.name}
           </text>
+
           {#each row.layers as layer}
             <text
               class="layer-text"
@@ -391,19 +405,22 @@
               </tspan>
             </text>
           {/each}
-        {/each}
-      {/if}
+        {/if}
+      {/each}
     </svg>
   </div>
 </div>
 
 <style>
+  .timeline-wrapper {
+    min-height: 100vh;
+  }
   .axis-container {
     position: fixed;
     top: 0;
     height: 100vh;
     width: 100%;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
     overflow: hidden;
   }
@@ -412,7 +429,7 @@
   }
   .rows-container {
     position: relative;
-    z-index: -1;
+    /* z-index: -1; */
     overflow: hidden;
   }
   svg {
@@ -435,6 +452,12 @@
   .proj-label {
     font-family: 'Ronzino', Helvetica, Arial, sans-serif;
     fill: var(--grey-2);
+    cursor: pointer;
+    pointer-events: all;
+    transition: font-weight 0.1s;
+  }
+  .proj-label[title='Collapse'] {
+    font-weight: bold;
   }
   .empty {
     opacity: 0.1;
@@ -451,5 +474,13 @@
   .rows-container.searching .highlight,
   .rows-container.searching .proj-label {
     opacity: 1 !important;
+  }
+
+  :global(.connections-layer) {
+    pointer-events: none;
+  }
+
+  :global(.rows-container svg:not(.connections-layer)) {
+    pointer-events: all !important;
   }
 </style>

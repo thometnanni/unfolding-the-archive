@@ -10,6 +10,7 @@
   let data = []
   let viewMode = 'compact'
   let searchTerm = ''
+  let searchFile = ''
   let baseFontSize = 12
   let paperSize = 'A4'
   let ctbData = null
@@ -103,6 +104,10 @@
     searchTerm = event.detail
   }
 
+  function handleSearchFile(event) {
+    searchFile = event.detail
+  }
+
   function handlePaperChange(event) {
     paperSize = event.detail.paperSize
   }
@@ -115,7 +120,14 @@
 {#if data.length > 0}
   <article class="poster {paperSize}">
     <div class="timeline-wrapper">
-      <Timeline {data} {viewMode} {searchTerm} {baseFontSize} {ctbData} />
+      <Timeline
+        {data}
+        {viewMode}
+        {searchTerm}
+        {searchFile}
+        {baseFontSize}
+        {ctbData}
+      />
     </div>
 
     <Legend {title} {searchTerm} {aciLegend} />
@@ -125,10 +137,12 @@
       bind:viewMode
       bind:searchTerm
       bind:paperSize
+      bind:searchFile
       {data}
       on:save={handleSave}
       on:mode={handleModeChange}
       on:search={handleSearch}
+      on:searchFile={handleSearchFile}
     />
   </article>
 {:else}
