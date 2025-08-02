@@ -95,7 +95,7 @@
 <style>
   .controls {
     /* height: 30px; */
-    padding: 6px;
+    padding: 6px 2px;
     display: flex;
     align-items: center;
     gap: 8px;

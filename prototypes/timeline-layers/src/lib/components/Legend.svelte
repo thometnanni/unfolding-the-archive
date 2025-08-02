@@ -41,7 +41,7 @@
     padding: 10px;
     margin-top: 10px;
     position: sticky;
-    bottom: 24px;
+    bottom: 30px;
     backdrop-filter: blur(1px);
     margin-left: auto;
     margin-right: 0;
@@ -57,7 +57,7 @@
     max-width: 100%;
   }
 
-  .legend-grid {
+  /* .legend-grid {
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(3, 5px);
@@ -77,12 +77,12 @@
     border: 0.5px solid black;
     margin-right: 5px;
     flex-shrink: 0;
-  }
+  } */
   .timeline-title {
     color: black;
     max-width: 950px;
     font-size: 3.5em;
-    line-height: 0.8;
+    line-height: .95;
     font-weight: normal;
     margin: 15px 0 2px 0;
   }
