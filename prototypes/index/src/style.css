@@ -31,6 +31,19 @@ h1 {
   white-space: nowrap;
 }
 
+.tiny {
+  font-size: 0.8rem;
+  color: var(--grey-1);
+  white-space: nowrap;
+  width: fit-content;
+  display: block;
+
+}
+
+a {
+  color: var(--grey-1);
+}
+
 select {
   cursor: pointer;
   background-color: white;
