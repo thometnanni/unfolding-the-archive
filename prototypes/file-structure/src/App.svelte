@@ -19,6 +19,7 @@
   // let selected: VisualisationName = 'BinningCollapsed'
 
   let data: any = $state(null)
+  let hash: any = $state(null)
 
   let fetching: Boolean = $state(false)
 
@@ -35,7 +36,7 @@
   ]
   async function handleHashChange() {
     // Your function logic here
-    const hash = window.location.hash.replace(/^#/, '')
+    hash = window.location.hash.replace(/^#/, '')
     if (hash == '') return (data = null)
     fetching = true
 
@@ -73,7 +74,7 @@
       </nav>
     {/if}
   {:else}
-    <BinningCollapsed {data} />
+    <BinningCollapsed {data} hash={hash.replace(/_/g, ' ')} />
   {/if}
 </main>
 

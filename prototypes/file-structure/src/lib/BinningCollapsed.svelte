@@ -1,8 +1,10 @@
 <script lang="ts">
   import { scaleLinear } from 'd3-scale'
   import { filesize } from 'filesize'
+  import { bounceIn } from 'svelte/easing'
 
-  let { data } = $props()
+  let { data, hash } = $props()
+
   type FileStructureType = typeof data
 
   const files = $derived(
@@ -380,6 +382,7 @@
           </div>
         {/each}
       </div>
+
       {#if selectedFile != null && selectedFileLocked}
         <button class="item tiny close" onclick={() => clearFile(true)}>
           ✕
@@ -394,6 +397,16 @@
 
         <div>{selectedFile.date.toString().replace(/ GMT.*$/, '')}</div>
         <div>{filesize(selectedFile.fileSize)}</div>
+      </div>
+    {:else}
+      <div class="info">
+        <p class="light">
+          This calendar visualizes all project files in the <em>{hash}</em>
+          project. Time of day is shown horizontally, and days are displayed vertically.
+          Each rectangle represents a file, with its color indicating its category.
+          Hover over a rectangle to view details such as the file’s name, size, and
+          creation date.
+        </p>
       </div>
     {/if}
   </div>
@@ -459,6 +472,11 @@
     font-size: 13px;
   }
 
+  .info {
+    font-size: 12px;
+    max-width: 850px;
+  }
+
   .key {
     pointer-events: none;
     position: sticky;
@@ -506,7 +524,8 @@
       background: #6389b5;
     }
 
-    .file-details {
+    .file-details,
+    .info {
       color: var(--grey-2);
       .light {
         color: var(--grey-2);
