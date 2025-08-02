@@ -32,6 +32,7 @@ const files = fileStructure
 writeFileSync(`../output/layer-names-${safeFolderName}.json`, JSON.stringify(files))
 
 function exportLayerNames(file) {
+   try {
   const path = join(archive_path, file.path)
   const fileContent = readFileSync(path)
   let layers = []
@@ -117,7 +118,12 @@ function exportLayerNames(file) {
     fileHandler.delete()
   }
 
-  return layers
+    return layers
+  }
+  catch (err) {
+    console.error(`Error parsing ${file.path}:`, err.message);
+    return [];
+  }
 }
 
 function listToArray(list, keys = null) {
