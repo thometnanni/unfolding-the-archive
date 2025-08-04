@@ -1,6 +1,6 @@
-const selectPrototypes = document.querySelector('#prototypes')
-const selectProjects = document.querySelector('#projects')
-const iframe = document.querySelector('iframe')
+const selectPrototypes = document.querySelector('#prototypes');
+const selectProjects = document.querySelector('#projects');
+const iframe = document.querySelector('iframe');
 
 const prototypes = [
   { value: 'file-structure', label: 'Calendar', schema: '#[project]' },
@@ -24,34 +24,51 @@ const projects = [
   { value: 'TP_255_Serpentine__Research_', label: 'TP 255 Serpentine Research' }
 ];
 
+
 function populateSelect(el, items) {
   items.forEach(({ value, label }) => {
-    const option = document.createElement('option')
-    option.setAttribute('value', value)
-    option.innerHTML = label
-    el.appendChild(option)
-  })
+    const option = document.createElement('option');
+    option.value = value;
+    option.innerHTML = label;
+    el.appendChild(option);
+  });
 }
 
-populateSelect(selectPrototypes, prototypes)
-populateSelect(selectProjects, projects)
+function getStateFromHash() {
+  const hash = window.location.hash.substring(1);
+  return Object.fromEntries(new URLSearchParams(hash));
+}
+
+function setHashFromState(prototype, project) {
+  const params = new URLSearchParams({ prototype, project });
+  window.location.hash = params.toString();
+}
 
 function navigate() {
+  const state = getStateFromHash();
+  selectPrototypes.value = state.prototype || prototypes[0].value;
+  selectProjects.value = state.project || projects[0].value;
+
   const prototype = prototypes.find(
     ({ value }) => value === selectPrototypes.value
   );
   const url = `./prototypes/${prototype.value}/${prototype.schema.replace(/\[project\]/, selectProjects.value)}`;
   iframe.setAttribute('src', url);
-
-  const params = new URLSearchParams({
-    prototype: selectPrototypes.value,
-    project: selectProjects.value
-  });
-  history.replaceState(null, '', `?${params.toString()}`);
 }
 
+populateSelect(selectPrototypes, prototypes);
+populateSelect(selectProjects, projects);
 
-navigate()
+if (!window.location.hash) {
+  setHashFromState(selectPrototypes.value, selectProjects.value);
+} else {
+  navigate();
+}
 
-selectProjects.addEventListener('change', navigate)
-selectPrototypes.addEventListener('change', navigate)
+selectProjects.addEventListener('change', () => {
+  setHashFromState(selectPrototypes.value, selectProjects.value);
+});
+selectPrototypes.addEventListener('change', () => {
+  setHashFromState(selectPrototypes.value, selectProjects.value);
+});
+window.addEventListener('hashchange', navigate);
