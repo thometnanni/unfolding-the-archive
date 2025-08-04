@@ -30,8 +30,8 @@
   let axisHeight = 16
   let paddingTop = 50
   let paddingBottom = 25
-  let paddingRight = 50
-  let paddingLeft = 50
+  let paddingRight = 25
+  let paddingLeft = 25
 
   const days = $derived(files.map(({ day }) => day))
   const minDay = $derived(Math.min(...days))
@@ -399,16 +399,15 @@
         <div>{filesize(selectedFile.fileSize)}</div>
       </div>
     {:else}
-      <div class="info">
-        <p class="light">
-          This calendar visualizes all project files in the <em>{hash}</em>
-          project. Time of day is shown horizontally, and days are displayed vertically.
-          Each rectangle represents a file, with its color indicating its category.
-          Hover over a rectangle to view details such as the file’s name, size, and
-          creation date.
-        </p>
+      <div class="info tiny">
+        The calendar list all files of the <em>{hash}</em> project by their creation
+        time of day (horizontal) and date (vertical). Creation dates may directly
+        reflect a persons action (i.e., starting and saving a new architectural drawing)
+        but can also stem from automations and batch actions (i.e. exporting renderings
+        and copying files) and can in some case be incorrect or altered.
       </div>
     {/if}
+    <h1>{hash}</h1>
   </div>
 </div>
 
@@ -418,6 +417,16 @@
     --grey-2: #929292;
     --grey-3: #f0f0f0;
     --highlight: rgb(254, 255, 190);
+    /* font-size: 13px; */
+  }
+
+  h1 {
+    color: black;
+    max-width: 950px;
+    font-size: 2.8rem;
+    line-height: 0.95;
+    font-weight: normal;
+    margin: 0 0;
   }
 
   .scroll-container {
@@ -461,7 +470,9 @@
   }
 
   .axis-labels {
-    position: fixed;
+    position: sticky;
+    top: 0;
+    margin-bottom: -60px;
   }
 
   .visualisation {
@@ -473,7 +484,7 @@
   }
 
   .info {
-    font-size: 12px;
+    /* font-size: 13px; */
     max-width: 850px;
   }
 
@@ -483,7 +494,7 @@
     bottom: 0;
     left: 0;
     background: white;
-    padding: 25px 50px 25px 50px;
+    padding: 25px 25px 10px 25px;
     display: flex;
     gap: 6px;
     flex-direction: column;
@@ -526,10 +537,8 @@
 
     .file-details,
     .info {
+      margin: 0.5rem 0;
       color: var(--grey-2);
-      .light {
-        color: var(--grey-2);
-      }
     }
   }
 </style>
