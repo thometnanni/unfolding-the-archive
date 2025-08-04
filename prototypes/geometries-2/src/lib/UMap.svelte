@@ -264,6 +264,7 @@
   }
   svg {
     display: block;
+    cursor: crosshair;
 
     .geometry path {
       mix-blend-mode: difference;
