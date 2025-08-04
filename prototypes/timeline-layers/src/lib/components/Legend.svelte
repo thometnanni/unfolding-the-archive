@@ -5,7 +5,7 @@
 </script>
 
 <div class="info">
-  <p>
+  <p class="description">
     This timeline visualises the layers of AutoCAD files in the <em>{title}</em>
     project. It displays the layers across different files, with each file represented
     as a row.
@@ -16,21 +16,22 @@
       with a line when they appear identically across multiple files.
     </p>
   {/if}
-  <p>
+  <p class="aci-info">
     The colors follow the AutoCAD Color Index (ACI), which differentiates layers
-    based on their function—such as structure, annotations, or construction
-    details.
+    based on their function. Faded layers represent those that are hidden.
   </p>
+  <!--
   <div class="legend">
-    <!-- <div class="legend-grid">
+    <div class="legend-grid">
       {#each aciLegend as { aci, name, lineweight_mm, hex }}
         <div>
           <span class="color-box" style="background-color: {hex};"></span>
           <span>{lineweight_mm || name}</span>
         </div>
       {/each}
-    </div> -->
+    </div>
   </div>
+  -->
   <h1 class="timeline-title">{title}</h1>
 </div>
 
@@ -42,57 +43,52 @@
     margin-top: 10px;
     position: sticky;
     bottom: 30px;
-    backdrop-filter: blur(1px);
+
     margin-left: auto;
     margin-right: 0;
-    max-width: 500px;
-    width: 100%;
-    text-align: right;
-    /* background: rgba(255, 255, 255, 0.265); */
-  }
-
-  .info > p,
-  .info p.search-info {
-    text-align: right;
-    max-width: 100%;
-  }
-
-  /* .legend-grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(3, 5px);
-    justify-content: start;
-    font-size: 8px;
-    gap: 10px;
-  }
-  .legend div > div {
-    max-width: 100px;
     width: fit-content;
-    display: flex;
-    align-items: top;
+    /* text-align: right; */
   }
-  .color-box {
-    width: 0.6rem;
-    height: 0.6rem;
-    border: 0.5px solid black;
-    margin-right: 5px;
-    flex-shrink: 0;
-  } */
+
+  .info > * {
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(1px);
+  }
+
   .timeline-title {
     color: black;
-    max-width: 950px;
     font-size: 3.5em;
-    line-height: .95;
+    line-height: 0.95;
     font-weight: normal;
-    margin: 15px 0 2px 0;
+    margin: 5px 0 2px 0;
+    text-align: right;
+    word-break: break-word;
   }
-  .info p {
-    margin: 0;
+
+  .description {
+    /* text-align: right; */
+    max-width: 380px;
+    width: 100%;
+    margin: 0 0 8px 0;
     padding: 0;
-    margin-bottom: 5px;
+    margin-left: auto;
   }
-  .info p.search-info {
+
+  .search-info,
+  .aci-info {
+    /* text-align: right; */
+    max-width: 320px;
+    hyphens: auto;
+    text-wrap: balance;
+    width: 100%;
+    margin: 0 0 8px 0;
+    padding: 0;
+    margin-left: auto;
+  }
+
+  .search-info {
+    font-weight: 500;
+    color: var(--grey-1);
     margin-bottom: 10px;
-    max-width: 440px;
   }
 </style>
