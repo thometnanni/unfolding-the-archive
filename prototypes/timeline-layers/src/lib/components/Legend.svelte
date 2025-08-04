@@ -37,7 +37,7 @@
 
 <style>
   .info {
-    font-size: 0.8em;
+    font-size: .8rem;
     color: var(--grey-2);
     padding: 10px;
     margin-top: 10px;
@@ -57,7 +57,7 @@
 
   .timeline-title {
     color: black;
-    font-size: 3.5em;
+    font-size: 2.8rem;
     line-height: 0.95;
     font-weight: normal;
     margin: 5px 0 2px 0;
