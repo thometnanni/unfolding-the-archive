@@ -277,8 +277,8 @@
     color: yellow;
 
     text-align: center;
-    font-size: 3.5rem;
-    line-height: 3.3rem;
+    font-size: 2.5rem;
+    line-height: 2.3rem;
 
     display: flex;
     flex-direction: column;
