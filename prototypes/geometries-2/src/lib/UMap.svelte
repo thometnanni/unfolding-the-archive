@@ -68,10 +68,14 @@
         y: yPos,
         r: 5,
         d: `M${points.map(([px, py]) => `${px},${py}`).join('L')}Z`,
+
         metadata: {
           files: geometry.files,
           area: geometry.dimensions.area,
-          vertices: geometry.dimensions.numberOfVertices
+          vertices: geometry.dimensions.numberOfVertices,
+          convexityRatio: geometry.dimensions.convexityRatio,
+          aspectRatio: geometry.dimensions.aspectRatio,
+          compactness: geometry.dimensions.compactness
         }
       }
     })
@@ -220,6 +224,25 @@
             <td class="meta-label">Vertices</td>
             <td class="meta-value">{activeGeometry.metadata.vertices}</td>
           </tr>
+          <tr>
+            <td class="meta-label">Aspect Ratio</td>
+            <td class="meta-value"
+              >{activeGeometry.metadata.aspectRatio?.toFixed(4) ?? '-'}</td
+            >
+          </tr>
+          <tr> </tr>
+          <tr>
+            <td class="meta-label">Convexity Ratio</td>
+            <td class="meta-value"
+              >{activeGeometry.metadata.convexityRatio?.toFixed(4) ?? '-'}</td
+            >
+          </tr>
+          <tr>
+            <td class="meta-label">Compactness</td>
+            <td class="meta-value"
+              >{activeGeometry.metadata.compactness?.toFixed(4) ?? '-'}</td
+            >
+          </tr>
         </tbody>
       </table>
     {/if}
@@ -264,13 +287,14 @@
     color: yellow;
 
     text-align: center;
-    font-size: 3rem;
-    line-height: 3rem;
+    font-size: 2.5rem;
+    line-height: 2.3rem;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none;  }
+    pointer-events: none;
+  }
 
   .meta-label {
     text-align: right;
