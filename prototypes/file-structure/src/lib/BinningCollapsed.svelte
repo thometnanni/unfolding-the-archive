@@ -33,6 +33,9 @@
   let paddingRight = 25
   let paddingLeft = 25
 
+  const itemHeight = 1
+  const itemGap = 2
+
   const days = $derived(files.map(({ day }) => day))
   const minDay = $derived(Math.min(...days))
   const maxDay = $derived(Math.max(...days))
@@ -40,7 +43,7 @@
 
   let innerChartWidth = $derived(chartWidth - paddingLeft - paddingRight)
 
-  let binWidth = $derived(innerChartWidth / (24 / xBinSize) - 3)
+  let binWidth = $derived(innerChartWidth / (24 / xBinSize) - 1 - itemGap * 2)
 
   const scaleX = $derived(
     scaleLinear().domain([0, 24]).range([0, innerChartWidth])
@@ -83,6 +86,9 @@
           xBin,
           x: scaleX(+xBin * xBinSize),
           files: files.sort((a, b) => a.birthtime - b.birthtime)
+          // .sort(
+          //   (a, b) => fileTypes.indexOf(a.type) - fileTypes.indexOf(b.type)
+          // )
         }))
 
         const maxFiles = Math.max(
@@ -134,7 +140,8 @@
           return true
       })
       .map((yBin) => {
-        const height = Math.max(yBin.maxFiles * 2 + 2, 4)
+        const height =
+          Math.max(yBin.maxFiles, 1) * (itemGap + itemHeight) + 1 + itemGap
         const fullHeight = height + (yBin.next > maxInactiveDays ? 40 : 0)
         return { ...yBin, height, fullHeight }
       })
@@ -155,13 +162,13 @@
   const getColorFromFileType = (fileType: string) => {
     switch (fileType) {
       case 'drawing':
-        return '#228F66'
+        return '#27D5C6'
       case 'image':
-        return '#C26FC2'
+        return '#EA6CEA'
       case 'document':
         return '#F0BD65'
       default:
-        return '#9595A3'
+        return '#4A4D5F'
     }
   }
 
@@ -333,13 +340,22 @@
           {#each yBin.xBins as xBin}
             <g transform="translate({xBin.x},0)" class="y-bin">
               {#each xBin.files as file, index}
-                <g transform="translate(1.5,{2 + index * 2})" class="file">
-                  <line x2={binWidth} stroke={getColorFromFileType(file.type!)}
+                <g
+                  transform="translate({0.5 + itemGap},{0.5 +
+                    itemGap +
+                    itemHeight * 0.5 +
+                    index * (itemGap + itemHeight)})"
+                  class="file"
+                >
+                  <line
+                    x2={binWidth}
+                    stroke-width={itemHeight}
+                    stroke={getColorFromFileType(file.type!)}
                   ></line>
                   <line
                     class="interactive-layer"
                     x2={binWidth}
-                    stroke-width="2"
+                    stroke-width={itemHeight + itemGap}
                     role="presentation"
                     stroke={getColorFromFileType(file.type!)}
                     onmouseenter={() => inspectFile(file, false)}
