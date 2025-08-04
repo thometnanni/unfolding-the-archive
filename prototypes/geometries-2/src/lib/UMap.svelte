@@ -245,21 +245,23 @@
     bottom: 10px;
     left: 10px;
     z-index: 100;
+    font-size: 0.8rem;
+    line-height: normal;
+    max-width: 420px;
     mix-blend-mode: difference;
   }
 
   .info p {
     margin: 0 0;
-    font-size: 0.8rem;
     color: white;
-    max-width: 520px;
+    width: 100%;
     hyphens: auto;
     text-wrap: balance;
+    margin-bottom: 8px;
   }
 
   h1 {
     color: white;
-    max-width: 950px;
     font-size: 2.8rem;
     line-height: 0.95;
     font-weight: normal;
