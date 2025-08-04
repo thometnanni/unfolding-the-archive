@@ -1,6 +1,6 @@
 <script>
   import { scaleLinear } from 'd3-scale'
-  import { zoom } from 'd3-zoom'
+  import { zoom, zoomIdentity } from 'd3-zoom'
   import { select } from 'd3-selection'
   import { UMAP } from 'umap-js'
   import { extractDimensions } from './geometryDimensions'
@@ -21,6 +21,7 @@
   let svgEl
   let gEl
   let transform = $state(null)
+  let zoomBehavior
 
   const transformString = $derived(transform?.toString())
   const zoomFactor = $derived(transform == null ? 1 : 1 / (0 + transform.k / 1))
@@ -48,8 +49,10 @@
 
     const range = Math.max(rangeX, rangeY)
 
-    const scaleX = scaleLinear().domain([minX, maxX]).range([0, chartSize])
-    const scaleY = scaleLinear().domain([minY, maxY]).range([0, chartSize])
+    const margin = 50 
+
+    const scaleX = scaleLinear().domain([minX, maxX]).range([margin, chartSize - margin])
+    const scaleY = scaleLinear().domain([minY, maxY]).range([margin, chartSize - margin])
 
     return data.map((geometry) => {
       const points = normalizeVertices(geometry.vertices, 50)
@@ -111,8 +114,23 @@
     svg.call(
       zoom().on('zoom', (event) => {
         transform = event.transform
-      })
+      }).scaleExtent([1, Infinity])
     )
+    // zoomBehavior = svg.__zoom
+  })
+
+  $effect(() => {
+    if (!svgEl || !chartWidth || !chartHeight) return
+    if (!geometries.length) return
+    const xs = geometries.map(g => g.x)
+    const ys = geometries.map(g => g.y)
+    const centerX = (Math.min(...xs) + Math.max(...xs)) / 2
+    const centerY = (Math.min(...ys) + Math.max(...ys)) / 2
+    const tx = chartWidth / 2 - centerX
+    const ty = chartHeight / 2 - centerY
+    const t = zoomIdentity.translate(tx, ty).scale(1)
+    select(svgEl).call(zoom().transform, t)
+    transform = t
   })
 </script>
 
