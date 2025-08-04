@@ -206,45 +206,35 @@
   </svg>
   <div class="hover-info">
     {#if activeGeometry}
-      <table class="meta-table">
-        <tbody>
-          <tr>
-            <td class="meta-label">Occurences</td>
-            <td class="meta-value"
-              >{activeGeometry.metadata.files?.length ?? '-'}</td
-            >
-          </tr>
-          <tr>
-            <td class="meta-label">Area</td>
-            <td class="meta-value"
-              >{formatArea(activeGeometry.metadata.area, '')}</td
-            >
-          </tr>
-          <tr>
-            <td class="meta-label">Vertices</td>
-            <td class="meta-value">{activeGeometry.metadata.vertices}</td>
-          </tr>
-          <tr>
-            <td class="meta-label">Aspect Ratio</td>
-            <td class="meta-value"
-              >{activeGeometry.metadata.aspectRatio?.toFixed(4) ?? '-'}</td
-            >
-          </tr>
-          <tr> </tr>
-          <tr>
-            <td class="meta-label">Convexity Ratio</td>
-            <td class="meta-value"
-              >{activeGeometry.metadata.convexityRatio?.toFixed(4) ?? '-'}</td
-            >
-          </tr>
-          <tr>
-            <td class="meta-label">Compactness</td>
-            <td class="meta-value"
-              >{activeGeometry.metadata.compactness?.toFixed(4) ?? '-'}</td
-            >
-          </tr>
-        </tbody>
-      </table>
+      <div class="meta-center-grid">
+        <div class="meta-label">Occurences</div>
+        <div class="meta-value">
+          {activeGeometry.metadata.files?.length ?? '-'}
+        </div>
+
+        <div class="meta-label">Area</div>
+        <div class="meta-value">
+          {formatArea(activeGeometry.metadata.area, '')}
+        </div>
+
+        <div class="meta-label">Vertices</div>
+        <div class="meta-value">{activeGeometry.metadata.vertices}</div>
+
+        <div class="meta-label">Aspect Ratio</div>
+        <div class="meta-value">
+          {activeGeometry.metadata.aspectRatio?.toFixed(4) ?? '-'}
+        </div>
+
+        <div class="meta-label">Convexity Ratio</div>
+        <div class="meta-value">
+          {activeGeometry.metadata.convexityRatio?.toFixed(4) ?? '-'}
+        </div>
+
+        <div class="meta-label">Compactness</div>
+        <div class="meta-value">
+          {activeGeometry.metadata.compactness?.toFixed(4) ?? '-'}
+        </div>
+      </div>
     {/if}
   </div>
 </div>
@@ -287,25 +277,32 @@
     color: yellow;
 
     text-align: center;
-    font-size: 2.5rem;
-    line-height: 2.3rem;
+    font-size: 3.5rem;
+    line-height: 3.3rem;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     pointer-events: none;
   }
-
+  .meta-center-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 800px;
+    max-width: 96vw;
+    gap: 10px 10px;
+    margin: 0 auto;
+  }
   .meta-label {
     text-align: right;
+    justify-self: end;
     font-weight: 300;
     /* opacity: 0.8; */
   }
-
   .meta-value {
     text-align: left;
+    justify-self: start;
     font-weight: 500;
-    padding-left: 10px;
   }
 
   .zoom-container {
