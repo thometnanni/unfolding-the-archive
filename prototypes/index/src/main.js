@@ -39,12 +39,17 @@ populateSelect(selectProjects, projects)
 function navigate() {
   const prototype = prototypes.find(
     ({ value }) => value === selectPrototypes.value
-  )
-  iframe.setAttribute(
-    'src',
-    `./prototypes/${prototype.value}/${prototype.schema.replace(/\[project\]/, selectProjects.value)}`
-  )
+  );
+  const url = `./prototypes/${prototype.value}/${prototype.schema.replace(/\[project\]/, selectProjects.value)}`;
+  iframe.setAttribute('src', url);
+
+  const params = new URLSearchParams({
+    prototype: selectPrototypes.value,
+    project: selectProjects.value
+  });
+  history.replaceState(null, '', `?${params.toString()}`);
 }
+
 
 navigate()
 
