@@ -4,7 +4,7 @@
   import { select } from 'd3-selection'
   import { UMAP } from 'umap-js'
   import { extractDimensions } from './geometryDimensions'
-  let { data } = $props()
+  let { data, hash } = $props()
 
   const nEpochs = 500
   const minDist = 0.5
@@ -49,10 +49,14 @@
 
     const range = Math.max(rangeX, rangeY)
 
-    const margin = 50 
+    const margin = 50
 
-    const scaleX = scaleLinear().domain([minX, maxX]).range([margin, chartSize - margin])
-    const scaleY = scaleLinear().domain([minY, maxY]).range([margin, chartSize - margin])
+    const scaleX = scaleLinear()
+      .domain([minX, maxX])
+      .range([margin, chartSize - margin])
+    const scaleY = scaleLinear()
+      .domain([minY, maxY])
+      .range([margin, chartSize - margin])
 
     return data.map((geometry) => {
       const points = normalizeVertices(geometry.vertices, 50)
@@ -63,7 +67,12 @@
         x: xPos,
         y: yPos,
         r: 5,
-        d: `M${points.map(([px, py]) => `${px},${py}`).join('L')}Z`
+        d: `M${points.map(([px, py]) => `${px},${py}`).join('L')}Z`,
+        metadata: {
+          files: geometry.files,
+          area: geometry.dimensions.area,
+          vertices: geometry.dimensions.numberOfVertices
+        }
       }
     })
   })
@@ -112,9 +121,11 @@
     const svg = select(svgEl)
     const g = select(gEl)
     svg.call(
-      zoom().on('zoom', (event) => {
-        transform = event.transform
-      }).scaleExtent([1, Infinity])
+      zoom()
+        .on('zoom', (event) => {
+          transform = event.transform
+        })
+        .scaleExtent([1, Infinity])
     )
     // zoomBehavior = svg.__zoom
   })
@@ -122,8 +133,8 @@
   $effect(() => {
     if (!svgEl || !chartWidth || !chartHeight) return
     if (!geometries.length) return
-    const xs = geometries.map(g => g.x)
-    const ys = geometries.map(g => g.y)
+    const xs = geometries.map((g) => g.x)
+    const ys = geometries.map((g) => g.y)
     const centerX = (Math.min(...xs) + Math.max(...xs)) / 2
     const centerY = (Math.min(...ys) + Math.max(...ys)) / 2
     const tx = chartWidth / 2 - centerX
@@ -135,6 +146,17 @@
 </script>
 
 <div class="zoom-container">
+  <div class="info">
+    <p>
+      This visualization presents the geometry data for the <em>{hash}</em> project.
+      It displays a sample of 500 geometries across different files, grouped according
+      to visual similarity.
+    </p>
+    <h1>
+      {hash}
+    </h1>
+  </div>
+
   <svg
     width="100%"
     height="100%"
@@ -144,7 +166,7 @@
   >
     <rect width={chartWidth} height={chartHeight}></rect>
     <g bind:this={gEl} transform={transformString}>
-      {#each geometries as { geometry, x, y, d }}
+      {#each geometries as { geometry, x, y, d, metadata }}
         <g
           class="geometry"
           transform={`translate(${x} ${y}) scale(${zoomFactor})`}
@@ -153,7 +175,7 @@
             {d}
             fill="white"
             onmouseenter={({ currentTarget }) => {
-              activeGeometry = { x, y, d }
+              activeGeometry = { x, y, d, metadata }
             }}
             onmouseleave={({ currentTarget }) => (activeGeometry = null)}
             role="presentation"
@@ -173,9 +195,66 @@
       {/if}
     </g>
   </svg>
+  <div class="hover-info">
+    {#if activeGeometry}
+      <p>
+        appears in {activeGeometry.metadata.files?.length} files
+        <br />
+        has an area of: {activeGeometry.metadata.area}
+        <br />
+        and has: {activeGeometry.metadata.vertices} vertices
+      </p>
+    {/if}
+  </div>
 </div>
 
 <style>
+  .info {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 100;
+    mix-blend-mode: difference;
+  }
+
+  .info p {
+    margin: 0 0;
+    font-size: 0.8rem;
+    color: white;
+    max-width: 520px;
+    hyphens: auto;
+    text-wrap: balance;
+  }
+
+  h1 {
+    color: white;
+    max-width: 950px;
+    font-size: 2.8rem;
+    line-height: 0.95;
+    font-weight: normal;
+    margin: 0 0;
+  }
+
+  .hover-info {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+
+    z-index: 500;
+    color: yellow;
+
+    text-align: center;
+    font-size: 3rem;
+    line-height: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+
   .zoom-container {
     position: relative;
     overflow-y: auto;
@@ -193,7 +272,7 @@
     .active-geometry path {
       pointer-events: none;
       fill: #001aff;
-      fill: #b7ff00;
+      fill: yellow;
       /* stroke: #00ff8c; */
       /* stroke-width: 5; */
     }

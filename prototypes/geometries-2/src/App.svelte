@@ -19,6 +19,7 @@
   // let selected: VisualisationName = 'UMap'
 
   let data = $state(null)
+  let hash = $state(null)
 
   let fetching = $state(false)
 
@@ -36,7 +37,7 @@
   ]
   async function handleHashChange() {
     // Your function logic here
-    const hash = window.location.hash.replace(/^#/, '')
+    hash = window.location.hash.replace(/^#/, '')
     if (hash == '') return (data = null)
     fetching = true
 
@@ -78,7 +79,7 @@
       <p>No Geometries Found</p>
     </div>
   {:else}
-    <UMap {data} />
+    <UMap {data} hash={hash.replace(/_/g, ' ')} />
   {/if}
 </main>
 
