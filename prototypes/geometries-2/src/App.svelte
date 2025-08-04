@@ -84,6 +84,11 @@
 </main>
 
 <style>
+  :global(html, body) {
+    font-family: 'Ronzino', sans-serif;
+    font-feature-settings: 'tnum', 'lnum';
+  }
+
   main {
     height: 100vh;
     display: flex;

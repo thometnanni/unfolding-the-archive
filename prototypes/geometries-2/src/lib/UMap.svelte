@@ -114,6 +114,11 @@
     // Implement your mouseover logic here
   }
 
+  function formatArea(area, unit = 'units²') {
+    if (area == null || isNaN(area)) return 'N/A'
+    return `${Number(area).toLocaleString(undefined, { maximumFractionDigits: 2 })} ${unit}`
+  }
+
   // $inspect(activeGeometry)
 
   $effect(() => {
@@ -197,13 +202,26 @@
   </svg>
   <div class="hover-info">
     {#if activeGeometry}
-      <p>
-        appears in {activeGeometry.metadata.files?.length} files
-        <br />
-        has an area of: {activeGeometry.metadata.area}
-        <br />
-        and has: {activeGeometry.metadata.vertices} vertices
-      </p>
+      <table class="meta-table">
+        <tbody>
+          <tr>
+            <td class="meta-label">Occurences</td>
+            <td class="meta-value"
+              >{activeGeometry.metadata.files?.length ?? '-'}</td
+            >
+          </tr>
+          <tr>
+            <td class="meta-label">Area</td>
+            <td class="meta-value"
+              >{formatArea(activeGeometry.metadata.area, '')}</td
+            >
+          </tr>
+          <tr>
+            <td class="meta-label">Vertices</td>
+            <td class="meta-value">{activeGeometry.metadata.vertices}</td>
+          </tr>
+        </tbody>
+      </table>
     {/if}
   </div>
 </div>
@@ -252,7 +270,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none;
+    pointer-events: none;  }
+
+  .meta-label {
+    text-align: right;
+    font-weight: 300;
+    /* opacity: 0.8; */
+  }
+
+  .meta-value {
+    text-align: left;
+    font-weight: 500;
+    padding-left: 10px;
   }
 
   .zoom-container {
