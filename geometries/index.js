@@ -97,12 +97,11 @@ if (!dimensions) {
 }
 
 const umap = new UMAP({
-  // nComponents: 2,
-  // nEpochs,
-  // minDist,
-  // spread
-  // nNeighbors: 15,
+  nNeighbors: 15, // keep default
+  minDist: 0.5, // more space between points
+  spread: 2.0 // allow clusters to grow apart
 })
+
 const embedding = await umap.fitAsync(dimensions, () => {
   // console.log(epochNumber)
 })

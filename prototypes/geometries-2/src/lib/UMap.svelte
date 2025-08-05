@@ -241,13 +241,13 @@
           {activeGeometry.metadata.files?.length ?? '-'}
         </div>
 
+        <div class="meta-label">Vertices</div>
+        <div class="meta-value">{activeGeometry.metadata.vertices}</div>
+
         <div class="meta-label">Area</div>
         <div class="meta-value">
           {formatFixedSig(activeGeometry.metadata.area)}
         </div>
-
-        <div class="meta-label">Vertices</div>
-        <div class="meta-value">{activeGeometry.metadata.vertices}</div>
 
         <div class="meta-label">Aspect Ratio</div>
         <div class="meta-value">
