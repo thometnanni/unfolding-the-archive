@@ -41,6 +41,17 @@ h1 {
   height: 100vh;
 }
 
+@font-face {
+  font-family: Ronzino;
+  src: url('./fonts/Ronzino-Regular.woff2');
+  font-weight: normal;
+}
+@font-face {
+  font-family: Ronzino;
+  src: url('./fonts/Ronzino-Oblique.woff2');
+  font-style: italic;
+}
+
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -43,12 +43,12 @@ h1 {
 
 @font-face {
   font-family: Ronzino;
-  src: url('fonts/Ronzino-Regular.woff2');
+  src: url('./fonts/Ronzino-Regular.woff2');
   font-weight: normal;
 }
 @font-face {
   font-family: Ronzino;
-  src: url('fonts/Ronzino-Oblique.woff2');
+  src: url('./fonts/Ronzino-Oblique.woff2');
   font-style: italic;
 }
 
