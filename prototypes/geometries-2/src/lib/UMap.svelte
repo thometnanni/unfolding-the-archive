@@ -37,6 +37,19 @@
 
   // $inspect(geometryOccurances)
 
+  // area cal
+  const areas = data.map((g) => g.dimensions.area).sort((a, b) => a - b)
+  const lo = areas[Math.floor(areas.length * 0.05)]
+  const hi = areas[Math.floor(areas.length * 0.95)]
+
+  function clamp(val, lo, hi) {
+    return Math.max(lo, Math.min(val, hi))
+  }
+
+  const areaScale = scaleLinear()
+    .domain([Math.sqrt(lo), Math.sqrt(hi)])
+    .range([0.5, 2])
+
   const geometries = $derived.by(() => {
     const minX = Math.min(...data.map(({ embedding }) => embedding[0]))
     const maxX = Math.max(...data.map(({ embedding }) => embedding[0]))
@@ -118,11 +131,6 @@
     // Implement your mouseover logic here
   }
 
-  function formatArea(area, unit = 'units²') {
-    if (area == null || isNaN(area)) return 'N/A'
-    return `${Number(area).toLocaleString(undefined, { maximumFractionDigits: 2 })} ${unit}`
-  }
-
   // $inspect(activeGeometry)
 
   $effect(() => {
@@ -178,7 +186,8 @@
       {#each geometries as { geometry, x, y, d, metadata }}
         <g
           class="geometry"
-          transform={`translate(${x} ${y}) scale(${zoomFactor})`}
+          transform={`translate(${x} ${y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(metadata.area, lo, hi)))})
+`}
         >
           <path
             {d}
@@ -197,7 +206,7 @@
       {#if activeGeometry}
         <g
           class="active-geometry"
-          transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor})`}
+          transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
         >
           <path d={activeGeometry.d}> </path>
         </g>
@@ -214,7 +223,7 @@
 
         <div class="meta-label">Area</div>
         <div class="meta-value">
-          {formatArea(activeGeometry.metadata.area, '')}
+          {activeGeometry.metadata.area?.toFixed(4)}
         </div>
 
         <div class="meta-label">Vertices</div>
