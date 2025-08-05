@@ -4,6 +4,26 @@ import fs from 'fs/promises'
 import { join, normalize } from 'node:path'
 import objectHash from 'object-hash'
 import { UMAP } from 'umap-js'
+import { format } from 'd3-format'
+
+const formatNumbers = format('.4~s')
+
+function formatFixedSig(x, sig = 4) {
+  if (isNaN(x)) return
+  if (x === 0) return '0'
+
+  const absX = Math.abs(x)
+  const digits = sig - Math.floor(Math.log10(absX)) - 1
+  const fixed = x.toFixed(Math.max(digits, 0))
+
+  // Split into integer and fractional parts
+  const [intPart, fracPart] = fixed.split('.')
+
+  // Add spaces every 3 digits in integer part
+  const spacedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+
+  return fracPart ? `${spacedInt}.${fracPart}` : spacedInt
+}
 
 function getArgValue(flag, fallback) {
   const idx = process.argv.indexOf(flag)
@@ -163,14 +183,23 @@ async function exportLayers(file, i, length) {
       })
       .filter((d) => d != null)
       .forEach((geometry) => {
-        const hash = objectHash(geometry)
+        const dimensions = extractDimensions(geometry)
+        const hash = objectHash(
+          Object.fromEntries(
+            Object.entries(dimensions)
+              .filter(([dimension]) => dimension != dimensions.aspectRatio)
+              .map(([dim, value]) => [dim, formatFixedSig(value)])
+          )
+        )
+
+        // const hash = objectHash(geometry)
         if (geometries[hash] == null) {
           geometries[hash] = {
             ...geometry,
             first_used: file.birthtime,
             last_used: file.birthtime,
             files: [i],
-            dimensions: extractDimensions(geometry)
+            dimensions
           }
         } else {
           geometries[hash].first_used = Math.min(

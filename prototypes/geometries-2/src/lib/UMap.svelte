@@ -1,5 +1,6 @@
 <script>
   import { scaleLinear } from 'd3-scale'
+  import { format } from 'd3-format'
   import { zoom, zoomIdentity } from 'd3-zoom'
   import { select } from 'd3-selection'
   import { UMAP } from 'umap-js'
@@ -160,6 +161,25 @@
     select(svgEl).call(zoom().transform, t)
     transform = t
   })
+
+  const formatNumbers = format('.4~g')
+
+  function formatFixedSig(x, sig = 4) {
+    if (isNaN(x)) return
+    if (x === 0) return '0'
+
+    const absX = Math.abs(x)
+    const digits = sig - Math.floor(Math.log10(absX)) - 1
+    const fixed = x.toFixed(Math.max(digits, 0))
+
+    // Split into integer and fractional parts
+    const [intPart, fracPart] = fixed.split('.')
+
+    // Add spaces every 3 digits in integer part
+    const spacedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+
+    return fracPart ? `${spacedInt}.${fracPart}` : spacedInt
+  }
 </script>
 
 <div class="zoom-container">
@@ -223,7 +243,7 @@
 
         <div class="meta-label">Area</div>
         <div class="meta-value">
-          {activeGeometry.metadata.area?.toFixed(4)}
+          {formatFixedSig(activeGeometry.metadata.area)}
         </div>
 
         <div class="meta-label">Vertices</div>
@@ -231,17 +251,17 @@
 
         <div class="meta-label">Aspect Ratio</div>
         <div class="meta-value">
-          {activeGeometry.metadata.aspectRatio?.toFixed(4) ?? '-'}
+          {formatFixedSig(activeGeometry.metadata.aspectRatio)}
         </div>
 
         <div class="meta-label">Convexity Ratio</div>
         <div class="meta-value">
-          {activeGeometry.metadata.convexityRatio?.toFixed(4) ?? '-'}
+          {formatFixedSig(activeGeometry.metadata.convexityRatio)}
         </div>
 
         <div class="meta-label">Compactness</div>
         <div class="meta-value">
-          {activeGeometry.metadata.compactness?.toFixed(4) ?? '-'}
+          {formatFixedSig(activeGeometry.metadata.compactness)}
         </div>
       </div>
     {/if}
