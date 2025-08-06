@@ -7,7 +7,7 @@
       <link rel="stylesheet" href="./src/style.css" />
       <link rel="icon" href="./src/favicon.png" />
    </head>
-   <body>
+   <body>   
       <main>
          <section id="links">
             <a href="about">About</a>
@@ -16,18 +16,31 @@
          <section id="title">
             <h1>Unfolding the Archive</h1>
          </section>
-          <p class="tiny">
+         <p class="tiny">
             3 prototypes, 14 projects by 
             <a href="https://www.mvrdv.com/">MVRDV</a> →
-          </p>
+         </p>
          <nav>
             <select id="prototypes"></select>
             <select id="projects"></select>
          </nav>
       </main>
-      <section id="prototype">
-         <iframe src="./prototypes/timeline-layers/"></iframe>
-      </section>
+   <section id="prototype" style="position:relative;">
+   <iframe src="./prototypes/timeline-layers/"></iframe>
+   <div id="intro-overlay" tabindex="0">
+      <div class="intro-content">
+         
+      <div class="intro-sub">
+         A research project by Ania Molenda at <a href="https://www.nieuweinstituut.nl/en" target="_blank">Nieuwe Instituut</a> (2024–2025), exploring how the metadata of born-digital architecture records can reveal new ways of understanding and exploring architectural practice.  
+         <br><br>
+         Three prototypes, explore 14 projects from <a href="https://www.mvrdv.com/">MVRDV</a>
+         focussing on making digital archives more accessible, dynamic, and multivocal.
+      </div>
+
+         <div class="hint">(Click or press any key to continue)</div>
+      </div>
+      </div>
+   </section>
       <script type="module" src="/src/main.js"></script>
    </body>
 </html>

@@ -72,3 +72,17 @@ selectPrototypes.addEventListener('change', () => {
   setHashFromState(selectPrototypes.value, selectProjects.value);
 });
 window.addEventListener('hashchange', navigate);
+
+function hideIntro() {
+  introCover.classList.add('hide');
+}
+
+const overlay = document.getElementById('intro-overlay');
+function hideOverlay() {
+overlay.classList.add('hide');
+}
+overlay.addEventListener('click', hideOverlay);
+overlay.addEventListener('keydown', (e) => {
+hideOverlay();
+});
+overlay.focus();
