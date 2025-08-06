@@ -194,11 +194,8 @@ nav {
   text-rendering: geometricPrecision;
 }
 
-.intro-content a {
+.intro-content span {
   color: white;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
 }
 
 
