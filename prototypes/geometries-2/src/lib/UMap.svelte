@@ -185,10 +185,12 @@
 <div class="zoom-container">
   <div class="info">
     <p>
-      This visualization presents the geometry data for the <em>{hash}</em> project.
-      It displays a sample of 500 geometries across different files, grouped according
-      to visual similarity.
+      This interactive, zoomable visualization presents a sample of 500 distinct
+      geometries from the <em>{hash}</em> project. Each shape is grouped by visual
+      similarity, allowing to explore how specific geometries occur across multiple
+      files, including those that are reused or copied throughout the project.
     </p>
+
     <h1>
       {hash}
     </h1>
@@ -244,23 +246,23 @@
         <div class="meta-label">Vertices</div>
         <div class="meta-value">{activeGeometry.metadata.vertices}</div>
 
-        <div class="meta-label">Area</div>
-        <div class="meta-value">
+        <div class="meta-label fade">Area</div>
+        <div class="meta-value fade">
           {formatFixedSig(activeGeometry.metadata.area)}
         </div>
 
-        <div class="meta-label">Aspect Ratio</div>
-        <div class="meta-value">
+        <div class="meta-label fade">Aspect Ratio</div>
+        <div class="meta-value fade">
           {formatFixedSig(activeGeometry.metadata.aspectRatio)}
         </div>
 
-        <div class="meta-label">Convexity Ratio</div>
-        <div class="meta-value">
+        <div class="meta-label fade">Convexity Ratio</div>
+        <div class="meta-value fade">
           {formatFixedSig(activeGeometry.metadata.convexityRatio)}
         </div>
 
-        <div class="meta-label">Compactness</div>
-        <div class="meta-value">
+        <div class="meta-label fade">Compactness</div>
+        <div class="meta-value fade">
           {formatFixedSig(activeGeometry.metadata.compactness)}
         </div>
       </div>
@@ -276,7 +278,7 @@
     z-index: 100;
     font-size: 0.8rem;
     line-height: normal;
-    max-width: 420px;
+    max-width: 480px;
     mix-blend-mode: difference;
   }
 
@@ -321,7 +323,7 @@
     grid-template-columns: 1fr 1fr;
     width: 800px;
     max-width: 96vw;
-    gap: 10px 10px;
+    gap: 0 10px;
     margin: 0 auto;
   }
   .meta-label {
@@ -329,6 +331,12 @@
     justify-self: end;
     font-weight: 300;
     /* opacity: 0.8; */
+  }
+
+  .fade {
+    /* font-size: 0.8rem;
+    line-height: 1rem; */
+    opacity: 0.3;
   }
   .meta-value {
     text-align: left;
