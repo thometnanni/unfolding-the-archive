@@ -21,7 +21,9 @@ const projects = [
   { value: 'TP_377_Boijmans', label: 'TP 377 Boijmans' },
   { value: 'TP_221_Cite_Clime', label: 'TP 221 Cite Clime' },
   { value: 'TP_221_Cite__Clime__cite_clime', label: 'TP 221 Cité Climé cite clime' },
-  { value: 'TP_255_Serpentine__Research_', label: 'TP 255 Serpentine Research' }
+  { value: 'TP_255_Serpentine__Research_', label: 'TP 255 Serpentine Research' },
+    { value: 'TP_255_Serpentine', label: 'TP 255 Serpentine' }
+
 ];
 
 
