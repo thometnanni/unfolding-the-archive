@@ -188,14 +188,19 @@ nav {
   margin-left: 50px;
   margin-top: 20px;
   max-width: 1100px;
-  hyphens: auto;
+  /* text-wrap: balanced; */
+  /* hyphens: auto;
   -ms-hyphens: auto;
-  -webkit-hyphens: auto;
+  -webkit-hyphens: auto; */
   text-rendering: geometricPrecision;
 }
 
-.intro-content span {
+.intro-content a {
   color: white;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .1ch;
+  text-decoration-color: var(--grey-1);
 }
 
 
@@ -208,11 +213,12 @@ nav {
   padding-left: 0.7rem;
 }
 
-.hint {
-  font-size: 1rem;
-  padding-left: 1.5rem;
+#hint {
+  font-size: 2rem;
+  padding-top: 1rem;
   color: var(--grey-2, #666);
   opacity: 0.9;
+  cursor: pointer;
 }
 
 

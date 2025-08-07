@@ -78,11 +78,13 @@ function hideIntro() {
 }
 
 const overlay = document.getElementById('intro-overlay');
+const hint = document.getElementById('hint');
+
 function hideOverlay() {
 overlay.classList.add('hide');
 }
-overlay.addEventListener('click', hideOverlay);
-overlay.addEventListener('keydown', (e) => {
+hint.addEventListener('click', hideOverlay);
+hint.addEventListener('keydown', (e) => {
 hideOverlay();
 });
 overlay.focus();
