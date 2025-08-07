@@ -58,10 +58,10 @@ function navigate() {
   iframe.setAttribute('src', url);
 }
 
-const sortedPrototypes = [...prototypes].sort((a, b) => a.label.localeCompare(b.label));
+// const sortedPrototypes = [...prototypes].sort((a, b) => a.label.localeCompare(b.label));
 const sortedProjects = [...projects].sort((a, b) => a.label.localeCompare(b.label));
 
-populateSelect(selectPrototypes, sortedPrototypes);
+populateSelect(selectPrototypes, prototypes);
 populateSelect(selectProjects, sortedProjects);
 
 if (!window.location.hash) {
