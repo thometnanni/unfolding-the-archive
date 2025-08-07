@@ -255,7 +255,7 @@
           {formatFixedSig(activeGeometry.metadata.aspectRatio)}
         </div>
 
-        <div class="meta-label fade">Convexity Ratio</div>
+        <div class="meta-label fade">Convexity</div>
         <div class="meta-value fade">
           {formatFixedSig(activeGeometry.metadata.convexityRatio)}
         </div>
