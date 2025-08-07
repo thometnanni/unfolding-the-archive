@@ -71,7 +71,7 @@
           vertices: geometry.dimensions.numberOfVertices,
           convexityRatio: geometry.dimensions.convexityRatio,
           aspectRatio: geometry.dimensions.aspectRatio,
-          compactness: geometry.dimensions.compactness
+          compactness: 1 / geometry.dimensions.compactness
         }
       }
     })
@@ -154,6 +154,23 @@
 
     return fracPart ? `${spacedInt}.${fracPart}` : spacedInt
   }
+
+  function formatAspectRatio(ratio) {
+    if (!ratio || isNaN(ratio) || !isFinite(ratio)) return '-'
+    // Limit denominator to avoid huge numbers
+    let best = [1, 1]
+    let minError = Math.abs(ratio - 1)
+    for (let denom = 1; denom <= 1000; denom++) {
+      const numer = Math.round(ratio * denom)
+      const error = Math.abs(ratio - numer / denom)
+      if (error < minError) {
+        minError = error
+        best = [numer, denom]
+        if (error < 0.01) break // good enough
+      }
+    }
+    return `${best[0]}:${best[1]}`
+  }
 </script>
 
 <div class="zoom-container">
@@ -198,18 +215,38 @@
         </g>
       {/each}
 
-      {#if activeGeometry}
+      <!-- {#if activeGeometry}
         <g
           class="active-geometry"
           transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
         >
           <path d={activeGeometry.d}> </path>
         </g>
-      {/if}
+      {/if} -->
     </g>
   </svg>
   <div class="hover-info">
+    <svg width="100%" height="100%">
+      {#if activeGeometry}
+        <g bind:this={gEl} transform={transformString}>
+          <g
+            class="active-geometry"
+            transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
+          >
+            <path d={activeGeometry.d}> </path>
+          </g>
+        </g>
+      {/if}
+    </svg>
     {#if activeGeometry}
+      <!-- <svg width="100%" height="100%">
+        <g
+          class="active-geometry"
+          transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
+        >
+          <path d={activeGeometry.d}> </path>
+        </g>
+      </svg> -->
       <div class="meta-center-grid">
         <div class="meta-label">Occurences</div>
         <div class="meta-value">
@@ -219,23 +256,23 @@
         <div class="meta-label">Vertices</div>
         <div class="meta-value">{activeGeometry.metadata.vertices}</div>
 
-        <div class="meta-label fade">Area</div>
-        <div class="meta-value fade">
+        <div class="meta-label">Area</div>
+        <div class="meta-value">
           {formatFixedSig(activeGeometry.metadata.area)}
         </div>
 
-        <div class="meta-label fade">Aspect Ratio</div>
-        <div class="meta-value fade">
-          {formatFixedSig(activeGeometry.metadata.aspectRatio)}
+        <div class="meta-label">Aspect Ratio</div>
+        <div class="meta-value">
+          {formatAspectRatio(activeGeometry.metadata.aspectRatio)}
         </div>
 
-        <div class="meta-label fade">Convexity</div>
-        <div class="meta-value fade">
+        <div class="meta-label">Convexity</div>
+        <div class="meta-value">
           {formatFixedSig(activeGeometry.metadata.convexityRatio)}
         </div>
 
-        <div class="meta-label fade">Compactness</div>
-        <div class="meta-value fade">
+        <div class="meta-label">Compactness</div>
+        <div class="meta-value">
           {formatFixedSig(activeGeometry.metadata.compactness)}
         </div>
       </div>
@@ -273,11 +310,10 @@
   }
 
   .hover-info {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: difference;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
 
     z-index: 500;
     color: yellow;
@@ -289,7 +325,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     pointer-events: none;
+
+    svg {
+      position: absolute;
+      top: 0;
+    }
   }
   .meta-center-grid {
     display: grid;
@@ -298,6 +340,13 @@
     max-width: 96vw;
     gap: 0 10px;
     margin: 0 auto;
+    mix-blend-mode: difference;
+
+    text-shadow:
+      -0.5px -0.5px 0 #000,
+      0.5px -0.5px 0 #000,
+      -0.5px 0.5px 0 #000,
+      0.5px 0.5px 0 #000;
   }
   .meta-label {
     text-align: right;
@@ -306,11 +355,6 @@
     /* opacity: 0.8; */
   }
 
-  .fade {
-    /* font-size: 0.8rem;
-    line-height: 1rem; */
-    opacity: 0.3;
-  }
   .meta-value {
     text-align: left;
     justify-self: start;
