@@ -185,10 +185,9 @@
 <div class="zoom-container">
   <div class="info">
     <p>
-      This interactive, zoomable visualization presents a sample of 500 distinct
-      geometries from the <em>{hash}</em> project. Each shape is grouped by visual
-      similarity, allowing to explore how specific geometries occur across multiple
-      files, including those that are reused or copied throughout the project.
+      This is a sample of 500 unique geometries from the <em>{hash}</em> project.
+      They are arranged by visual similarity factoring in their number of vertices,
+      area, aspect ratio, compactness and convexity. Zoom in to reveal distinct geometeries.
     </p>
 
     <h1>
