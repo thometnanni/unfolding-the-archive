@@ -152,7 +152,10 @@
     // Add spaces every 3 digits in integer part
     const spacedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 
-    return fracPart ? `${spacedInt}.${fracPart}` : spacedInt
+    let result = fracPart ? `${spacedInt}.${fracPart}` : spacedInt
+    // Remove trailing zeroes and optional decimal point
+    result = result.replace(/\.?0+$/, '')
+    return result
   }
 
   function formatAspectRatio(ratio) {
