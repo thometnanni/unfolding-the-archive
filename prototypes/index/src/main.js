@@ -56,8 +56,11 @@ function navigate() {
   iframe.setAttribute('src', url);
 }
 
-populateSelect(selectPrototypes, prototypes);
-populateSelect(selectProjects, projects);
+const sortedPrototypes = [...prototypes].sort((a, b) => a.label.localeCompare(b.label));
+const sortedProjects = [...projects].sort((a, b) => a.label.localeCompare(b.label));
+
+populateSelect(selectPrototypes, sortedPrototypes);
+populateSelect(selectProjects, sortedProjects);
 
 if (!window.location.hash) {
   setHashFromState(selectPrototypes.value, selectProjects.value);
