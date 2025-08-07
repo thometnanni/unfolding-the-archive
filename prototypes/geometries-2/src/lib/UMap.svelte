@@ -1,17 +1,10 @@
 <script>
   import { scaleLinear } from 'd3-scale'
-  import { format } from 'd3-format'
   import { zoom, zoomIdentity } from 'd3-zoom'
   import { select } from 'd3-selection'
-  import { UMAP } from 'umap-js'
   import { extractDimensions } from './geometryDimensions'
   let { data, hash } = $props()
 
-  const nEpochs = 500
-  const minDist = 0.5
-  const spread = 0.2
-
-  let embedding = $state()
   let chartWidth = $state(0)
   let chartHeight = $state(0)
 
@@ -26,17 +19,6 @@
 
   const transformString = $derived(transform?.toString())
   const zoomFactor = $derived(transform == null ? 1 : 1 / (0 + transform.k / 1))
-
-  // $effect(() => console.log(data))
-
-  const geometryOccurances = $derived(
-    extractDimensions(Object.values(data))
-    // Object.values(data).map(({ files }) =>
-    //   allFiles.map((file) => files.includes(file))
-    // )
-  )
-
-  // $inspect(geometryOccurances)
 
   // area cal
   const areas = data.map((g) => g.dimensions.area).sort((a, b) => a - b)
@@ -126,12 +108,6 @@
     return centered.map(([x, y]) => [x * scale, y * scale])
   }
 
-  function handleMouseover(files) {
-    // console.log('Mouseover files:', )
-    console.log($state.snapshot(files))
-    // Implement your mouseover logic here
-  }
-
   // $inspect(activeGeometry)
 
   $effect(() => {
@@ -161,8 +137,6 @@
     select(svgEl).call(zoom().transform, t)
     transform = t
   })
-
-  const formatNumbers = format('.4~g')
 
   function formatFixedSig(x, sig = 4) {
     if (isNaN(x)) return
