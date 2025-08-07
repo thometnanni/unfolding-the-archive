@@ -206,7 +206,7 @@ nav {
 
 .intro-content> * {
   margin-bottom: .10px;
-  text-indent: 1ch;
+  /* text-indent: 1ch; */
 }
 
 .intro-sub {
@@ -214,12 +214,18 @@ nav {
 }
 
 #hint {
-  font-size: 2rem;
+  font-size: 3rem;
+  padding-left: 0.7rem;
   padding-top: 1rem;
   color: var(--grey-2, #666);
   opacity: 0.9;
   cursor: pointer;
 }
+
+#hint:hover {
+  color: var(--grey-1, #dcdcdc);
+}
+
 
 
 @media (max-width: 600px) {

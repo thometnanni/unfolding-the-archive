@@ -87,4 +87,9 @@ hint.addEventListener('click', hideOverlay);
 hint.addEventListener('keydown', (e) => {
 hideOverlay();
 });
+
+overlay.addEventListener('click', hideOverlay);
+overlay.addEventListener('keydown', (e) => {
+hideOverlay();
+});
 overlay.focus();
