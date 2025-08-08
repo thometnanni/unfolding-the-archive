@@ -158,6 +158,11 @@
     return result
   }
 
+  function formatPercent(x, sig = 4) {
+    if (isNaN(x)) return
+    return `${formatFixedSig(x * 100, sig)} %`
+  }
+
   function formatAspectRatio(ratio) {
     if (!ratio || isNaN(ratio) || !isFinite(ratio)) return '-'
     // Limit denominator to avoid huge numbers
@@ -271,12 +276,12 @@
 
         <div class="meta-label">Convexity</div>
         <div class="meta-value">
-          {formatFixedSig(activeGeometry.metadata.convexityRatio)}
+          {formatPercent(activeGeometry.metadata.convexityRatio)}
         </div>
 
         <div class="meta-label">Compactness</div>
         <div class="meta-value">
-          {formatFixedSig(activeGeometry.metadata.compactness)}
+          {formatPercent(activeGeometry.metadata.compactness)}
         </div>
       </div>
     {/if}
