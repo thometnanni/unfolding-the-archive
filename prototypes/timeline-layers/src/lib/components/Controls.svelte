@@ -106,6 +106,8 @@
     bottom: 0;
     z-index: 1;
     justify-content: space-between;
+    width: 100%;
+    overflow: scroll;
   }
 
   .controls-left {
