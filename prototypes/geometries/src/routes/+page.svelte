@@ -251,7 +251,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     margin: 0;
     display: flex;
     overflow: scroll;

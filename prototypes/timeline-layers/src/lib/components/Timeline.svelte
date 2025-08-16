@@ -416,12 +416,12 @@
 
 <style>
   .timeline-wrapper {
-    min-height: 100vh;
+    min-height: 100dvh;
   }
   .axis-container {
     position: fixed;
     top: 0;
-    height: 100vh;
+    height: 100dvh;
     width: 100%;
     z-index: 1;
     pointer-events: none;

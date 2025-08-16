@@ -90,7 +90,7 @@
   }
 
   main {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
 
@@ -102,7 +102,7 @@
   }
 
   .no-geometries {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     flex-direction: column;

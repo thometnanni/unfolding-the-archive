@@ -86,7 +86,7 @@ section#prototype {
 
 section#prototype iframe {
   width: 100vw;
-  height: calc(100vh - 50px);
+  height: calc(100dvh - 50px);
   border: none;
   display: block;
 }
@@ -155,7 +155,7 @@ nav {
 
 #prototype iframe {
   width: 100vw;
-  height: calc(100vh - 50px);
+  height: calc(100dvh - 50px);
   border: none;
   display: block;
 }
