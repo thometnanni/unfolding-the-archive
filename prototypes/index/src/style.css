@@ -22,14 +22,25 @@ body {
   background: black;
   color: white;
   margin: 0;
+  
+  -webkit-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1 {
+h1, h3 {
   flex: 0 0 auto;
   font-size: 2rem;
   font-weight: 400;
   margin: 5px 0;
   white-space: nowrap;
+}
+
+h3 {
+  font-size: 2rem;
 }
 
 .tiny {

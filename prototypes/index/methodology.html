@@ -21,8 +21,54 @@
       </main>
       <section id="texts">
          <p>
-           ...
+            <em>Unfolding the Archive </em> proposes three access prototypes created through iterative design sessions, where data analysis, interface and interaction design, and coding informed each other and were performed largely simultaneously. The prototypes test various metadata-driven interfaces for access to CAD records in born digital architecture archives guided by principles of de-centring the query-based approach, providing contextual access, displaying complexity of the archive, striving to surface the richness of the record, and allowing for multiple readings and interpretations. They surface different types of metadata separately and allow to move between modes of display to dive deeper into specific aspects of project dossiers or files. The prototypes allow users to explore the dossiers by gradually zooming into more specific information, providing an x-ray of sorts to look at the records through their metadata.
          </p>
+         <p>Metadata driven interfaces provide a large degree of flexibility in what information to surface and allow for different ways of contextualising individual records. In this case, the context was limited to a project dossier, but one could imagine expanding it to a several project dossiers, an entire archive, or multiple archives from a collection. Because decontextualisation of records in born digital archives is one of the key risks identified by this research, the prototypes aim to propose various interpretations of contextual access. The proposed interfaces serve as a place of orientation, showing that archives are networked and relational. Objects and archives are never isolated but connected, for example through time, provenance, internal structures, or geometrical similarity.</p>
+         <p>
+            Providing access to archives where creative or artistic process is key, requires a different approach than in cases where the final result is leading. Design processes are often complex and do not follow a logical structure. Hence,  using non-hierarchical ways of display may lead to making them more legible for users. Allowing users to see the contents of the archive through metadata allows to see beyond the intricate file organisation and bypass the limits of proprietary CAD software to discover them as large data sets, create new perspectives on their contents, and formulate more specific questions.
+         </p>
+
+      <p>
+         Visualising the networked complexity of architecture archives in accessible ways remains a challenge both from data management and information design point of view. This project used a multimodal approach to surface selected types of metadata to help users navigate the archive from different entry points: Calendar, Layers, Geometries. Multimodality was used as strategy to overcome the challenge of rendering CAD records and to allow multiple readings and interpretations to eventually provide more multivocal perspectives. The prototypes developed within Unfolding the Archive aim to address users with some digital design literacy and aim to make the domain specific and technical knowledge easier to read and interpret for them.
+      </p>
+
+      <h3>
+         Method step by step
+      </h3>
+
+      <p>
+         <strong>
+Creating an inventory
+         </strong>
+          of various Computer Aided Design (CAD) file formats present in the MVRDV archive, the case study for this research, was the first step in the process of creating the prototypes. As analysing all available CAD files would exceed the scope of this research, a selection of three most dominant file formats was made, including DWG, DXF (both AutoCAD file formats), and FMZ (FormZ)––a legacy file format of large significance for the case study archive. While it was possible to establish a workflow to access the FMZ files and convert them into the non-legacy file format, it was not possible to preserve all the relevant metadata in its original form. This is why this file format was eventually excluded from the selection and further research.
+      </p>
+      <p>
+         <strong>
+Identifying and selecting properties
+         </strong>
+           of the selected file formats was the next step. The selected properties included file name, file type (based on PRONOM identification), file path, file size, date created (including the time of creation), 2D and 3D geometry information, derived geometry data (e.g. area, convexity), and layers information  including their names, order, color, and geometry information. As the date of last modification and the creation date were largely identical, using the creation date was prioritised, since a modification might have ocurred unintentionally. Properties identifying potential authorship information were excluded due to difficulty to identify the author or an editor. Software versions from the 90s and early 2000s that fall into the scope of this research contain little or no record of individual users. This has changed over the course of time and might be possible to retrieve for archives from more recent archives. Thumbnails were not included to make the prototype more readable and easy to load. Software version was deemed irrelevant for this study, as well as information on external reference (x-ref) and errors, as it is more relevant for archiving purposes than for user access.
+      </p>
+
+      <p>
+         <strong>
+ Extracting the metadata
+         </strong>
+         was directly paired with <strong>distilling and testing possible modes of display</strong>. Identifying relevant properties and the level of detail that could be meaningfully presented were the guiding principle. It was clear that working with the selected file formats and their metadata offerend multiple possibilities and needed to be narrowed down. Creating granular forms of access allowing to go deeper into the data, lead to looking for distinct ways of mapping selected properties in combinations that could be intriguing for the users. Properties could stem directly from the metadata or be derived (i.e., date and time of day was derived from the creation date; broader categories of files such as drawing or image from file extensions). Design iterations led to a choice of three modes of access based on a calendar view, layers view, and geometries view. Each prototype is based on plotting available metadata in a different type of overview that can provide new insights into the archival material, with a different level of detail.
+      </p>
+      <p>
+         <strong>
+         The Calendar View</strong> is based on temporal distribution of individual records displaying what types of records were cerated when and in what quantities. It provides insights in production spikes, shows information on work culture (i.e. 9 to 5 work model, late night shifts), but also project dynamics by indicating moments of inactivity (i.e. waiting for financing, consultations, permissions etc.). It can also provide insight into file derivatives within the archive (i.e. based on time proximity between two files with a similar name and a different file format), and on archiving activity (i.e. moving large amounts of files to a new location).
+      </p>
+      <p>
+          <strong>
+        Layers View </strong>allow the users to look 'under the hood' of the DWG and DXF files without having to render them. They allow to compare the similarity of selected CAD drawings by looking at the amount of recurring layers and the overlaps between the number of geometries they contain. It shows how layers were named and structured, and allows to see which layers contain most information (i.e. streets, buildings, floors, furniture, etc.), which can help determine the scale and type of the drawing. This prototype also allows to trace the occurrence of a specific layer across various files in a specific project, giving the possibility to follow the elements that have been copied and repeated across various files.
+
+      </p>
+      <p>
+         <strong>Geometries</strong> View aims to create an abstracted "fingerprint" of a project by the geometries contained in its CAD drawings. How representative are single geometries of one project? How visually similar are shapes within one project and across projects? 
+</p><p>
+Each prototype went through several design iterations and refinements. The calendar view was improved for readability and compactness, the layers overview was at first too detailed and overwhelming, while the geometries view started of as too abstract and difficult to interpret. As such prototypes are not meant to be finished or perfect, but they ought to display what forms of access are possible and test which are meaningful to users. Conclusions from user testing, last step of the of this research, will be and available upon request and described in a research paper concluding this research.
+      </p>
       </section>
    </body>
 </html>
