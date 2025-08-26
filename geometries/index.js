@@ -25,6 +25,16 @@ function formatFixedSig(x, sig = 4) {
   return fracPart ? `${spacedInt}.${fracPart}` : spacedInt
 }
 
+function formatFixedSig2(x, sig = 4) {
+  const digits = Math.floor(Math.log10(x)) + 1
+
+  const divisor = Math.pow(10, digits - 1)
+
+  const num = +(x / divisor).toFixed(sig - 1) * divisor
+
+  return num
+}
+
 function getArgValue(flag, fallback) {
   const idx = process.argv.indexOf(flag)
   return idx !== -1 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback
@@ -54,16 +64,29 @@ let geometries = {}
 const dwgFiles = fileStructure.filter(
   ({ isFile, extension }) => isFile && extension === 'dwg'
 )
-// .filter(({ name }) => name == 'ENTREE.DWG')
+// .filter(({ name }) => name == 'DOORSNEDE.dwg')
+// .filter(({ name }) => name == 'tent-01.dwg')
+// .filter(({ name }) => name == '3d-2.dwg')
+// .filter(({ name }) => name == 'axonometrie.dwg')
+// .filter(({ name }) => name == 'nl_21.dwg')
+
 //   .filter((_, i) => i >= 21 && i <= 30)
 
 for (let i = 0; i < dwgFiles.length; i++) {
   await exportLayers(dwgFiles[i], i, dwgFiles.length)
 }
 
-const filteredGeometries = sampleArray(
+const slice = true
+function sampleOrSlice(arr, limit = 500) {
+  return slice ? arr.slice(0, limit) : sampleArray(arr, limit)
+}
+
+const filteredGeometries = sampleOrSlice(
   Object.values(geometries)
+
+    // .sort((a, b) => b.dimensions.area - a.dimensions.area)
     .sort((a, b) => b.files.length - a.files.length)
+    // .sort((a, b) => b.vertices.length - a.vertices.length)
     .filter(({ files, vertices, dimensions }) => {
       // console.log(
       //   dimensions.convexityRatio,
@@ -71,15 +94,29 @@ const filteredGeometries = sampleArray(
       //   Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim))
       // )
       return (
-        files.length >= 2 &&
+        // files.length >= 2 &&
         vertices.length > 2 &&
         Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim)) ==
           null
       )
     }),
-  500
+  5000
 )
 // .slice(0, 500)
+console.log('total unique geometries:', Object.keys(geometries).length)
+console.log('used geometries:', filteredGeometries.length)
+console.log(
+  'used geometries, occurances',
+  filteredGeometries[0].files.length,
+  ' - ',
+  filteredGeometries[filteredGeometries.length - 1].files.length
+)
+console.log(
+  'used geometries, vertice count',
+  filteredGeometries[0].vertices.length,
+  ' - ',
+  filteredGeometries[filteredGeometries.length - 1].vertices.length
+)
 
 const dimensions = zScoreNormalize(
   filteredGeometries.map(({ dimensions }) => {
@@ -186,8 +223,14 @@ async function exportLayers(file, i, length) {
         const hash = objectHash(
           Object.fromEntries(
             Object.entries(dimensions)
-              .filter(([dimension]) => dimension != dimensions.aspectRatio)
-              .map(([dim, value]) => [dim, formatFixedSig(value)])
+              .filter(([dimension]) => {
+                return true // dimension != 'aspectRatio'
+              })
+              .map(([dim, value]) => [
+                dim,
+                // formatFixedSig(value)
+                formatFixedSig2(value, dim === 'area' ? 4 : 2)
+              ])
           )
         )
 
