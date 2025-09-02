@@ -5,23 +5,15 @@ used geometries: 500
 
 ...Top 500 Occurances
 used geometries, occurances 71  -  9
-used geometries, vertice count 4  -  5
 
 ...Top 50 Occurances
 used geometries, occurances 71  -  24
-used geometries, vertice count 4  -  3
 
 ...Top 5000 Occurances
 used geometries, occurances 71  -  3
-used geometries, vertice count 4  -  87
 
 ...Top 500 Vertice Count
-used geometries, occurances 1  -  3
 used geometries, vertice count 5762  -  192
-
-...Top 500 Area
-used geometries, occurances 1  -  2
-used geometries, vertice count 4  -  104
 
 
 ADJUSTED UNIQUENESS
@@ -30,11 +22,11 @@ used geometries: 500
 
 ...Top 500 Occurances
 used geometries, occurances 95  -  9
-used geometries, vertice count 4  -  414
 
 ...Top 5000 Occurances
 used geometries, occurances 95  -  3
-used geometries, vertice count 4  -  4
+
+SINGLE FILES
 
 DOORSNEDE.dwg
 total unique geometries: 1481

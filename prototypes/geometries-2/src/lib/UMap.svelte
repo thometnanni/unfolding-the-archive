@@ -3,7 +3,7 @@
   import { zoom, zoomIdentity } from 'd3-zoom'
   import { select } from 'd3-selection'
   import { extractDimensions } from './geometryDimensions'
-  let { data, hash } = $props()
+  let { data, hash, fillClosed } = $props()
 
   let chartWidth = $state(0)
   let chartHeight = $state(0)
@@ -63,9 +63,15 @@
         x: xPos,
         y: yPos,
         r: 5,
-        d: `M${points.map(([px, py]) => `${px},${py}`).join('L')}Z`,
+        d: `M${points.map(([px, py]) => `${px},${py}`).join('L')}`,
+        fill:
+          geometry.vertices[0][0] ===
+            geometry.vertices[geometry.vertices.length - 1][0] &&
+          geometry.vertices[0][1] ===
+            geometry.vertices[geometry.vertices.length - 1][1],
 
         metadata: {
+          entity: geometry.entity,
           files: geometry.files,
           area: geometry.dimensions.area,
           vertices: geometry.dimensions.numberOfVertices,
@@ -203,7 +209,7 @@
   >
     <rect width={chartWidth} height={chartHeight}></rect>
     <g bind:this={gEl} transform={transformString}>
-      {#each geometries as { geometry, x, y, d, metadata }}
+      {#each geometries as { geometry, fill, x, y, d, metadata, entity }}
         <g
           class="geometry"
           transform={`translate(${x} ${y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(metadata.area, lo, hi)))})
@@ -211,9 +217,9 @@
         >
           <path
             {d}
-            fill="white"
+            class={{ fill: !fillClosed || fill }}
             onmouseenter={({ currentTarget }) => {
-              activeGeometry = { x, y, d, metadata }
+              activeGeometry = { x, y, d, metadata, fill, entity }
             }}
             onmouseleave={({ currentTarget }) => (activeGeometry = null)}
             role="presentation"
@@ -241,7 +247,11 @@
             class="active-geometry"
             transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
           >
-            <path d={activeGeometry.d}> </path>
+            <path
+              class={{ fill: !fillClosed || activeGeometry.fill }}
+              d={activeGeometry.d}
+            >
+            </path>
           </g>
         </g>
       {/if}
@@ -262,7 +272,9 @@
         </div>
 
         <div class="meta-label">Vertices</div>
-        <div class="meta-value">{activeGeometry.metadata.vertices}</div>
+        <div class="meta-value">
+          {activeGeometry.metadata.vertices - (activeGeometry.fill ? 1 : 0)}
+        </div>
 
         <div class="meta-label">Area</div>
         <div class="meta-value">
@@ -382,12 +394,30 @@
 
     .geometry path {
       mix-blend-mode: difference;
+      vector-effect: non-scaling-stroke;
+
+      stroke: white;
+      fill: none;
+
+      &.fill {
+        stroke: none;
+        fill: white;
+      }
     }
 
     .active-geometry path {
       pointer-events: none;
-      fill: #001aff;
-      fill: yellow;
+      vector-effect: non-scaling-stroke;
+
+      stroke: yellow;
+      fill: none;
+
+      &.fill {
+        /* fill: #001aff; */
+        stroke: none;
+        fill: yellow;
+      }
+
       /* stroke: #00ff8c; */
       /* stroke-width: 5; */
     }

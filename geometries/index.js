@@ -72,6 +72,8 @@ const dwgFiles = fileStructure.filter(
 
 //   .filter((_, i) => i >= 21 && i <= 30)
 
+// console.log(dwgFiles[321])
+
 for (let i = 0; i < dwgFiles.length; i++) {
   await exportLayers(dwgFiles[i], i, dwgFiles.length)
 }
@@ -95,12 +97,14 @@ const filteredGeometries = sampleOrSlice(
       // )
       return (
         // files.length >= 2 &&
-        vertices.length > 2 &&
+        vertices.length > 3 &&
+        // vertices[0][0] === vertices[vertices.length - 1][0] &&
+        // vertices[0][1] === vertices[vertices.length - 1][1] &&
         Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim)) ==
           null
       )
     }),
-  5000
+  500
 )
 // .slice(0, 500)
 console.log('total unique geometries:', Object.keys(geometries).length)
@@ -183,13 +187,21 @@ async function exportLayers(file, i, length) {
       .map((entity) => {
         switch (entity.type) {
           case 'POLYLINE':
-          case 'LWPOLYLINE':
+          case 'LWPOLYLINE': {
+            const vertices = entity.vertices.map(({ x, y }) =>
+              verticeToFixed([x, y])
+            )
+            const isClosed =
+              (entity.flag & (entity.type === 'POLYLINE' ? 1 : 512)) !== 0
+
+            if (isClosed) vertices.push(vertices[0])
+
+            // if (entity.vertices.length > 10) console.log(entity)
             return {
               // entity: entity,
-              vertices: entity.vertices.map(({ x, y }) =>
-                verticeToFixed([x, y])
-              )
+              vertices
             }
+          }
           case 'LINE':
             return {
               // entity: entity,
@@ -201,7 +213,6 @@ async function exportLayers(file, i, length) {
           case 'TEXT':
           case 'MTEXT':
           case 'INSERT':
-          case 'HATCH':
           case 'CIRCLE':
           case 'ARC':
           case 'POINT':
@@ -211,6 +222,9 @@ async function exportLayers(file, i, length) {
           case 'ELLIPSE':
           case 'LEADER':
           case 'SOLID':
+          case 'HATCH':
+            // console.log(entity.type)
+            // console.log(entity)
             return
 
           default:

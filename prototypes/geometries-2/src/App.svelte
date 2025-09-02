@@ -20,6 +20,7 @@
 
   let data = $state(null)
   let hash = $state(null)
+  let param = $state(null)
 
   let fetching = $state(false)
 
@@ -58,12 +59,23 @@
     '-',
     'ALL_Sample_500_adjusted_uniqueness',
     'ALL_TOP_500_Occurances_adjusted_uniqueness',
-    'ALL_TOP_5000_Occurances_adjusted_uniqueness'
+    'ALL_TOP_5000_Occurances_adjusted_uniqueness',
+    '-',
+    'ALL_TOP_500_Occurances_removed_open_triangles',
+    'DOORSNEDE_removed_open_triangles',
+    'nl_21_removed_open_triangles',
+    '-',
+    'ALL_TOP_500_Occurances_removed_open_shapes',
+    '-',
+    'ALL_TOP_500_Occurances_removed_open_triangles?fill-closed',
+    'DOORSNEDE_removed_open_triangles?fill-closed',
+    'nl_21_removed_open_triangles?fill-closed'
   ]
 
   async function handleHashChange() {
     // Your function logic here
-    hash = window.location.hash.replace(/^#/, '')
+    hash = window.location.hash.replace(/^#/, '').split('?')[0]
+    param = window.location.hash.replace(/^#/, '').split('?')[1]
     if (hash == '') return (data = null)
     fetching = true
 
@@ -117,7 +129,11 @@
       <p>No Geometries Found</p>
     </div>
   {:else}
-    <UMap {data} hash={hash.replace(/_/g, ' ')} />
+    <UMap
+      {data}
+      hash={hash.replace(/_/g, ' ')}
+      fillClosed={param === 'fill-closed'}
+    />
   {/if}
 </main>
 
