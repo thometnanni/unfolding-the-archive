@@ -2,7 +2,6 @@
   import { scaleLinear } from 'd3-scale'
   import { zoom, zoomIdentity } from 'd3-zoom'
   import { select } from 'd3-selection'
-  import { extractDimensions } from './geometryDimensions'
   let { data, hash, fillClosed } = $props()
 
   let chartWidth = $state(0)
@@ -15,36 +14,96 @@
   let svgEl
   let gEl
   let transform = $state(null)
-  let zoomBehavior
 
   const transformString = $derived(transform?.toString())
   const zoomFactor = $derived(transform == null ? 1 : 1 / (0 + transform.k / 1))
 
-  // area cal
-  const areas = data.map((g) => g.dimensions.area).sort((a, b) => a - b)
-  const lo = areas[Math.floor(areas.length * 0.05)]
-  const hi = areas[Math.floor(areas.length * 0.95)]
-
-  function clamp(val, lo, hi) {
-    return Math.max(lo, Math.min(val, hi))
+  function normalizeVertices(vertices, size) {
+    if (!vertices || vertices.length === 0) return []
+    const n = vertices.length
+    const cx = vertices.reduce((s, v) => s + v[0], 0) / n
+    const cy = vertices.reduce((s, v) => s + v[1], 0) / n
+    const centered = vertices.map(([x, y]) => [x - cx, y - cy])
+    const xs = centered.map(([x]) => x)
+    const ys = centered.map(([, y]) => y)
+    const extent =
+      Math.max(
+        Math.max(...xs) - Math.min(...xs),
+        Math.max(...ys) - Math.min(...ys)
+      ) || 1
+    const k = size / extent
+    return centered.map(([x, y]) => [x * k, y * k])
   }
 
-  const areaScale = scaleLinear()
-    .domain([Math.sqrt(lo), Math.sqrt(hi)])
-    .range([0.5, 2])
+  function polylineLength(points) {
+    if (!points || points.length < 2) return 0
+    let L = 0
+    for (let i = 0; i < points.length - 1; i++) {
+      const [x1, y1] = points[i]
+      const [x2, y2] = points[i + 1]
+      L += Math.hypot(x2 - x1, y2 - y1)
+    }
+    return L
+  }
+
+  function chordLength(points) {
+    if (!points || points.length < 2) return 0
+    const [x0, y0] = points[0]
+    const [xN, yN] = points[points.length - 1]
+    return Math.hypot(xN - x0, yN - y0)
+  }
+
+  function bboxDiagonal(points) {
+    if (!points?.length) return 0
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
+    for (let i = 0; i < points.length; i++) {
+      const [x, y] = points[i]
+      if (x < minX) minX = x
+      if (y < minY) minY = y
+      if (x > maxX) maxX = x
+      if (y > maxY) maxY = y
+    }
+    const dx = maxX - minX,
+      dy = maxY - minY
+    return Math.hypot(dx, dy)
+  }
+
+  function maxPairwiseDistance(points) {
+    let m = 0
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        const dx = points[j][0] - points[i][0]
+        const dy = points[j][1] - points[i][1]
+        const d = Math.hypot(dx, dy)
+        if (d > m) m = d
+      }
+    }
+    return m
+  }
+
+  function formatFixedSig(x, sig = 4) {
+    if (x == null || isNaN(x)) return '-'
+    if (x === 0) return '0'
+    const absX = Math.abs(x)
+    const digits = sig - Math.floor(Math.log10(absX)) - 1
+    const fixed = x.toFixed(Math.max(digits, 0))
+    const [intPart, fracPart] = fixed.split('.')
+    const spacedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+    return (fracPart ? `${spacedInt}.${fracPart}` : spacedInt).replace(
+      /\.?0+$/,
+      ''
+    )
+  }
 
   const geometries = $derived.by(() => {
+    if (!data?.length) return []
     const minX = Math.min(...data.map(({ embedding }) => embedding[0]))
     const maxX = Math.max(...data.map(({ embedding }) => embedding[0]))
-
     const minY = Math.min(...data.map(({ embedding }) => embedding[1]))
     const maxY = Math.max(...data.map(({ embedding }) => embedding[1]))
-
-    const rangeX = maxX - minX
-    const rangeY = maxY - minY
-
-    const range = Math.max(rangeX, rangeY)
-
     const margin = 50
 
     const scaleX = scaleLinear()
@@ -55,71 +114,41 @@
       .range([margin, chartSize - margin])
 
     return data.map((geometry) => {
-      const points = normalizeVertices(geometry.vertices, 50)
+      const verts = geometry.vertices ?? []
+      const points = normalizeVertices(verts, 50)
       const xPos = scaleX(geometry.embedding[0])
       const yPos = scaleY(geometry.embedding[1])
+
+      const isClosed =
+        verts.length > 1 &&
+        verts[0][0] === verts[verts.length - 1][0] &&
+        verts[0][1] === verts[verts.length - 1][1]
+
+      const L = polylineLength(verts)
+      const chord = isClosed
+        ? bboxDiagonal(verts) || 1e-6
+        : chordLength(verts) || 1e-6
+      const sinuosity = L / chord
+
       return {
         geometry,
         x: xPos,
         y: yPos,
-        r: 5,
         d: `M${points.map(([px, py]) => `${px},${py}`).join('L')}`,
-        fill:
-          geometry.vertices[0][0] ===
-            geometry.vertices[geometry.vertices.length - 1][0] &&
-          geometry.vertices[0][1] ===
-            geometry.vertices[geometry.vertices.length - 1][1],
-
+        fill: isClosed,
         metadata: {
-          entity: geometry.entity,
           files: geometry.files,
-          area: geometry.dimensions.area,
-          vertices: geometry.dimensions.numberOfVertices,
-          convexityRatio: geometry.dimensions.convexityRatio,
-          aspectRatio: geometry.dimensions.aspectRatio,
-          compactness: 1 / geometry.dimensions.compactness
+          vertices: verts.length,
+          length: L,
+          sinuosity
         }
       }
     })
   })
 
-  function normalizeVertices(vertices, size) {
-    if (!vertices || vertices.length === 0) return []
-
-    // 1. Find centroid
-    const n = vertices.length
-    const centroid = [
-      vertices.reduce((sum, v) => sum + v[0], 0) / n,
-      vertices.reduce((sum, v) => sum + v[1], 0) / n
-    ]
-
-    // 2. Center vertices
-    const centered = vertices.map(([x, y]) => [
-      x - centroid[0],
-      y - centroid[1]
-    ])
-
-    // 3. Find max extent
-    const xs = centered.map(([x]) => x)
-    const ys = centered.map(([, y]) => y)
-    const extent =
-      Math.max(
-        Math.max(...xs) - Math.min(...xs),
-        Math.max(...ys) - Math.min(...ys)
-      ) || 1 // avoid division by zero
-
-    // 4. Scale uniformly
-    const scale = size / extent
-
-    return centered.map(([x, y]) => [x * scale, y * scale])
-  }
-
-  // $inspect(activeGeometry)
-
   $effect(() => {
     if (!svgEl || !gEl) return
     const svg = select(svgEl)
-    const g = select(gEl)
     svg.call(
       zoom()
         .on('zoom', (event) => {
@@ -127,7 +156,6 @@
         })
         .scaleExtent([1, Infinity])
     )
-    // zoomBehavior = svg.__zoom
   })
 
   $effect(() => {
@@ -143,61 +171,16 @@
     select(svgEl).call(zoom().transform, t)
     transform = t
   })
-
-  function formatFixedSig(x, sig = 4) {
-    if (isNaN(x)) return
-    if (x === 0) return '0'
-
-    const absX = Math.abs(x)
-    const digits = sig - Math.floor(Math.log10(absX)) - 1
-    const fixed = x.toFixed(Math.max(digits, 0))
-
-    // Split into integer and fractional parts
-    const [intPart, fracPart] = fixed.split('.')
-
-    // Add spaces every 3 digits in integer part
-    const spacedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-
-    let result = fracPart ? `${spacedInt}.${fracPart}` : spacedInt
-    // Remove trailing zeroes and optional decimal point
-    result = result.replace(/\.?0+$/, '')
-    return result
-  }
-
-  function formatPercent(x, sig = 4) {
-    if (isNaN(x)) return
-    return `${formatFixedSig(x * 100, sig)} %`
-  }
-
-  function formatAspectRatio(ratio) {
-    if (!ratio || isNaN(ratio) || !isFinite(ratio)) return '-'
-    // Limit denominator to avoid huge numbers
-    let best = [1, 1]
-    let minError = Math.abs(ratio - 1)
-    for (let denom = 1; denom <= 1000; denom++) {
-      const numer = Math.round(ratio * denom)
-      const error = Math.abs(ratio - numer / denom)
-      if (error < minError) {
-        minError = error
-        best = [numer, denom]
-        if (error < 0.01) break // good enough
-      }
-    }
-    return `${best[0]}:${best[1]}`
-  }
 </script>
 
 <div class="zoom-container">
   <div class="info">
     <p>
       This is a sample of 500 unique geometries from the <em>{hash}</em> project.
-      They are arranged by visual similarity factoring in their number of vertices,
-      area, aspect ratio, compactness and convexity. Zoom in to reveal distinct geometeries.
+      They’re arranged by visual similarity (UMAP over shape features). Zoom in to
+      reveal distinct geometries.
     </p>
-
-    <h1>
-      {hash}
-    </h1>
+    <h1>{hash}</h1>
   </div>
 
   <svg
@@ -212,88 +195,63 @@
       {#each geometries as { geometry, fill, x, y, d, metadata, entity }}
         <g
           class="geometry"
-          transform={`translate(${x} ${y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(metadata.area, lo, hi)))})
-`}
+          transform={`translate(${x} ${y}) scale(${zoomFactor})`}
         >
           <path
             {d}
             class={{ fill: !fillClosed || fill }}
-            onmouseenter={({ currentTarget }) => {
+            onmouseenter={() => {
               activeGeometry = { x, y, d, metadata, fill, entity }
             }}
-            onmouseleave={({ currentTarget }) => (activeGeometry = null)}
+            onmouseleave={() => (activeGeometry = null)}
             role="presentation"
-          >
-            <!-- <title>{file}</title> -->
-          </path>
+          />
         </g>
       {/each}
-
-      <!-- {#if activeGeometry}
-        <g
-          class="active-geometry"
-          transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
-        >
-          <path d={activeGeometry.d}> </path>
-        </g>
-      {/if} -->
     </g>
   </svg>
+
   <div class="hover-info">
     <svg width="100%" height="100%">
       {#if activeGeometry}
         <g bind:this={gEl} transform={transformString}>
           <g
             class="active-geometry"
-            transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
+            transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor})`}
           >
             <path
               class={{ fill: !fillClosed || activeGeometry.fill }}
               d={activeGeometry.d}
-            >
-            </path>
+            />
           </g>
         </g>
       {/if}
     </svg>
+
     {#if activeGeometry}
-      <!-- <svg width="100%" height="100%">
-        <g
-          class="active-geometry"
-          transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
-        >
-          <path d={activeGeometry.d}> </path>
-        </g>
-      </svg> -->
       <div class="meta-center-grid">
-        <div class="meta-label">Occurences</div>
+        <div class="meta-label">Occurrences</div>
         <div class="meta-value">
           {activeGeometry.metadata.files?.length ?? '-'}
         </div>
 
         <div class="meta-label">Vertices</div>
         <div class="meta-value">
-          {activeGeometry.metadata.vertices - (activeGeometry.fill ? 1 : 0)}
+          {Math.max(
+            0,
+            (activeGeometry.metadata.vertices ?? 0) -
+              (activeGeometry.fill ? 1 : 0)
+          )}
         </div>
 
-        <div class="meta-label">Area</div>
+        <div class="meta-label">Length</div>
         <div class="meta-value">
-          {formatFixedSig(activeGeometry.metadata.area)}
+          {formatFixedSig(activeGeometry.metadata.length)}
         </div>
 
-        <div class="meta-label">Aspect Ratio</div>
+        <div class="meta-label">Sinuosity</div>
         <div class="meta-value">
-          {formatAspectRatio(activeGeometry.metadata.aspectRatio)}
-        </div>
-
-        <div class="meta-label">Convexity</div>
-        <div class="meta-value">
-          {formatPercent(activeGeometry.metadata.convexityRatio)}
-        </div>
-
-        <div class="meta-label">Compactness</div>
-        <div class="meta-value">
-          {formatPercent(activeGeometry.metadata.compactness)}
+          {formatFixedSig(activeGeometry.metadata.sinuosity, 3)}
         </div>
       </div>
     {/if}

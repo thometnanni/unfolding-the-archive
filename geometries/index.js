@@ -5,6 +5,9 @@ import { join, normalize } from 'node:path'
 import objectHash from 'object-hash'
 import { UMAP } from 'umap-js'
 import { format } from 'd3-format'
+import path from 'path'
+import { extractDimensions, zScoreNormalize } from './geometryDimensions.js'
+import { fourierDescriptors, isClosedPolyline } from './fourier.js' // <-- added
 
 const formatNumbers = format('.4~s')
 
@@ -44,8 +47,6 @@ const folderName = getArgValue('--folder', 'TP 255 Serpentine Gallery Pavilion')
 const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
 const archive_path = normalize(`../data/${folderName}`)
 
-import path from 'path'
-import { extractDimensions, zScoreNormalize } from './geometryDimensions.js'
 const fileStructurePath = path.resolve(
   `../output/file-structure-${safeFolderName}.json`
 )
@@ -122,13 +123,55 @@ console.log(
   filteredGeometries[filteredGeometries.length - 1].vertices.length
 )
 
+function l2normRow(v) {
+  const s = Math.sqrt(v.reduce((a, x) => a + x * x, 0)) || 1
+  return v.map((x) => x / s)
+}
+function lowFreqWeights(K, gamma = 1.6) {
+  const w = []
+  for (let n = 1; n <= K; n++) w.push(1 / Math.pow(1 + n, gamma))
+  return w
+}
+const K = 24
+const N = 128
+const ALPHA_FD = 5.0
+
 const dimensions = zScoreNormalize(
   filteredGeometries.map(({ dimensions }) => {
     return Object.values(dimensions)
   })
 )
 
-if (!dimensions) {
+// ===== added: build Fourier features (minimal wiring) =====
+const fds = filteredGeometries.map((g) => {
+  // compute FD (rotation + scale invariant), fixed length 2*K
+  const desc = fourierDescriptors(g.vertices, {
+    N,
+    K,
+    closed: isClosedPolyline(g.vertices),
+    rotationInvariant: true,
+    scaleInvariant: true
+  })
+  const targetL = 2 * K
+  let d = Array.isArray(desc) ? desc.slice(0, targetL) : []
+  if (d.length < targetL) d = d.concat(Array(targetL - d.length).fill(0))
+
+  // low-freq emphasis: duplicate weight for (a_k, b_k)
+  const wp = lowFreqWeights(K, 1.9)
+  const w = Array.from({ length: targetL }, (_, i) => wp[Math.floor(i / 2)])
+
+  return d.map((v, i) => (Number.isFinite(v) ? v : 0) * w[i])
+})
+
+const fdsZ = zScoreNormalize(fds).map(l2normRow)
+
+// final feature matrix: original dimensions + α·FD
+const normalized = dimensions.map((row, i) =>
+  row.concat(fdsZ[i].map((v) => v * ALPHA_FD))
+)
+// =========================================================
+
+if (!normalized) {
   console.log('No geometries or dimensions to process.')
   writeFileSync(
     `../output/geometries-${safeFolderName}.json`,
@@ -143,7 +186,7 @@ const umap = new UMAP({
   spread: 2.0 // allow clusters to grow apart
 })
 
-const embedding = await umap.fitAsync(dimensions, () => {
+const embedding = await umap.fitAsync(normalized, () => {
   // console.log(epochNumber)
 })
 
@@ -255,7 +298,8 @@ async function exportLayers(file, i, length) {
             first_used: file.birthtime,
             last_used: file.birthtime,
             files: [i],
-            dimensions
+            dimensions,
+            // fd will be computed later for UMAP; no other changes
           }
         } else {
           geometries[hash].first_used = Math.min(
