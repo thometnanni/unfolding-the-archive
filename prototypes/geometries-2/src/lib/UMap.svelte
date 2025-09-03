@@ -74,6 +74,7 @@
           entity: geometry.entity,
           files: geometry.files,
           area: geometry.dimensions.area,
+          perimeter: geometry.dimensions.perimeter,
           vertices: geometry.dimensions.numberOfVertices,
           convexityRatio: geometry.dimensions.convexityRatio,
           aspectRatio: geometry.dimensions.aspectRatio,
@@ -279,6 +280,11 @@
         <div class="meta-label">Area</div>
         <div class="meta-value">
           {formatFixedSig(activeGeometry.metadata.area)}
+        </div>
+
+        <div class="meta-label">Perimeter</div>
+        <div class="meta-value">
+          {formatFixedSig(activeGeometry.metadata.perimeter)}
         </div>
 
         <div class="meta-label">Aspect Ratio</div>

@@ -12,7 +12,20 @@ function extractDimensions({ vertices }) {
   const perimeter = polygonPerimeter(vertices)
   const compactness = perimeter ** 2 / (4 * Math.PI * area)
 
-  return { numberOfVertices, area, convexityRatio, aspectRatio, compactness }
+  const realArea =
+    vertices[0][0] === vertices[vertices.length - 1][0] &&
+    vertices[0][1] === vertices[vertices.length - 1][1]
+      ? area
+      : 0
+
+  return {
+    numberOfVertices,
+    area: realArea,
+    perimeter,
+    convexityRatio,
+    aspectRatio,
+    compactness
+  }
   // })
 
   // return dimensions

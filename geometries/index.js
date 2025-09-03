@@ -1,10 +1,12 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { Worker } from 'node:worker_threads'
 import fs from 'fs/promises'
 import { join, normalize } from 'node:path'
 import objectHash from 'object-hash'
 import { UMAP } from 'umap-js'
 import { format } from 'd3-format'
+import path from 'path'
+import { extractDimensions, zScoreNormalize } from './geometryDimensions.js'
 
 const formatNumbers = format('.4~s')
 
@@ -44,87 +46,103 @@ const folderName = getArgValue('--folder', 'TP 255 Serpentine Gallery Pavilion')
 const safeFolderName = folderName.replace(/[^a-z0-9_\-]/gi, '_')
 const archive_path = normalize(`../data/${folderName}`)
 
-import path from 'path'
-import { extractDimensions, zScoreNormalize } from './geometryDimensions.js'
 const fileStructurePath = path.resolve(
   `../output/file-structure-${safeFolderName}.json`
 )
 const fileStructure = JSON.parse(await fs.readFile(fileStructurePath, 'utf8'))
 
+const geometriesTempPath = `../output/geometries-temp-${safeFolderName}.json`
+let filteredGeometries = null
+
 let geometries = {}
 
-// await Promise.all(
-//   fileStructure
-//     .filter(({ isFile, extension }) => isFile && extension === 'dwg')
-//     // .filter(({ name }) => name == 'ENTREE.DWG')
-//     // .filter((_, i) => i >= 21 && i <= 30)
-//     .map(async (file, i, { length }) => await exportLayers(file, i, length))
-// )
+if (existsSync(geometriesTempPath)) {
+  filteredGeometries = JSON.parse(await fs.readFile(geometriesTempPath, 'utf8'))
+} else {
+  geometries = {}
 
-const dwgFiles = fileStructure.filter(
-  ({ isFile, extension }) => isFile && extension === 'dwg'
-)
-// .filter(({ name }) => name == 'DOORSNEDE.dwg')
-// .filter(({ name }) => name == 'tent-01.dwg')
-// .filter(({ name }) => name == '3d-2.dwg')
-// .filter(({ name }) => name == 'axonometrie.dwg')
-// .filter(({ name }) => name == 'nl_21.dwg')
+  // await Promise.all(
+  //   fileStructure
+  //     .filter(({ isFile, extension }) => isFile && extension === 'dwg')
+  //     // .filter(({ name }) => name == 'ENTREE.DWG')
+  //     // .filter((_, i) => i >= 21 && i <= 30)
+  //     .map(async (file, i, { length }) => await exportLayers(file, i, length))
+  // )
 
-//   .filter((_, i) => i >= 21 && i <= 30)
+  const dwgFiles = fileStructure
+    .filter(({ isFile, extension }) => isFile && extension === 'dwg')
+    .filter(({ name }) => !/^\./.test(name))
+  // .filter(({ name }) => name == 'DOORSNEDE.dwg')
+  // .filter(({ name }) => name == 'tent-01.dwg')
+  // .filter(({ name }) => name == '3d-2.dwg')
+  // .filter(({ name }) => name == 'axonometrie.dwg')
+  // .filter(({ name }) => name == 'nl_21.dwg')
 
-// console.log(dwgFiles[321])
+  //   .filter((_, i) => i >= 21 && i <= 30)
 
-for (let i = 0; i < dwgFiles.length; i++) {
-  await exportLayers(dwgFiles[i], i, dwgFiles.length)
+  // console.log(dwgFiles[321])
+
+  for (let i = 0; i < dwgFiles.length; i++) {
+    await exportLayers(dwgFiles[i], i, dwgFiles.length)
+  }
+
+  const slice = true
+  function sampleOrSlice(arr, limit = 500) {
+    return slice ? arr.slice(0, limit) : sampleArray(arr, limit)
+  }
+
+  filteredGeometries = sampleOrSlice(
+    Object.values(geometries)
+
+      // .sort((a, b) => b.dimensions.area - a.dimensions.area)
+      .sort((a, b) => b.files.length - a.files.length)
+      // .sort((a, b) => b.vertices.length - a.vertices.length)
+      .filter(({ files, vertices, dimensions }) => {
+        // console.log(
+        //   dimensions.convexityRatio,
+        //   dimensions.compactness,
+        //   Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim))
+        // )
+        return (
+          // files.length >= 2 &&
+          vertices.length > 3 &&
+          // vertices[0][0] === vertices[vertices.length - 1][0] &&
+          // vertices[0][1] === vertices[vertices.length - 1][1] &&
+          Object.values(dimensions).find(
+            (dim) => isNaN(dim) || !isFinite(dim)
+          ) == null
+        )
+      }),
+    500
+  )
+  // .slice(0, 500)
+  console.log('total unique geometries:', Object.keys(geometries).length)
+  console.log('used geometries:', filteredGeometries.length)
+  console.log(
+    'used geometries, occurances',
+    filteredGeometries[0].files.length,
+    ' - ',
+    filteredGeometries[filteredGeometries.length - 1].files.length
+  )
+  console.log(
+    'used geometries, vertice count',
+    filteredGeometries[0].vertices.length,
+    ' - ',
+    filteredGeometries[filteredGeometries.length - 1].vertices.length
+  )
+  writeFileSync(
+    `../output/geometries-temp-${safeFolderName}.json`,
+    JSON.stringify(filteredGeometries, (_, v) =>
+      typeof v === 'bigint' ? v.toString() : v
+    )
+  )
 }
-
-const slice = true
-function sampleOrSlice(arr, limit = 500) {
-  return slice ? arr.slice(0, limit) : sampleArray(arr, limit)
-}
-
-const filteredGeometries = sampleOrSlice(
-  Object.values(geometries)
-
-    // .sort((a, b) => b.dimensions.area - a.dimensions.area)
-    .sort((a, b) => b.files.length - a.files.length)
-    // .sort((a, b) => b.vertices.length - a.vertices.length)
-    .filter(({ files, vertices, dimensions }) => {
-      // console.log(
-      //   dimensions.convexityRatio,
-      //   dimensions.compactness,
-      //   Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim))
-      // )
-      return (
-        // files.length >= 2 &&
-        vertices.length > 3 &&
-        // vertices[0][0] === vertices[vertices.length - 1][0] &&
-        // vertices[0][1] === vertices[vertices.length - 1][1] &&
-        Object.values(dimensions).find((dim) => isNaN(dim) || !isFinite(dim)) ==
-          null
-      )
-    }),
-  500
-)
-// .slice(0, 500)
-console.log('total unique geometries:', Object.keys(geometries).length)
-console.log('used geometries:', filteredGeometries.length)
-console.log(
-  'used geometries, occurances',
-  filteredGeometries[0].files.length,
-  ' - ',
-  filteredGeometries[filteredGeometries.length - 1].files.length
-)
-console.log(
-  'used geometries, vertice count',
-  filteredGeometries[0].vertices.length,
-  ' - ',
-  filteredGeometries[filteredGeometries.length - 1].vertices.length
-)
 
 const dimensions = zScoreNormalize(
   filteredGeometries.map(({ dimensions }) => {
-    return Object.values(dimensions)
+    return Object.entries(dimensions)
+      .filter(([dim]) => dim !== 'area')
+      .map(([dim, value]) => (dim === 'area' ? Math.sqrt(value) : value))
   })
 )
 
@@ -138,9 +156,33 @@ if (!dimensions) {
 }
 
 const umap = new UMAP({
-  nNeighbors: 15, // keep default
-  minDist: 0.5, // more space between points
-  spread: 2.0 // allow clusters to grow apart
+  nNeighbors: 40, // keep default
+  minDist: 0.8, // more space between points
+  spread: 16 // allow clusters to grow apart
+  // distanceFn: (x, y) => {
+  //   // let result = 0.0
+  //   // let normX = 0.0
+  //   // let normY = 0.0
+
+  //   // for (let i = 0; i < x.length; i++) {
+  //   //   result += x[i] * y[i]
+  //   //   normX += x[i] ** 2
+  //   //   normY += y[i] ** 2
+  //   // }
+
+  //   // if (normX === 0 && normY === 0) {
+  //   //   return 0
+  //   // } else if (normX === 0 || normY === 0) {
+  //   //   return 1.0
+  //   // } else {
+  //   //   return 1.0 - result / Math.sqrt(normX * normY)
+  //   //
+  //   return function distance(i, j) {
+  //     const x = (Math.abs(i - j) / 500) | 0,
+  //       y = Math.abs((i % 500) - (j % 500))
+  //     return x + y
+  //   }
+  // }
 })
 
 const embedding = await umap.fitAsync(dimensions, () => {

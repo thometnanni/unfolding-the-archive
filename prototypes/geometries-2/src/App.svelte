@@ -69,7 +69,9 @@
     '-',
     'ALL_TOP_500_Occurances_removed_open_triangles?fill-closed',
     'DOORSNEDE_removed_open_triangles?fill-closed',
-    'nl_21_removed_open_triangles?fill-closed'
+    'nl_21_removed_open_triangles?fill-closed',
+    '-',
+    'ALL_TOP_500_Occurances_removed_open_triangles-adjusted_umap?fill-closed'
   ]
 
   async function handleHashChange() {
