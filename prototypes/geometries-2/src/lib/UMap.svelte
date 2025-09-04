@@ -210,27 +210,28 @@
   >
     <rect width={chartWidth} height={chartHeight}></rect>
     <g bind:this={gEl} transform={transformString}>
-      {#each geometries as { geometry, fill, x, y, d, metadata, entity }}
-        <g
-          class="geometry"
-          transform={`translate(${x} ${y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(metadata.area, lo, hi)))})
+      <g>
+        {#each geometries as { geometry, fill, x, y, d, metadata, entity }}
+          <g
+            class="geometry"
+            transform={`translate(${x} ${y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(metadata.area, lo, hi)))})
 `}
-        >
-          <path
-            {d}
-            class={{ fill: !fillClosed || fill }}
-            onmouseenter={({ currentTarget }) => {
-              activeGeometry = { x, y, d, metadata, fill, entity }
-            }}
-            onmouseleave={({ currentTarget }) => (activeGeometry = null)}
-            role="presentation"
           >
-            <!-- <title>{file}</title> -->
-          </path>
-        </g>
-      {/each}
+            <path
+              {d}
+              class={{ fill: !fillClosed || fill }}
+              onmouseenter={({ currentTarget }) => {
+                activeGeometry = { x, y, d, metadata, fill, entity }
+              }}
+              onmouseleave={({ currentTarget }) => (activeGeometry = null)}
+              role="presentation"
+            >
+              <!-- <title>{file}</title> -->
+            </path>
+          </g>
+        {/each}
 
-      <!-- {#if activeGeometry}
+        <!-- {#if activeGeometry}
         <g
           class="active-geometry"
           transform={`translate(${activeGeometry.x} ${activeGeometry.y}) scale(${zoomFactor * areaScale(Math.sqrt(clamp(activeGeometry.metadata.area, lo, hi)))})`}
@@ -238,6 +239,7 @@
           <path d={activeGeometry.d}> </path>
         </g>
       {/if} -->
+      </g>
     </g>
   </svg>
   <div class="hover-info">
@@ -399,6 +401,7 @@
     cursor: crosshair;
 
     .geometry path {
+      transform: scaleY(-1);
       mix-blend-mode: difference;
       vector-effect: non-scaling-stroke;
 
@@ -412,6 +415,7 @@
     }
 
     .active-geometry path {
+      transform: scaleY(-1);
       pointer-events: none;
       vector-effect: non-scaling-stroke;
 
