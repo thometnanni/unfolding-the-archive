@@ -191,9 +191,9 @@
 <div class="zoom-container">
   <div class="info">
     <p>
-      This is a sample of 500 unique geometries from the <em>{hash}</em> project.
+      This is a sample of the 500 most reoccuring geometries from the <em>{hash}</em> project.
       They are arranged by visual similarity factoring in their number of vertices,
-      area, aspect ratio, compactness and convexity. Zoom in to reveal distinct geometeries.
+      area, perimeter, aspect ratio, compactness and convexity. Zoom in to reveal distinct geometeries.
     </p>
 
     <h1>
