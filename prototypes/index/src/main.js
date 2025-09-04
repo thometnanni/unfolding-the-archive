@@ -5,7 +5,7 @@ const iframe = document.querySelector('iframe');
 const prototypes = [
   { value: 'file-structure', label: 'Calendar', schema: '#[project]' },
   { value: 'timeline-layers', label: 'Layers', schema: 'timeline/[project]' },
-  { value: 'geometries-2', label: 'Geometries', schema: '#[project]' }
+  { value: 'geometries-2', label: 'Geometries', schema: '#[project]?fill-closed' }
 ]
 const projects = [
   { value: 'TP_010_VPRO', label: 'TP 010 VPRO' },
@@ -55,6 +55,7 @@ function navigate() {
     ({ value }) => value === selectPrototypes.value
   );
   const url = `./prototypes/${prototype.value}/${prototype.schema.replace(/\[project\]/, selectProjects.value)}`;
+  // console.log(url)
   iframe.setAttribute('src', url);
 }
 
